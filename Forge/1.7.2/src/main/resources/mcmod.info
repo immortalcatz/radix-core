@@ -1,0 +1,16 @@
+[
+{
+  "modid": "radixcore",
+  "name": "RadixCore",
+  "description": "Contains core functions of mods created by WildBamaBoy and SheWolfDeadly",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authors": ["WildBamaBoy", "SheWolfDeadly"],
+  "credits": "",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]

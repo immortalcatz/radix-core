@@ -1,0 +1,40 @@
+*.class
+*.docx
+*.doc
+*.zip
+*.bat
+*.cmd
+*.pyc
+*.py
+*.txt
+*.txt~
+*.cfg~
+*.sh
+*.properties
+*.lzma
+*.cfg
+*.lang
+
+# Package Files #
+*.jar
+*.war
+*.ear
+
+# Base Folders #
+Build/*
+
+# 1.7.2 Folders #
+Forge/1.7.2/.gradle/*
+Forge/1.7.2/.settings/*
+Forge/1.7.2/bin/*
+Forge/1.7.2/build/*
+Forge/1.7.2/.gradle/*
+Forge/1.7.2/gradle/*
+Forge/1.7.2/eclipse/*
+Forge/1.7.2/.classpath
+Forge/1.7.2/.project
+Forge/1.7.2/gradlew
+Forge/1.7.2/build.gradle
+
+# Do Not Ignore #
+!/Assemble.py
