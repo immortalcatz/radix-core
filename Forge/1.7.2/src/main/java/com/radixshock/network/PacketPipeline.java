@@ -29,7 +29,8 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 /**
- * Packet pipeline class. Directs all registered packet data to be handled by the packets themselves.
+ * A mod's packet pipeline. Directs packets to their targets, codec, and handler.
+ * Adapted from code by Sirgingalot.
  */
 @ChannelHandler.Sharable
 public final class PacketPipeline extends MessageToMessageCodec<FMLProxyPacket, Packet> 

@@ -6,7 +6,7 @@ import com.radixshock.core.IMod;
 
 public abstract class AbstractPacketHandler 
 {
-	private IMod mod;
+	protected IMod mod;
 	
 	protected AbstractPacketHandler(IMod mod)
 	{

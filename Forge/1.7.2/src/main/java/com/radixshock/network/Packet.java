@@ -12,8 +12,8 @@ import com.radixshock.core.IMod;
 public class Packet 
 {
 	protected IMod mod;
-	protected Enum packetType;
-	protected Object[] arguments;
+	public Enum packetType;
+	public Object[] arguments;
 	
 	public Packet()
 	{
@@ -41,8 +41,17 @@ public class Packet
 	public void decodeInto(ChannelHandlerContext context, ByteBuf buffer) 
 	{
 		//Read packet type and arguments length from the header.
-		//TODO
-//		packetType = mod.getPacketTypes().getDeclaringClass().[buffer.readInt()];
+		try 
+		{
+			packetType = (Enum)mod.getPacketTypeClass().getFields()[buffer.readInt()].get(mod.getPacketTypeClass());
+			mod.getLogger().log(packetType);	
+		} 
+		
+		catch (Throwable e)
+		{
+			e.printStackTrace();
+		}
+		
 		arguments = new Object[buffer.readInt()];
 
 		//Decode the packet's payload.

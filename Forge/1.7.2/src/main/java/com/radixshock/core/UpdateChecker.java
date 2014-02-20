@@ -7,7 +7,7 @@
  * http://www.gnu.org/licenses/gpl.html
  ******************************************************************************/
 
-package com.radixshock.updater;
+package com.radixshock.core;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -15,53 +15,44 @@ import java.net.URL;
 import java.util.Scanner;
 
 import net.minecraft.command.ICommandSender;
-import net.minecraft.network.INetHandler;
-import net.minecraft.network.NetHandlerPlayServer;
 import net.minecraft.util.ChatComponentText;
 
 import com.radixshock.constant.Font;
-import com.radixshock.core.IMod;
 
 /**
  * Checks for outdated versions and updates.
  */
-public abstract class AbstractUpdater implements Runnable
+public final class UpdateChecker implements Runnable
 {	
 	private IMod mod;
-	private NetHandlerPlayServer netHandler;
 	private ICommandSender commandSender;
 	private boolean hasCheckedForUpdates;
-	
-	/**
-	 * Constructor used when a player logs in.
-	 * 
-	 * @param 	netHandler	The NetHandler of the player that just logged in.
-	 */
-	public AbstractUpdater(IMod mod, INetHandler netHandler)
-	{
-		this.mod = mod;
-		this.netHandler = (NetHandlerPlayServer) netHandler;
-	}
+	private String rawUpdateInfoURL;
+	private String updateRedirectionURL;
 
 	/**
-	 * Constructor used when a player issues the /mca.checkupdates on command.
+	 * Constructor
 	 * 
 	 * @param 	commandSender	The player that sent the command.
 	 */
-	public AbstractUpdater(IMod mod, ICommandSender commandSender)
+	public UpdateChecker(IMod mod, ICommandSender commandSender, String rawUpdateInfoURL, String updateRedirectionURL)
 	{
 		this.mod = mod;
 		this.commandSender = commandSender;
+		this.rawUpdateInfoURL = rawUpdateInfoURL;
+		this.updateRedirectionURL = updateRedirectionURL;
 	}
 
 	@Override
 	public void run()
 	{
+		mod.getLogger().log("Checking for updates...");
+
 		try
 		{
 			if (!hasCheckedForUpdates)
 			{
-				final URL url = new URL(getRawUpdateInformationURL());
+				final URL url = new URL(rawUpdateInfoURL);
 				final Scanner scanner = new Scanner(url.openStream());
 
 				String validGameVersions = scanner.nextLine();
@@ -71,27 +62,18 @@ public abstract class AbstractUpdater implements Runnable
 
 				if (!mostRecentVersion.equals(mod.getVersion()))
 				{
-					final String messageUpdateVersion = Font.Color.DARKGREEN + mod.getShortModName() + mostRecentVersion + 
+					final String messageUpdateVersion = Font.Color.DARKGREEN + mod.getShortModName() + " " + mostRecentVersion + 
 							Font.Color.YELLOW + " for " + 
 							Font.Color.DARKGREEN + "Minecraft " + validGameVersions + 
 							Font.Color.YELLOW + " is available.";
-					
-					final String messageUpdateURL = 
-							Font.Color.YELLOW + "Click " + 
-							Font.Color.BLUE   + Font.Format.ITALIC + getUpdateRedirectionURL() + " " + Font.Format.RESET + 
-							Font.Color.YELLOW + "to download.";
-					
-					if (netHandler == null)
-					{
-						commandSender.addChatMessage(new ChatComponentText(messageUpdateVersion));
-						commandSender.addChatMessage(new ChatComponentText(messageUpdateURL));
-					}
 
-					else if (commandSender == null)
-					{
-						netHandler.playerEntity.addChatMessage(new ChatComponentText(messageUpdateVersion));
-						netHandler.playerEntity.addChatMessage(new ChatComponentText(messageUpdateURL));
-					}
+					final String messageUpdateURL = 
+							Font.Color.YELLOW + "See " + 
+									Font.Color.BLUE   + Font.Format.ITALIC + updateRedirectionURL + " " + Font.Format.RESET + 
+									Font.Color.YELLOW + "to download.";
+
+					commandSender.addChatMessage(new ChatComponentText(messageUpdateVersion));
+					commandSender.addChatMessage(new ChatComponentText(messageUpdateURL));
 				}
 
 				scanner.close();
@@ -103,15 +85,11 @@ public abstract class AbstractUpdater implements Runnable
 			mod.getLogger().log("Error checking for update.");
 			mod.getLogger().log(e);
 		}
-		
+
 		catch (IOException e)
 		{
 			mod.getLogger().log("Error checking for update.");
 			mod.getLogger().log(e);
 		}
 	}
-	
-	public abstract String getRawUpdateInformationURL();
-	
-	public abstract String getUpdateRedirectionURL();
 }

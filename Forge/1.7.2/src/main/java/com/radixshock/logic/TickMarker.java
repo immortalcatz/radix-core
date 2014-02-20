@@ -20,7 +20,7 @@ import com.radixshock.entity.ITickableEntity;
  */
 public abstract class TickMarker implements Serializable
 {
-	private transient ITickableEntity owner;
+	protected transient ITickableEntity owner;
 	private int endTicks;
 	private boolean isComplete;
 

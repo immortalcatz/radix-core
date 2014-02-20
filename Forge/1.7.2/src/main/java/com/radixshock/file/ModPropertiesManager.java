@@ -34,8 +34,8 @@ public class ModPropertiesManager implements Serializable
 	private transient File configFolder = null;
 
 	private transient Class modPropertiesClass;
-	private transient Object modPropertiesInstance;
-
+	public transient Object modPropertiesInstance;
+	
 	/**
 	 * Constructor
 	 */
@@ -55,8 +55,8 @@ public class ModPropertiesManager implements Serializable
 		}
 		
 		//Assign the location of the mod properties file and config folder.
-		configFolder = new File(RadixCore.getInstance().runningDirectory + "/config/MCA/");
-		modPropertiesFile = new File(RadixCore.getInstance().runningDirectory + "/config/MCA/ModProps.properties");
+		configFolder = new File(RadixCore.getInstance().runningDirectory + "/config/" + mod.getShortModName() + "/");
+		modPropertiesFile = new File(RadixCore.getInstance().runningDirectory + "/config/" + mod.getShortModName() + "/ModProps.properties");
 
 		//Ensure the config folder exists.
 		if (!configFolder.exists())
@@ -67,7 +67,7 @@ public class ModPropertiesManager implements Serializable
 		//Now check if the mod properties file must be created or should be loaded.
 		if (!modPropertiesFile.exists())
 		{
-			mod.getLogger().log("File not found: " + RadixCore.getInstance().runningDirectory + "/config/MCA/ModProps.properties. " + "Creating new mod properties file...");
+			mod.getLogger().log("File not found: " + RadixCore.getInstance().runningDirectory + "/config/" + mod.getShortModName() + "/ModProps.properties. " + "Creating new mod properties file...");
 			saveModProperties();
 		}
 
@@ -110,7 +110,7 @@ public class ModPropertiesManager implements Serializable
 
 			//Store information in the properties instance to file.
 			outputStream = new FileOutputStream(modPropertiesFile);
-			properties.store(outputStream, "MCA Mod Properties File - Change Item IDs and server settings here.");
+			properties.store(outputStream, mod.getShortModName() + " Mod Properties File - Change global mod settings here.");
 			outputStream.close();
 
 			mod.getLogger().log("Mod properties successfully saved.");
@@ -184,24 +184,24 @@ public class ModPropertiesManager implements Serializable
 		//The user didn't edit the file correctly or assigned an invalid ID for an item or block. A new property could have also been added.
 		catch (NumberFormatException e)
 		{
-			mod.getLogger().log("NumberFormatException while reading mod properties. You edited the file incorrectly or a new property has been added to MCA.");
+			mod.getLogger().log("NumberFormatException while reading mod properties. You edited the file incorrectly or a new property has been added to " + mod.getShortModName() + ".");
 			resetModProperties();
 			saveModProperties();
 		}
 
 		catch (FileNotFoundException e)
 		{
-			RadixCore.getInstance().quitWithException("MCA: FileNotFoundException occurred while loading the mod properties file.", e);
+			RadixCore.getInstance().quitWithException("FileNotFoundException occurred while loading the mod properties file.", e);
 		}
 
 		catch (IllegalAccessException e)
 		{
-			RadixCore.getInstance().quitWithException("MCA: IllegalAccessException occurred while loading the new mod properties file.", e);
+			RadixCore.getInstance().quitWithException("IllegalAccessException occurred while loading the new mod properties file.", e);
 		}
 
 		catch (IOException e)
 		{
-			RadixCore.getInstance().quitWithException("MCA: IOException occurred while loading the new mod properties file.", e);
+			RadixCore.getInstance().quitWithException("IOException occurred while loading the new mod properties file.", e);
 		}
 	}
 
@@ -221,48 +221,6 @@ public class ModPropertiesManager implements Serializable
 		catch (IllegalAccessException e) 
 		{
 			e.printStackTrace();
-		}
-	}
-
-	@Override
-	public boolean equals(Object obj)
-	{
-		try
-		{
-			if (obj instanceof ModPropertiesManager)
-			{
-				ModPropertiesManager modPropertiesManager = (ModPropertiesManager)obj;
-
-				for (Field f : modPropertiesClass.getFields())
-				{
-					//Only check item and block IDs, ignore grow up times, etc.
-					if (f.getName().contains("ID"))
-					{
-						int valueInMe = (Integer) f.get(this.modPropertiesInstance);
-						int valueInOther = (Integer) f.get(modPropertiesManager.modPropertiesInstance);
-
-						if (valueInMe != valueInOther)
-						{
-							mod.getLogger().log("Mod property value mismatch! Client value: " + f.getName() + " = " + valueInOther + ". " +
-									"Server value: " + f.getName() + " = " + valueInMe);
-							return false;
-						}
-					}
-				}
-
-				return true;
-			}
-
-			else
-			{
-				return false;
-			}
-		}
-
-		catch (Exception e)
-		{
-			mod.getLogger().log(e);
-			return false;
 		}
 	}
 }

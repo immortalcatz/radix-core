@@ -10,8 +10,8 @@ import cpw.mods.fml.relauncher.Side;
 
 public final class ModLogger 
 {
-	private static IMod mod;
-	private static final Logger	logger = FMLLog.getLogger();
+	private IMod mod;
+	private final Logger logger = FMLLog.getLogger();
 	
 	public ModLogger(IMod mod)
 	{
