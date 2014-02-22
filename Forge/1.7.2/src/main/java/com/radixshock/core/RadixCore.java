@@ -12,6 +12,9 @@ import net.minecraft.crash.CrashReport;
 import net.minecraftforge.common.MinecraftForge;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
+import com.radixshock.lang.ILanguageLoaderHook;
+import com.radixshock.lang.ILanguageParser;
+import com.radixshock.lang.LanguageLoader;
 import com.radixshock.network.AbstractPacketCodec;
 import com.radixshock.network.AbstractPacketHandler;
 import com.radixshock.network.PacketPipeline;
@@ -54,15 +57,21 @@ public class RadixCore implements IMod
 			
 			for (IMod mod : registeredMods)
 			{
+				final LanguageLoader modLanguageLoader = mod.getLanguageLoader();
 				getLogger().log("Pre-initializing " + mod.getLongModName() + "...");
 
 				mod.preInit(event);
 				mod.initializeProxy();
 				mod.initializeItems();
 				mod.initializeBlocks();
-
+				
 				FMLCommonHandler.instance().bus().register(mod.getEventHookClass().newInstance());
 				MinecraftForge.EVENT_BUS.register(mod.getEventHookClass().newInstance());
+				
+				if (modLanguageLoader != null)
+				{
+					modLanguageLoader.loadLanguage();
+				}
 			}
 		}
 
@@ -266,4 +275,19 @@ public class RadixCore implements IMod
 
 	@Override
 	public void initializeNetwork() { throw new NotImplementedException(); }
+
+	@Override
+	public boolean getLanguageLoaded() { return false; }
+
+	@Override
+	public void setLanguageLoaded(boolean value) { throw new NotImplementedException(); }
+
+	@Override
+	public ILanguageLoaderHook getLanguageLoaderHook() { return null; }
+
+	@Override
+	public LanguageLoader getLanguageLoader() { return null; }
+
+	@Override
+	public ILanguageParser getLanguageParser() { return null; }
 }

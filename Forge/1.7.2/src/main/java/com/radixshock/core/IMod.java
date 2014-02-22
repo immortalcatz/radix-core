@@ -1,5 +1,8 @@
 package com.radixshock.core;
 
+import com.radixshock.lang.ILanguageLoaderHook;
+import com.radixshock.lang.ILanguageParser;
+import com.radixshock.lang.LanguageLoader;
 import com.radixshock.network.AbstractPacketCodec;
 import com.radixshock.network.AbstractPacketHandler;
 import com.radixshock.network.PacketPipeline;
@@ -59,4 +62,14 @@ public interface IMod
 	Class getPacketTypeClass();
 	
 	Class getEventHookClass();
+	
+	LanguageLoader getLanguageLoader();
+	
+	ILanguageParser getLanguageParser();
+	
+	ILanguageLoaderHook getLanguageLoaderHook();
+	
+	boolean getLanguageLoaded();
+	
+	void setLanguageLoaded(boolean value);
 }
