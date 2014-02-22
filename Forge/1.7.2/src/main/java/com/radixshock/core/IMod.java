@@ -4,16 +4,19 @@ import com.radixshock.network.AbstractPacketCodec;
 import com.radixshock.network.AbstractPacketHandler;
 import com.radixshock.network.PacketPipeline;
 
+import cpw.mods.fml.common.event.FMLInitializationEvent;
+import cpw.mods.fml.common.event.FMLPostInitializationEvent;
+import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.event.FMLServerStoppingEvent;
 
 public interface IMod 
 {
-	void preInit();
+	void preInit(FMLPreInitializationEvent event);
 	
-	void init();
+	void init(FMLInitializationEvent event);
 	
-	void postInit();
+	void postInit(FMLPostInitializationEvent event);
 
 	void serverStarting(FMLServerStartingEvent event);
 	

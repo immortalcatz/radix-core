@@ -56,7 +56,7 @@ public class RadixCore implements IMod
 			{
 				getLogger().log("Pre-initializing " + mod.getLongModName() + "...");
 
-				mod.preInit();
+				mod.preInit(event);
 				mod.initializeProxy();
 				mod.initializeItems();
 				mod.initializeBlocks();
@@ -77,9 +77,7 @@ public class RadixCore implements IMod
 	{
 		for (IMod mod : registeredMods)
 		{
-			getLogger().log("Initializing " + mod.getLongModName() + "...");
-
-			mod.init();
+			mod.init(event);
 			mod.initializeRecipes();
 			mod.initializeSmeltings();
 			mod.initializeAchievements();
@@ -93,9 +91,7 @@ public class RadixCore implements IMod
 	{
 		for (IMod mod : registeredMods)
 		{
-			getLogger().log("Post-initializing " + mod.getLongModName() + "...");
-
-			mod.postInit();
+			mod.postInit(event);
 		}
 	}
 
@@ -167,13 +163,13 @@ public class RadixCore implements IMod
 	}
 	
 	@Override
-	public void preInit() { throw new NotImplementedException(); }
+	public void preInit(FMLPreInitializationEvent event) { throw new NotImplementedException(); }
 
 	@Override
-	public void init() { throw new NotImplementedException(); }
+	public void init(FMLInitializationEvent event) { throw new NotImplementedException(); }
 
 	@Override
-	public void postInit() { throw new NotImplementedException(); }
+	public void postInit(FMLPostInitializationEvent event) { throw new NotImplementedException(); }
 
 	@Override
 	public void serverStarting(FMLServerStartingEvent event) { throw new NotImplementedException(); }
