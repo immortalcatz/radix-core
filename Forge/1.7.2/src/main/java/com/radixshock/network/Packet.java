@@ -44,7 +44,6 @@ public class Packet
 		try 
 		{
 			packetType = (Enum)mod.getPacketTypeClass().getFields()[buffer.readInt()].get(mod.getPacketTypeClass());
-			mod.getLogger().log(packetType);	
 		} 
 		
 		catch (Throwable e)
