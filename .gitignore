@@ -24,17 +24,17 @@
 Build/*
 
 # 1.7.2 Folders #
-Forge/1.7.2/.gradle/*
-Forge/1.7.2/.settings/*
-Forge/1.7.2/bin/*
-Forge/1.7.2/build/*
-Forge/1.7.2/.gradle/*
-Forge/1.7.2/gradle/*
-Forge/1.7.2/eclipse/*
-Forge/1.7.2/.classpath
-Forge/1.7.2/.project
-Forge/1.7.2/gradlew
-Forge/1.7.2/build.gradle
+Minecraft/1.7.2/.gradle/*
+Minecraft/1.7.2/.settings/*
+Minecraft/1.7.2/bin/*
+Minecraft/1.7.2/build/*
+Minecraft/1.7.2/.gradle/*
+Minecraft/1.7.2/gradle/*
+Minecraft/1.7.2/eclipse/*
+Minecraft/1.7.2/.classpath
+Minecraft/1.7.2/.project
+Minecraft/1.7.2/gradlew
+Minecraft/1.7.2/build.gradle
 
 # Do Not Ignore #
 !/Assemble.py
