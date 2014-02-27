@@ -109,8 +109,6 @@ public final class LanguageLoader
 			//Clear the properties instance.
 			properties.clear();
 
-			//addLocalizedAchievementNames(languageID);
-
 			mod.getLogger().log("Loaded " + translationsMap.size() + " phrases in " + languageName + ".");
 		}
 
