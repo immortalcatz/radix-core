@@ -78,7 +78,6 @@ public class RadixCore implements IMod
 			
 			for (IMod mod : registeredMods)
 			{
-				final LanguageLoader modLanguageLoader = mod.getLanguageLoader();
 				getLogger().log("Pre-initializing " + mod.getLongModName() + "...");
 
 				mod.preInit(event);
@@ -88,6 +87,8 @@ public class RadixCore implements IMod
 				
 				FMLCommonHandler.instance().bus().register(mod.getEventHookClass().newInstance());
 				MinecraftForge.EVENT_BUS.register(mod.getEventHookClass().newInstance());
+				
+				final LanguageLoader modLanguageLoader = mod.getLanguageLoader();
 				
 				if (modLanguageLoader != null)
 				{
