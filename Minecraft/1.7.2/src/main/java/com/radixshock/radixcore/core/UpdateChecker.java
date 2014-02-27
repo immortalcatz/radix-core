@@ -1,6 +1,6 @@
 /*******************************************************************************
  * UpdateHandler.java
- * Copyright (c) 2014 WildBamaBoy.
+ * Copyright (c) 2014 Radix-Shock Entertainment.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the GNU Public License v3.0
  * which accompanies this distribution, and is available at
@@ -33,7 +33,10 @@ public final class UpdateChecker implements Runnable
 	/**
 	 * Constructor
 	 * 
-	 * @param 	commandSender	The player that sent the command.
+	 * @param mod					The update checker's owner mod.
+	 * @param commandSender			The player checking for updates.
+	 * @param rawUpdateInfoURL		The URL containing raw update information.
+	 * @param updateRedirectionURL	The URL the player should be redirected to.
 	 */
 	public UpdateChecker(IMod mod, ICommandSender commandSender, String rawUpdateInfoURL, String updateRedirectionURL)
 	{

@@ -3,8 +3,15 @@ package com.radixshock.radixcore.core;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 
+/**
+ * Defines events handles by RadixCore.
+ */
 public class RadixEvents 
 {
+	/**
+	 * Checks for updates i
+	 * @param event
+	 */
 	@SubscribeEvent
 	public void playerLoggedInEventHandler(PlayerLoggedInEvent event)
 	{
@@ -12,7 +19,10 @@ public class RadixEvents
 		
 		for (IMod mod : RadixCore.registeredMods)
 		{
-			new Thread(new UpdateChecker(mod, event.player, mod.getUpdateURL(), mod.getRedirectURL())).start();
+			if (mod.getChecksForUpdates())
+			{
+				new Thread(new UpdateChecker(mod, event.player, mod.getUpdateURL(), mod.getRedirectURL())).start();
+			}
 		}
 	}
 }

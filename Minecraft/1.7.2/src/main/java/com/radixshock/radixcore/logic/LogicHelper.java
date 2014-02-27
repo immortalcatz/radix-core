@@ -24,6 +24,9 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
+/**
+ * Defines many different helper methods.
+ */
 public final class LogicHelper
 {
 	/**
@@ -93,16 +96,16 @@ public final class LogicHelper
 	}
 
 	/**
-	 * Returns the coordinates of the first block found near the entity that has the specified block ID. Scanning for the block starts 3 blocks
+	 * Returns the coordinates of the first block found near the entity that is the provided block. Scanning for the block starts 3 blocks
 	 * above the entity and moves down.
 	 * 
 	 * @param	entity			The entity used as a base point to search for a block.
-	 * @param	blockID			The ID of the block that is being searched for.
+	 * @param	block			The block that is being searched for.
 	 * @param	maxDistanceAway	The maximum distance away from the entity to search for blocks.
 	 * 
-	 * @return	Coordinates object containing the coordinates of the first block found.
+	 * @return	Point3D object containing the coordinates of the first block found.
 	 */
-	public static Point3D getNearbyBlockTopBottom(Entity entity, Block block, int maxDistanceAway)
+	public static Point3D getNearbyBlock_StartAtTop(Entity entity, Block block, int maxDistanceAway)
 	{
 		int x = (int)entity.posX;
 		int y = (int)entity.posY;
@@ -148,16 +151,16 @@ public final class LogicHelper
 	}
 
 	/**
-	 * Returns the coordinates of the first block found near the entity that has the specified block ID. Scanning for the block starts 3 blocks
+	 * Returns the coordinates of the first block found near the entity that is the specified block. Scanning for the block starts 3 blocks
 	 * below the entity and moves up.
 	 * 
 	 * @param	entity			The entity used as a base point to search for a block.
-	 * @param	blockID			The ID of the block that is being searched for.
+	 * @param	block			The block that is being searched for.
 	 * @param	maxDistanceAway	The maximum distance away from the entity to search for blocks.
 	 * 
-	 * @return	Coordinates object containing the coordinates of the first block found.
+	 * @return	Point3D object containing the coordinates of the first block found.
 	 */
-	public static Point3D getNearbyBlockBottomTop(Entity entity, Block block, int maxDistanceAway)
+	public static Point3D getNearbyBlock_StartAtBottom(Entity entity, Block block, int maxDistanceAway)
 	{
 		int x = (int)entity.posX;
 		int y = (int)entity.posY;
@@ -203,16 +206,16 @@ public final class LogicHelper
 	}
 
 	/**
-	 * Returns the coordinates of the blocks found near the entity that have the specified block ID. Scanning for the blocks starts 3 blocks
+	 * Returns the coordinates of the blocks found near the entity that are the specified block. Scanning for the blocks starts 3 blocks
 	 * below the entity and moves up.
 	 * 
 	 * @param	entity			The entity used as a base point to search for a block.
-	 * @param	blockID			The ID of the block that is being searched for.
+	 * @param	block			The block that is being searched for.
 	 * @param	maxDistanceAway	The maximum distance away from the entity to search for blocks.
 	 * 
-	 * @return	Coordinates object containing the coordinates of the first block found.
+	 * @return	List of Point3D objects representing the coordinates of each found block's location.
 	 */
-	public static List<Point3D> getNearbyBlocksBottomTop(Entity entity, Block block, int maxDistanceAway)
+	public static List<Point3D> getNearbyBlocks_StartAtBottom(Entity entity, Block block, int maxDistanceAway)
 	{
 		int x = (int)entity.posX;
 		int y = (int)entity.posY;
@@ -260,17 +263,17 @@ public final class LogicHelper
 	}
 
 	/**
-	 * Returns the coordinates of the blocks found near the entity that have the specified block ID. Scanning for the blocks starts 3 blocks
+	 * Returns the coordinates of the blocks found near the entity that are specified block. Scanning for the blocks starts 3 blocks
 	 * below the entity and moves up.
 	 * 
 	 * @param	entity			The entity used as a base point to search for a block.
-	 * @param	blockID			The ID of the block that is being searched for.
+	 * @param	block			The block that is being searched for.
 	 * @param	maxDistanceAway	The maximum distance away from the entity to search for blocks.
 	 * @param	maxY			How high away from the entity's current Y axis to scan.
 	 * 
-	 * @return	Coordinates object containing the coordinates of the first block found.
+	 * @return	List of Point3D objects representing the coordinates of each found block's location.
 	 */
-	public static List<Point3D> getNearbyBlocksBottomTop(Entity entity, Block block, int maxDistanceAway, int maxY)
+	public static List<Point3D> getNearbyBlocks_StartAtBottom(Entity entity, Block block, int maxDistanceAway, int maxY)
 	{
 		int x = (int)entity.posX;
 		int y = (int)entity.posY;
@@ -318,9 +321,9 @@ public final class LogicHelper
 	}
 
 	/**
-	 * Gets list of coordinates containing the coordinates of all of the land to be farmed during the farming chore.
+	 * Gets list of coordinates containing the coordinates of all of the land that can be turned into tilled field.
 	 * 
-	 * @param	entity	The entity that is farming.
+	 * @param	entity				The entity that is farming.
 	 * @param	startCoordinatesX	The x coordinate at which the entity began farming.
 	 * @param	startCoordinatesY	The y coordinate at which the entity began farming.
 	 * @param	startCoordinatesZ	The z coordinate at which the entity began farming.
@@ -379,7 +382,7 @@ public final class LogicHelper
 	 * @param 	startCoordinatesZ	The Z coordinates that the entity started farming on.
 	 * @param 	radius			The radius set in the entity's farming chore.
 	 * 
-	 * @return	List containing Coordinates objects of each crop within radius that is ready to harvest.
+	 * @return	List containing Point3D objects of each crop within radius that is ready to harvest.
 	 */
 	public static List<Point3D> getNearbyHarvestableCrops(Entity entity, int startCoordinatesX, int startCoordinatesY, int startCoordinatesZ, int radius)
 	{
@@ -472,10 +475,10 @@ public final class LogicHelper
 	}
 
 	/**
-	 * Gets the coordinates of each block close to the entity that has the specified block ID.
+	 * Gets the coordinates of each block close to the entity that is the specified block.
 	 * 
 	 * @param	entity			The entity being used as a base point to search for a block.
-	 * @param	blockID			The ID of the block that is being searched for.
+	 * @param	block			The block that is being searched for.
 	 * @param	maxDistanceAway	The maximum distance away from the player to search for blocks.
 	 * 
 	 * @return	List containing the coordinates of each block with the provided ID within the specified distance of the entity.
@@ -523,10 +526,10 @@ public final class LogicHelper
 	}
 
 	/**
-	 * Gets the coordinates of each block close to the entity that has the specified block ID and metadata.
+	 * Gets the coordinates of each block close to the entity that is the specified block and has the specified metadata.
 	 * 
 	 * @param	entity			The entity being used as a base point to search for a block.
-	 * @param	blockID			The ID of the block that is being searched for.
+	 * @param	block			The ID block that is being searched for.
 	 * @param	metadata		The desired metadata value of the block.
 	 * @param	maxDistanceAway	The maximum distance away from the entity to search for blocks.
 	 * 
@@ -683,7 +686,7 @@ public final class LogicHelper
 	 * Gets the coordinates of a random block of the specified type within 10 blocks away from the provided entity.
 	 * 
 	 * @param 	entity	The entity being used as a base point to start the search.
-	 * @param 	blockID	The block ID of the block being searched for.
+	 * @param 	block	The block being searched for.
 	 * 
 	 * @return	An coordinates object containing the coordinates of the randomly selected block.
 	 */
@@ -930,6 +933,14 @@ public final class LogicHelper
 		return nearestEntity;
 	}
 	
+	/**
+	 * Produces a number within the specified range.
+	 * 
+	 * @param 	minimum	The minimum number generated. Inclusive.
+	 * @param 	maximum	The maximum number generated. Inclusive.
+	 * 
+	 * @return	Number in range [minimum] to [maximum], both inclusive.
+	 */
 	public static int getNumberInRange(int minimum, int maximum)
 	{
 		return new Random().nextInt((maximum - minimum) + 1) + minimum;

@@ -2,6 +2,9 @@ package com.radixshock.radixcore.crypto;
 
 import java.security.MessageDigest;
 
+/**
+ * Only generates MD5 hashes of string inputs at this time.
+ */
 public final class HashGenerator 
 {
 	/**

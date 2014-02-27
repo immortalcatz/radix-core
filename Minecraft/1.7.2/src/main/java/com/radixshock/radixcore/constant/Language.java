@@ -1,6 +1,8 @@
 package com.radixshock.radixcore.constant;
 
-
+/**
+ * List of language IDs recognized by Minecraft and their english names.
+ */
 public enum Language 
 {
 	af_ZA("Afrikaans"),

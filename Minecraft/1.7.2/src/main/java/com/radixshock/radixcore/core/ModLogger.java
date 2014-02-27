@@ -8,11 +8,19 @@ import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.relauncher.Side;
 
+/**
+ * Logger that has the ability to log any sort of object or even exceptions to the FMLLog.
+ */
 public final class ModLogger 
 {
 	private IMod mod;
 	private final Logger logger = FMLLog.getLogger();
 	
+	/**
+	 * Constructor
+	 * 
+	 * @param 	mod	The logger's owner IMod.
+	 */
 	public ModLogger(IMod mod)
 	{
 		this.mod = mod;

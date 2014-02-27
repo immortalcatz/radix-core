@@ -1,12 +1,16 @@
 package com.radixshock.radixcore.constant;
 
+/**
+ * Defines font constants such as colors and formatting.
+ */
 public final class Font
 {
 	private static final String SECTION_SIGN = "\u00a7";
 	
 	private Font() { }
 	
-	public class Color
+	/** All possible font colors */
+	public final class Color
 	{
 		public static final String BLACK = SECTION_SIGN + "0";
 		public static final String DARKBLUE = SECTION_SIGN + "1";
@@ -26,7 +30,8 @@ public final class Font
 		public static final String WHITE = SECTION_SIGN + "F";
 	}
 	
-	public class Format
+	/** All possible font formats. */
+	public final class Format
 	{
 		public static final String OBFUSCATED = SECTION_SIGN + "k";
 		public static final String BOLD = SECTION_SIGN + "l";

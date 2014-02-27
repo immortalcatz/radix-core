@@ -31,6 +31,9 @@ import cpw.mods.fml.common.event.FMLServerStoppingEvent;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
+/**
+ * The core of the RadixCore mod API.
+ */
 @Mod(modid="radixcore", name="RadixCore", version="1.0.0")
 public class RadixCore implements IMod
 {
@@ -38,9 +41,18 @@ public class RadixCore implements IMod
 	private static RadixCore instance;
 	private ModLogger logger;
 
+	/** The current working directory. The .minecraft folder. */
 	public String runningDirectory;
+	
+	/** A list of mods registered with RadixCore. */
 	public static final List<IMod> registeredMods = new ArrayList<IMod>();
 
+	/**
+	 * Handles the FMLPreInitialization event and passes it to all loaded mods after
+	 * initializing their proxies, items, and blocks.
+	 * 
+	 * @param 	event	The event.
+	 */
 	@EventHandler
 	public void onPreInit(FMLPreInitializationEvent event)
 	{
@@ -81,6 +93,12 @@ public class RadixCore implements IMod
 		}
 	}
 
+	/**
+	 * Handles the FMLInitializationEvent and passes it to all registered mods.
+	 * Initializes recipes, smeltings, achievements. entities, and the network on all mods.
+	 * 
+	 * @param 	event	The event.	
+	 */
 	@EventHandler
 	public void onInit(FMLInitializationEvent event)
 	{
@@ -95,6 +113,11 @@ public class RadixCore implements IMod
 		}
 	}
 
+	/**
+	 * Handles the FMLPostInitializationEvent and passes it to all registered mods.
+	 *
+	 * @param 	event	The event.
+	 */
 	@EventHandler
 	public void onPostInit(FMLPostInitializationEvent event)
 	{
@@ -104,6 +127,11 @@ public class RadixCore implements IMod
 		}
 	}
 
+	/**
+	 * Passes the FMLServerStartingEvent to all registered mods.
+	 * 
+	 * @param 	event	The event.
+	 */
 	@EventHandler
 	public void onServerStarting(FMLServerStartingEvent event)
 	{
@@ -113,6 +141,11 @@ public class RadixCore implements IMod
 		}
 	}
 
+	/**
+	 * Passes the FMLServerStoppingEvent to all registered mods.
+	 * 
+	 * @param 	event	The event.
+	 */
 	@EventHandler
 	public void onServerStopping(FMLServerStoppingEvent event)
 	{
@@ -122,6 +155,9 @@ public class RadixCore implements IMod
 		}
 	}
 
+	/**
+	 * @return	An instance of RadixCore.
+	 */
 	public static RadixCore getInstance()
 	{
 		return instance;
@@ -131,7 +167,6 @@ public class RadixCore implements IMod
 	 * Stops the game and writes the error to the Forge crash log.
 	 * 
 	 * @param 	description	A string providing a short description of the problem.
-	 * @param 	e			The exception that caused this method to be called.
 	 */
 	@SideOnly(Side.CLIENT)
 	public void quitWithDescription(String description)
@@ -202,6 +237,12 @@ public class RadixCore implements IMod
 	public String getVersion() 
 	{
 		return "1.0.0";
+	}
+
+	@Override
+	public boolean getChecksForUpdates() 
+	{
+		return true;
 	}
 
 	@Override

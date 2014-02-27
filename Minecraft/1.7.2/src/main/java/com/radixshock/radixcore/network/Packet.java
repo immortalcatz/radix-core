@@ -6,20 +6,38 @@ import net.minecraft.entity.player.EntityPlayer;
 
 import com.radixshock.radixcore.core.IMod;
 
+import cpw.mods.fml.relauncher.Side;
+
 /**
- * Base class for all packets that will be sent through the packet pipeline.
+ * Defines a packet that will be sent through a mod's packet pipeline.
  */
-public class Packet 
+public final class Packet 
 {
+	/** The packet's owner IMod. Assigned by the pipeline. */
 	protected IMod mod;
+	
+	/** The packet's packet type as an enum. */
 	public Enum packetType;
+	
+	/** The packet's data/payload. */
 	public Object[] arguments;
 	
+	/**
+	 * Construcor required by pipeline.
+	 */
 	public Packet()
 	{
 		super();
 	}
 	
+	/**
+	 * Creates a new packet.
+	 * 
+	 * @param packetType	The packet's packet type, defined by the mod.
+	 * @param arguments		The packet's data. This can accept any number of arguments, 
+	 * 						and should be encoded, decoded, and cast in the PacketHandler
+	 * 						in the <b>exact same order listed when the packet was created.</b> Be consistent.
+	 */
 	public Packet(Enum packetType, Object... arguments) 
 	{
 		super();
@@ -28,7 +46,13 @@ public class Packet
 		this.arguments = arguments;
 	}
 
-	public void encodeInto(ChannelHandlerContext context, ByteBuf buffer) 
+	/**
+	 * Encodes a packet's data into the provided ByteBuf.
+	 * 
+	 * @param 	context	The packet's ChannelHandlerContext.
+	 * @param 	buffer	The buffer that data will be written to.
+	 */
+	protected void encodeInto(ChannelHandlerContext context, ByteBuf buffer) 
 	{
 		//Add header containing the packet's type ordinal and the number of arguments.
 		buffer.writeInt(packetType.ordinal());
@@ -38,7 +62,13 @@ public class Packet
 		mod.getPacketCodec().encode(this, context, buffer);
 	}
 
-	public void decodeInto(ChannelHandlerContext context, ByteBuf buffer) 
+	/**
+	 * Decodes a packet's data from the provided ByteBuf.
+	 * 
+	 * @param 	context	The packet's ChannelHandlerContext.
+	 * @param 	buffer	The buffer that data will be read from.
+	 */
+	protected void decodeInto(ChannelHandlerContext context, ByteBuf buffer) 
 	{
 		//Read packet type and arguments length from the header.
 		try 
@@ -57,13 +87,23 @@ public class Packet
 		mod.getPacketCodec().decode(this, context, buffer);
 	}
 
-	public void handleClientSide(EntityPlayer player) 
+	/**
+	 * Sends a packet to the packet handler, providing Side.CLIENT as the packet's side.
+	 * 
+	 * @param 	player	The client player.
+	 */
+	protected void handleClientSide(EntityPlayer player) 
 	{
-		mod.getPacketHandler().onHandlePacket(this, player);
+		mod.getPacketHandler().onHandlePacket(this, player, Side.CLIENT);
 	}
 
-	public void handleServerSide(EntityPlayer player) 
+	/**
+	 * Sends a packet to the packet handler, providing Side.SERVER as the packet's side.
+	 * 
+	 * @param 	player	The player that sent the packet.
+	 */
+	protected void handleServerSide(EntityPlayer player) 
 	{
-		mod.getPacketHandler().onHandlePacket(this, player);
+		mod.getPacketHandler().onHandlePacket(this, player, Side.SERVER);
 	}
 }

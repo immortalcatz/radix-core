@@ -1,6 +1,6 @@
 /*******************************************************************************
  * ModPropertiesManager.java
- * Copyright (c) 2014 WildBamaBoy.
+ * Copyright (c) 2014 Radix-Shock Entertainment.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the GNU Public License v3.0
  * which accompanies this distribution, and is available at
@@ -34,10 +34,15 @@ public class ModPropertiesManager implements Serializable
 	private transient File configFolder = null;
 
 	private transient Class modPropertiesClass;
+	
+	/** An instance of the class containing mod properties. */
 	public transient Object modPropertiesInstance;
 	
 	/**
 	 * Constructor
+	 * 
+	 * @param 	mod					This ModPropertiesManager's owner mod.
+	 * @param 	modPropertiesClass	The class containing the mod's properties.
 	 */
 	public ModPropertiesManager(IMod mod, Class modPropertiesClass)
 	{

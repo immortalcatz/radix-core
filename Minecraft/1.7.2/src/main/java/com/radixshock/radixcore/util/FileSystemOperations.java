@@ -2,6 +2,9 @@ package com.radixshock.radixcore.util;
 
 import java.io.File;
 
+/**
+ * Defines utility methods that interact with the file system.
+ */
 public final class FileSystemOperations 
 {
 	/**

@@ -30,69 +30,72 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 /**
  * A mod's packet pipeline. Directs packets to their targets, codec, and handler.
- * Adapted from code by Sirgingalot.
+ * Adapted from code shared by Sirgingalot on the MinecraftForge wiki.
  */
 @ChannelHandler.Sharable
 public final class PacketPipeline extends MessageToMessageCodec<FMLProxyPacket, Packet> 
 {
 	private IMod mod;
-	private EnumMap<Side, FMLEmbeddedChannel>           channels;
+	private EnumMap<Side, FMLEmbeddedChannel> channels;
 	private LinkedList<Class<? extends Packet>> packets = new LinkedList<Class<? extends Packet>>();
 
+	/**
+	 * Constructor
+	 * 
+	 * @param 	mod	The pipeline's owner IMod.
+	 */
 	public PacketPipeline(IMod mod)
 	{
 		this.mod = mod;
 	}
 	
 	/**
-	 * Register your packet with the pipeline. Discriminators are automatically set.
+	 * Registers the provided packet class with the pipeline.
 	 *
-	 * @param clazz the class to register
-	 *
-	 * @return whether registration was successful. Failure may occur if 256 packets have been registered or if the registry already contains this packet
+	 * @param 	packetClass	The packet class to be registered.
+	 * 
+	 * @return	True if adding the packet was successful.
 	 */
-	public boolean registerPacket(Class<? extends Packet> clazz) 
+	public boolean registerPacket(Class<? extends Packet> packetClass) 
 	{
-		return this.packets.add(clazz);
+		return this.packets.add(packetClass);
 	}
 
-	// In line encoding of the packet, including discriminator setting
 	@Override
 	protected void encode(ChannelHandlerContext context, Packet packet, List<Object> out) throws Exception 
 	{
 		packet.mod = this.mod;
 		
-		ByteBuf buffer = Unpooled.buffer();
-		Class<? extends Packet> clazz = packet.getClass();
+		final ByteBuf buffer = Unpooled.buffer();
+		final Class<? extends Packet> packetClass = packet.getClass();
 
 		if (!this.packets.contains(packet.getClass())) 
 		{
 			throw new NullPointerException("No packet registered for: " + packet.getClass().getCanonicalName());
 		}
 
-		final byte discriminator = (byte) this.packets.indexOf(clazz);
+		final byte discriminator = (byte) this.packets.indexOf(packetClass);
 		buffer.writeByte(discriminator);
 		
 		packet.encodeInto(context, buffer);
 		
-		FMLProxyPacket proxyPacket = new FMLProxyPacket(buffer.copy(), context.channel().attr(NetworkRegistry.FML_CHANNEL).get());
+		final FMLProxyPacket proxyPacket = new FMLProxyPacket(buffer.copy(), context.channel().attr(NetworkRegistry.FML_CHANNEL).get());
 		out.add(proxyPacket);
 	}
 
-	// In line decoding and handling of the packet
 	@Override
 	protected void decode(ChannelHandlerContext context, FMLProxyPacket proxyPacket, List<Object> out) throws Exception 
 	{
-		ByteBuf payload = proxyPacket.payload();
-		byte discriminator = payload.readByte();
-		Class<? extends Packet> clazz = this.packets.get(discriminator);
+		final ByteBuf payload = proxyPacket.payload();
+		final byte discriminator = payload.readByte();
+		final Class<? extends Packet> packetClass = this.packets.get(discriminator);
 
-		if (clazz == null) 
+		if (packetClass == null) 
 		{
 			throw new NullPointerException("No packet registered for discriminator: " + discriminator);
 		}
 
-		Packet packet = clazz.newInstance();
+		final Packet packet = packetClass.newInstance();
 		packet.mod = this.mod;
 		packet.decodeInto(context, payload.slice());
 
@@ -117,6 +120,11 @@ public final class PacketPipeline extends MessageToMessageCodec<FMLProxyPacket, 
 		out.add(packet);
 	}
 
+	/**
+	 * Add a name for your packet's channel.
+	 * 
+	 * @param 	channelName	The channel's name.
+	 */
 	public void addChannel(String channelName)
 	{
 		this.channels = NetworkRegistry.INSTANCE.newChannel(channelName, this);

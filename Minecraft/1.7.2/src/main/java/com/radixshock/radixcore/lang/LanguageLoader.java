@@ -1,6 +1,6 @@
 /*******************************************************************************
  * LanguageHelper.java
- * Copyright (c) 2014 WildBamaBoy.
+ * Copyright (c) 2014 Radix-Shock Entertainment.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the GNU Public License v3.0
  * which accompanies this distribution, and is available at
@@ -37,6 +37,11 @@ public final class LanguageLoader
 	/** The properties instance used to load languages. */
 	private Properties properties = new Properties();
 
+	/**
+	 * Constructor
+	 * 
+	 * @param 	mod	The language loader's owner IMod.
+	 */
 	public LanguageLoader(IMod mod)
 	{
 		this.mod = mod;
@@ -183,6 +188,7 @@ public final class LanguageLoader
 	 * is not being spoken by an entity, such as a GUI button or item name.
 	 * 
 	 * @param	elementId	The ID of the string to retrieve.
+	 * @param	arguments	Arguments to use when parsing the string.
 	 * 
 	 * @return	Returns localized string matching the ID provided.
 	 */
@@ -282,6 +288,9 @@ public final class LanguageLoader
 		return languageID;
 	}
 
+	/**
+	 * @return This LanguageLoader's translations map.
+	 */
 	public Map<String, String> getTranslations()
 	{
 		return translationsMap;

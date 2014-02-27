@@ -1,5 +1,8 @@
 package com.radixshock.radixcore.lang;
 
+/**
+ * Defines a class as a language parser.
+ */
 public interface ILanguageParser 
 {
 	/**
