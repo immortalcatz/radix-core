@@ -116,6 +116,12 @@ public final class LanguageLoader
 		{
 			RadixCore.getInstance().quitWithException("IOException while loading language.", e);
 		}
+		
+		catch (NullPointerException e)
+		{
+			mod.getLogger().log("WARNING: Recoverable error while loading language. Language may not be supported. Defaulting to English.");
+			loadLanguage("en_US");
+		}
 	}
 
 	/**
