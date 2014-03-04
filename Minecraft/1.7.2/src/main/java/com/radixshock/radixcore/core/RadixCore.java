@@ -43,7 +43,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 /**
  * The core of the RadixCore mod API.
  */
-@Mod(modid="radixcore", name="RadixCore", version="0.9.0")
+@Mod(modid="radixcore", name="RadixCore", version="0.9.0.Beta")
 public class RadixCore implements IMod
 {
 	@Instance("radixcore")
@@ -246,7 +246,7 @@ public class RadixCore implements IMod
 	@Override
 	public String getVersion() 
 	{
-		return "0.8.0.Alpha";
+		return "0.9.0.Beta";
 	}
 
 	@Override
