@@ -236,4 +236,9 @@ public final class LanguageLoader
 	{
 		return translationsMap;
 	}
+	
+	public boolean isValidString(String elementId)
+	{
+		return !getString(elementId).contains("(" + elementId + " not found)");
+	}
 }
