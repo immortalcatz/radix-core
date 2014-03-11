@@ -52,7 +52,7 @@ public class RadixCore implements IMod
 
 	/** The current working directory. The .minecraft folder. */
 	public String runningDirectory;
-	
+
 	/** A list of mods registered with RadixCore. */
 	public static final List<IMod> registeredMods = new ArrayList<IMod>();
 
@@ -75,21 +75,22 @@ public class RadixCore implements IMod
 		{
 			FMLCommonHandler.instance().bus().register(new RadixEvents());
 			MinecraftForge.EVENT_BUS.register(new RadixEvents());
-			
+
 			for (IMod mod : registeredMods)
 			{
-				getLogger().log("Pre-initializing " + mod.getLongModName() + "...");
-
 				mod.preInit(event);
 				mod.initializeProxy();
 				mod.initializeItems();
 				mod.initializeBlocks();
-				
-				FMLCommonHandler.instance().bus().register(mod.getEventHookClass().newInstance());
-				MinecraftForge.EVENT_BUS.register(mod.getEventHookClass().newInstance());
-				
+
+				if (mod.getEventHookClass() != null)
+				{
+					FMLCommonHandler.instance().bus().register(mod.getEventHookClass().newInstance());
+					MinecraftForge.EVENT_BUS.register(mod.getEventHookClass().newInstance());
+				}
+
 				final LanguageLoader modLanguageLoader = mod.getLanguageLoader();
-				
+
 				if (modLanguageLoader != null)
 				{
 					modLanguageLoader.loadLanguage();
@@ -99,7 +100,7 @@ public class RadixCore implements IMod
 
 		catch (Exception e)
 		{
-			quitWithException("Exception while registering event hook class.", e);
+			quitWithException("Unexpected exception during pre-initialization.", e);
 		}
 	}
 
@@ -215,7 +216,7 @@ public class RadixCore implements IMod
 		Minecraft.getMinecraft().crashed(crashReport);
 		Minecraft.getMinecraft().displayCrashReport(crashReport);
 	}
-	
+
 	@Override
 	public void preInit(FMLPreInitializationEvent event) { throw new NotImplementedException(); }
 
