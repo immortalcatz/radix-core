@@ -9,8 +9,6 @@
 
 package com.radixshock.radixcore.core;
 
-import net.minecraft.server.MinecraftServer;
-
 import org.apache.logging.log4j.Logger;
 
 import cpw.mods.fml.common.FMLCommonHandler;
