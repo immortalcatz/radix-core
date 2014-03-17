@@ -17,16 +17,12 @@ import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
  */
 public class RadixEvents 
 {
-	/**
-	 * Checks for updates i
-	 * @param event
-	 */
 	@SubscribeEvent
 	public void playerLoggedInEventHandler(PlayerLoggedInEvent event)
 	{
 		new Thread(new UpdateChecker(RadixCore.getInstance(), event.player, RadixCore.getInstance().getUpdateURL(), RadixCore.getInstance().getRedirectURL())).start();
 		
-		for (IMod mod : RadixCore.registeredMods)
+		for (IEnforcedCore mod : RadixCore.registeredMods)
 		{
 			if (mod.getChecksForUpdates())
 			{

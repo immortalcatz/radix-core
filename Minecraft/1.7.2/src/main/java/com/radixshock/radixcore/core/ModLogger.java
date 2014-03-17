@@ -22,7 +22,7 @@ import cpw.mods.fml.relauncher.Side;
  */
 public final class ModLogger 
 {
-	private IMod mod;
+	private IEnforcedCore mod;
 	private final Logger logger = FMLLog.getLogger();
 	
 	/**
@@ -30,7 +30,7 @@ public final class ModLogger
 	 * 
 	 * @param 	mod	The logger's owner IMod.
 	 */
-	public ModLogger(IMod mod)
+	public ModLogger(IEnforcedCore mod)
 	{
 		this.mod = mod;
 	}
@@ -59,25 +59,11 @@ public final class ModLogger
 			}
 
 			logger.info(mod.getLongModName() + " " + side.toString() + ": " + objectsToString);
-			
-			final MinecraftServer server = MinecraftServer.getServer();
-
-			if (server != null && server.isDedicatedServer())
-			{
-				MinecraftServer.getServer().logInfo(mod.getShortModName() + ": " + objectsToString);
-			}
 		}
 
 		catch (NullPointerException e) //Object provided is null.
 		{
 			logger.info(mod.getLongModName() + " " + side.toString() + ": null");
-
-			final MinecraftServer server = MinecraftServer.getServer();
-
-			if (server != null &&  server.isDedicatedServer())
-			{
-				MinecraftServer.getServer().logDebug(mod.getLongModName() + " " + side.toString() + ": null");
-			}
 		}
 	}
 }

@@ -24,7 +24,7 @@ import com.radixshock.radixcore.constant.Font;
  */
 public final class UpdateChecker implements Runnable
 {	
-	private IMod mod;
+	private IEnforcedCore mod;
 	private ICommandSender commandSender;
 	private boolean hasCheckedForUpdates;
 	private String rawUpdateInfoURL;
@@ -38,7 +38,7 @@ public final class UpdateChecker implements Runnable
 	 * @param rawUpdateInfoURL		The URL containing raw update information.
 	 * @param updateRedirectionURL	The URL the player should be redirected to.
 	 */
-	public UpdateChecker(IMod mod, ICommandSender commandSender, String rawUpdateInfoURL, String updateRedirectionURL)
+	public UpdateChecker(IEnforcedCore mod, ICommandSender commandSender, String rawUpdateInfoURL, String updateRedirectionURL)
 	{
 		this.mod = mod;
 		this.commandSender = commandSender;

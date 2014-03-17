@@ -18,7 +18,7 @@ import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.util.Properties;
 
-import com.radixshock.radixcore.core.IMod;
+import com.radixshock.radixcore.core.IEnforcedCore;
 import com.radixshock.radixcore.core.RadixCore;
 
 /**
@@ -26,7 +26,7 @@ import com.radixshock.radixcore.core.RadixCore;
  */
 public class ModPropertiesManager implements Serializable
 {
-	private transient IMod mod;
+	private transient IEnforcedCore mod;
 	private transient Properties properties = new Properties();
 	private transient FileInputStream inputStream   = null;
 	private transient FileOutputStream outputStream = null;
@@ -44,7 +44,7 @@ public class ModPropertiesManager implements Serializable
 	 * @param 	mod					This ModPropertiesManager's owner mod.
 	 * @param 	modPropertiesClass	The class containing the mod's properties.
 	 */
-	public ModPropertiesManager(IMod mod, Class modPropertiesClass)
+	public ModPropertiesManager(IEnforcedCore mod, Class modPropertiesClass)
 	{
 		this.mod = mod;
 		this.modPropertiesClass = modPropertiesClass;

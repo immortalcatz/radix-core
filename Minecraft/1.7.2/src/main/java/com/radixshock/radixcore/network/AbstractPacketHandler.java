@@ -11,7 +11,7 @@ package com.radixshock.radixcore.network;
 
 import net.minecraft.entity.player.EntityPlayer;
 
-import com.radixshock.radixcore.core.IMod;
+import com.radixshock.radixcore.core.IEnforcedCore;
 
 import cpw.mods.fml.relauncher.Side;
 
@@ -21,14 +21,14 @@ import cpw.mods.fml.relauncher.Side;
 public abstract class AbstractPacketHandler 
 {
 	/** The mod that this packet handler belongs to.*/
-	protected IMod mod;
+	protected IEnforcedCore mod;
 	
 	/**
 	 * Constructor
 	 * 
 	 * @param 	mod	The packet handler's owner IMod.
 	 */
-	protected AbstractPacketHandler(IMod mod)
+	protected AbstractPacketHandler(IEnforcedCore mod)
 	{
 		this.mod = mod;
 	}

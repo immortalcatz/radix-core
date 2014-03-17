@@ -21,6 +21,11 @@ import net.minecraft.crash.CrashReport;
 import net.minecraftforge.common.MinecraftForge;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
+import com.radixshock.radixcore.command.CommandGetModProperty;
+import com.radixshock.radixcore.command.CommandListModProperties;
+import com.radixshock.radixcore.command.CommandSetModProperty;
+import com.radixshock.radixcore.enums.EnumNetworkType;
+import com.radixshock.radixcore.file.ModPropertiesManager;
 import com.radixshock.radixcore.lang.ILanguageLoaderHook;
 import com.radixshock.radixcore.lang.ILanguageParser;
 import com.radixshock.radixcore.lang.LanguageLoader;
@@ -43,8 +48,8 @@ import cpw.mods.fml.relauncher.SideOnly;
 /**
  * The core of the RadixCore mod API.
  */
-@Mod(modid="radixcore", name="RadixCore", version="0.9.0.Beta")
-public class RadixCore implements IMod
+@Mod(modid="radixcore", name="RadixCore", version="1.0.0")
+public class RadixCore implements IEnforcedCore
 {
 	@Instance("radixcore")
 	private static RadixCore instance;
@@ -54,7 +59,7 @@ public class RadixCore implements IMod
 	public String runningDirectory;
 
 	/** A list of mods registered with RadixCore. */
-	public static final List<IMod> registeredMods = new ArrayList<IMod>();
+	public static final List<IEnforcedCore> registeredMods = new ArrayList<IEnforcedCore>();
 
 	/**
 	 * Handles the FMLPreInitialization event and passes it to all loaded mods after
@@ -76,7 +81,7 @@ public class RadixCore implements IMod
 			FMLCommonHandler.instance().bus().register(new RadixEvents());
 			MinecraftForge.EVENT_BUS.register(new RadixEvents());
 
-			for (IMod mod : registeredMods)
+			for (IEnforcedCore mod : registeredMods)
 			{
 				mod.preInit(event);
 				mod.initializeProxy();
@@ -113,7 +118,7 @@ public class RadixCore implements IMod
 	@EventHandler
 	public void onInit(FMLInitializationEvent event)
 	{
-		for (IMod mod : registeredMods)
+		for (IEnforcedCore mod : registeredMods)
 		{
 			mod.init(event);
 			mod.initializeRecipes();
@@ -132,7 +137,7 @@ public class RadixCore implements IMod
 	@EventHandler
 	public void onPostInit(FMLPostInitializationEvent event)
 	{
-		for (IMod mod : registeredMods)
+		for (IEnforcedCore mod : registeredMods)
 		{
 			mod.postInit(event);
 		}
@@ -146,8 +151,23 @@ public class RadixCore implements IMod
 	@EventHandler
 	public void onServerStarting(FMLServerStartingEvent event)
 	{
-		for (IMod mod : registeredMods)
+		for (IEnforcedCore mod : registeredMods)
 		{
+			if (mod.getSetModPropertyCommandEnabled())
+			{
+				event.registerServerCommand(new CommandSetModProperty(mod));
+			}
+			
+			if (mod.getGetModPropertyCommandEnabled())
+			{
+				event.registerServerCommand(new CommandGetModProperty(mod));
+			}
+			
+			if (mod.getListModPropertiesCommandEnabled())
+			{
+				event.registerServerCommand(new CommandListModProperties(mod));
+			}
+			
 			mod.serverStarting(event);
 		}
 	}
@@ -160,7 +180,7 @@ public class RadixCore implements IMod
 	@EventHandler
 	public void onServerStopping(FMLServerStoppingEvent event)
 	{
-		for (IMod mod : registeredMods)
+		for (IEnforcedCore mod : registeredMods)
 		{
 			mod.serverStopping(event);
 		}
@@ -217,129 +237,140 @@ public class RadixCore implements IMod
 		Minecraft.getMinecraft().displayCrashReport(crashReport);
 	}
 
-	@Override
+	
 	public void preInit(FMLPreInitializationEvent event) { throw new NotImplementedException(); }
 
-	@Override
+	
 	public void init(FMLInitializationEvent event) { throw new NotImplementedException(); }
 
-	@Override
+	
 	public void postInit(FMLPostInitializationEvent event) { throw new NotImplementedException(); }
 
-	@Override
+	
 	public void serverStarting(FMLServerStartingEvent event) { throw new NotImplementedException(); }
 
-	@Override
+	
 	public void serverStopping(FMLServerStoppingEvent event) { throw new NotImplementedException(); }
 
-	@Override
+	
 	public String getShortModName() 
 	{
 		return getLongModName();
 	}
 
-	@Override
+	
 	public String getLongModName() 
 	{
 		return "RadixCore";
 	}
 
-	@Override
+	
 	public String getVersion() 
 	{
-		return "0.9.0.Beta";
+		return "1.0.0";
 	}
 
-	@Override
+	
 	public boolean getChecksForUpdates() 
 	{
 		return true;
 	}
 
-	@Override
+	
 	public String getUpdateURL() 
 	{
 		return "http://pastebin.com/raw.php?i=fWd8huwd";
 	}
 
-	@Override
+	
 	public String getRedirectURL() 
 	{
-		return "{REDIR}";
+		return "http://goo.gl/cRzaJ0";
 	}
 
-	@Override
+	
 	public ModLogger getLogger() 
 	{
 		return logger;
 	}
 
+	
 	@Override
+	public EnumNetworkType getNetworkSystemType() 
+	{
+		return null;
+	}
+
 	public AbstractPacketCodec getPacketCodec() 
 	{
 		return null;
 	}
 
-	@Override
+	
 	public AbstractPacketHandler getPacketHandler() 
 	{
 		return null;
 	}
 
-	@Override
+	
 	public PacketPipeline getPacketPipeline() 
 	{
 		return null;
 	}
 
-	@Override
+	
 	public Class getPacketTypeClass() 
 	{
 		return null;
 	}
 
-	@Override
+	
 	public Class getEventHookClass()
 	{
 		return null;
 	}
 
-	@Override
+	
 	public void initializeProxy() { throw new NotImplementedException(); }
 
-	@Override
+	
 	public void initializeItems() { throw new NotImplementedException(); }
 
-	@Override
+	
 	public void initializeBlocks() { throw new NotImplementedException(); }
 
-	@Override
+	
 	public void initializeRecipes() { throw new NotImplementedException(); }
 
-	@Override
+	
 	public void initializeSmeltings() { throw new NotImplementedException(); }
 
-	@Override
+	
 	public void initializeAchievements() { throw new NotImplementedException(); }
 
-	@Override
+	
 	public void initializeEntities() { throw new NotImplementedException(); }
 
-	@Override
+	
 	public void initializeNetwork() { throw new NotImplementedException(); }
 
-	@Override
+	public ModPropertiesManager getModPropertiesManager() { return null; }
+
+	public boolean getSetModPropertyCommandEnabled() { return false; }
+
+	public boolean getGetModPropertyCommandEnabled() { return false; }
+
+	public boolean getListModPropertiesCommandEnabled() { return false; }
+	
+	public String getPropertyCommandPrefix() { return null; }
+
 	public boolean getLanguageLoaded() { return false; }
 
-	@Override
 	public void setLanguageLoaded(boolean value) { throw new NotImplementedException(); }
 
-	@Override
 	public ILanguageLoaderHook getLanguageLoaderHook() { return null; }
-
-	@Override
+	
 	public LanguageLoader getLanguageLoader() { return null; }
-
-	@Override
+	
 	public ILanguageParser getLanguageParser() { return null; }
 }

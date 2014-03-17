@@ -13,34 +13,34 @@ import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import net.minecraft.entity.player.EntityPlayer;
 
-import com.radixshock.radixcore.core.IMod;
+import com.radixshock.radixcore.core.IEnforcedCore;
+import com.radixshock.radixcore.enums.EnumNetworkType;
 
 import cpw.mods.fml.relauncher.Side;
 
 /**
  * Defines a packet that will be sent through a mod's packet pipeline.
  */
-public final class Packet 
+public class Packet 
 {
 	/** The packet's owner IMod. Assigned by the pipeline. */
-	protected IMod mod;
-	
+	protected IEnforcedCore mod;
+
 	/** The packet's packet type as an enum. */
 	public Enum packetType;
-	
+
 	/** The packet's data/payload. */
 	public Object[] arguments;
-	
+
 	/**
-	 * Construcor required by pipeline.
+	 * Constructor required by pipeline.
 	 */
 	public Packet()
 	{
-		super();
 	}
-	
+
 	/**
-	 * Creates a new packet.
+	 * Creates a new packet. Use only with the Legacy network type.
 	 * 
 	 * @param packetType	The packet's packet type, defined by the mod.
 	 * @param arguments		The packet's data. This can accept any number of arguments, 
@@ -49,8 +49,6 @@ public final class Packet
 	 */
 	public Packet(Enum packetType, Object... arguments) 
 	{
-		super();
-		
 		this.packetType = packetType;
 		this.arguments = arguments;
 	}
@@ -63,12 +61,25 @@ public final class Packet
 	 */
 	protected void encodeInto(ChannelHandlerContext context, ByteBuf buffer) 
 	{
-		//Add header containing the packet's type ordinal and the number of arguments.
-		buffer.writeInt(packetType.ordinal());
-		buffer.writeInt(arguments.length);
-		
-		//Encode the packet's payload.
-		mod.getPacketCodec().encode(this, context, buffer);
+		if (mod.getNetworkSystemType() == EnumNetworkType.Legacy)
+		{
+			//Add header containing the packet's type ordinal and the number of arguments.
+			buffer.writeInt(packetType.ordinal());
+			buffer.writeInt(arguments.length);
+
+			//Encode the packet's payload.
+			mod.getPacketCodec().encode(this, context, buffer);
+		}
+
+		else if (mod.getNetworkSystemType() == EnumNetworkType.SelfContained)
+		{
+			throw new RuntimeException("encodeInto() was not overridden for a packet being used with the self contained networking system.");
+		}
+
+		else
+		{
+			throw new RuntimeException("encodeInto() was called for a packet when mod has not defined a networking system type.");
+		}
 	}
 
 	/**
@@ -79,21 +90,34 @@ public final class Packet
 	 */
 	protected void decodeInto(ChannelHandlerContext context, ByteBuf buffer) 
 	{
-		//Read packet type and arguments length from the header.
-		try 
+		if (mod.getNetworkSystemType() == EnumNetworkType.Legacy)
 		{
-			packetType = (Enum)mod.getPacketTypeClass().getFields()[buffer.readInt()].get(mod.getPacketTypeClass());
-		} 
-		
-		catch (Throwable e)
-		{
-			e.printStackTrace();
-		}
-		
-		arguments = new Object[buffer.readInt()];
+			//Read packet type and arguments length from the header.
+			try 
+			{
+				packetType = (Enum)mod.getPacketTypeClass().getFields()[buffer.readInt()].get(mod.getPacketTypeClass());
+			} 
 
-		//Decode the packet's payload.
-		mod.getPacketCodec().decode(this, context, buffer);
+			catch (Throwable e)
+			{
+				e.printStackTrace();
+			}
+
+			arguments = new Object[buffer.readInt()];
+
+			//Decode the packet's payload.
+			mod.getPacketCodec().decode(this, context, buffer);
+		}
+
+		else if (mod.getNetworkSystemType() == EnumNetworkType.SelfContained)
+		{
+			throw new RuntimeException("decodeInto() was not overridden for a packet being used with the self contained networking system.");
+		}
+
+		else
+		{
+			throw new RuntimeException("decodeInto() was called for a packet when mod has not defined a networking system type.");
+		}
 	}
 
 	/**
@@ -103,7 +127,20 @@ public final class Packet
 	 */
 	protected void handleClientSide(EntityPlayer player) 
 	{
-		mod.getPacketHandler().onHandlePacket(this, player, Side.CLIENT);
+		if (mod.getNetworkSystemType() == EnumNetworkType.Legacy)
+		{
+			mod.getPacketHandler().onHandlePacket(this, player, Side.CLIENT);
+		}
+
+		else if (mod.getNetworkSystemType() == EnumNetworkType.SelfContained)
+		{
+			throw new RuntimeException("handleClientSide() is not overridden for a packet being used with the self contained networking system.");
+		}
+
+		else
+		{
+			throw new RuntimeException("handleClientSide() was called for a packet when mod has not defined a networking system type.");
+		}
 	}
 
 	/**
@@ -113,6 +150,19 @@ public final class Packet
 	 */
 	protected void handleServerSide(EntityPlayer player) 
 	{
-		mod.getPacketHandler().onHandlePacket(this, player, Side.SERVER);
+		if (mod.getNetworkSystemType() == EnumNetworkType.Legacy)
+		{
+			mod.getPacketHandler().onHandlePacket(this, player, Side.SERVER);
+		}
+
+		else if (mod.getNetworkSystemType() == EnumNetworkType.SelfContained)
+		{
+			throw new RuntimeException("handleServerSide() is not overridden for a packet being used with the self contained networking system.");
+		}
+
+		else
+		{
+			throw new RuntimeException("handleServerSide() was called for a packet when mod has not defined a networking system type.");
+		}
 	}
 }

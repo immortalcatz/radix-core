@@ -22,7 +22,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import net.minecraft.util.StringTranslate;
 
 import com.radixshock.radixcore.constant.Language;
-import com.radixshock.radixcore.core.IMod;
+import com.radixshock.radixcore.core.IEnforcedCore;
 import com.radixshock.radixcore.core.RadixCore;
 
 /**
@@ -30,7 +30,7 @@ import com.radixshock.radixcore.core.RadixCore;
  */
 public final class LanguageLoader 
 {
-	private IMod mod = null;
+	private IEnforcedCore mod = null;
 	private ConcurrentHashMap<String, String> translationsMap = new ConcurrentHashMap();
 	private String languageName = "";
 
@@ -42,7 +42,7 @@ public final class LanguageLoader
 	 * 
 	 * @param 	mod	The language loader's owner IMod.
 	 */
-	public LanguageLoader(IMod mod)
+	public LanguageLoader(IEnforcedCore mod)
 	{
 		this.mod = mod;
 	}

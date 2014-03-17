@@ -9,6 +9,8 @@
 
 package com.radixshock.radixcore.core;
 
+import com.radixshock.radixcore.enums.EnumNetworkType;
+import com.radixshock.radixcore.file.ModPropertiesManager;
 import com.radixshock.radixcore.lang.ILanguageLoaderHook;
 import com.radixshock.radixcore.lang.ILanguageParser;
 import com.radixshock.radixcore.lang.LanguageLoader;
@@ -23,9 +25,10 @@ import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.event.FMLServerStoppingEvent;
 
 /**
- * Allows a mod class to be loaded by RadixCore.
+ * Allows a core mod class to be loaded by RadixCore. All methods are required to be 
+ * inserted into the core class.
  */
-public interface IMod 
+public interface IEnforcedCore 
 {
 	/** 
 	 * Passes the FMLPreInitializationEvent to your mod.
@@ -93,7 +96,13 @@ public interface IMod
 	void initializeEntities();
 	
 	/**
-	 * Initialize your mod's packet pipeline, codec, handler, and add channels as well as register the packet class.
+	 * Initialize your mod's networking system components here. 
+	 * Always initialize your packet pipeline, unless you're not using a networking system. <p>
+	 * 
+	 * If using the Legacy networking type, initialize your codec, handler, and add channels as well as register the packet class. <p>
+	 * 
+	 * If using the SelfContained networking type, do all of the above while registering all packet classes you've defined yourself <p>
+	 * <b>instead of<b> the Packet class.
 	 */
 	void initializeNetwork();
 
@@ -136,6 +145,11 @@ public interface IMod
 	ModLogger getLogger();
 	
 	/**
+	 * @return	The method you will be using to interface with the networking system.
+	 */
+	EnumNetworkType getNetworkSystemType();
+	
+	/**
 	 * @return	Return an instance of your mod's packet codec here. Null if you don't need one.
 	 */
 	AbstractPacketCodec getPacketCodec();
@@ -154,6 +168,33 @@ public interface IMod
 	 * @return	Return the enum type that contains the types of packets you are going to send. Null if you don't do this.
 	 */
 	Class getPacketTypeClass();
+	
+	/**
+	 * @return	An instance of your mod's ModPropertiesManager. Null if you don't use one.
+	 */
+	ModPropertiesManager getModPropertiesManager();
+	
+	/**
+	 * @return	True if RadixCore should define the SetModProperty command for your mod.
+	 * 			For security reasons, this command can only be used from the console on a server.
+	 */
+	boolean getSetModPropertyCommandEnabled();
+	
+	/**
+	 * @return	True if RadixCore should define the GetModProperty command for your mod.
+	 */
+	boolean getGetModPropertyCommandEnabled();
+	
+	/**
+	 * @return	True if RadixCore should define the ListModProperties command for your mod.
+	 */
+	boolean getListModPropertiesCommandEnabled();
+	
+	/**
+	 * @return	The prefix of your mod's commands, if you use it. This will be applied to the mod property commands.
+	 * MCA's prefix is "mca."
+	 */
+	String getPropertyCommandPrefix();
 	
 	/**
 	 * @return	Return the class that contains your mod's event hooks here. Null if you don't have any event hooks.

@@ -27,7 +27,7 @@ import net.minecraft.network.NetHandlerPlayServer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.management.ServerConfigurationManager;
 
-import com.radixshock.radixcore.core.IMod;
+import com.radixshock.radixcore.core.IEnforcedCore;
 
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.network.FMLEmbeddedChannel;
@@ -44,7 +44,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 @ChannelHandler.Sharable
 public final class PacketPipeline extends MessageToMessageCodec<FMLProxyPacket, Packet> 
 {
-	private IMod mod;
+	private IEnforcedCore mod;
 	private EnumMap<Side, FMLEmbeddedChannel> channels;
 	private LinkedList<Class<? extends Packet>> packets = new LinkedList<Class<? extends Packet>>();
 
@@ -53,7 +53,7 @@ public final class PacketPipeline extends MessageToMessageCodec<FMLProxyPacket, 
 	 * 
 	 * @param 	mod	The pipeline's owner IMod.
 	 */
-	public PacketPipeline(IMod mod)
+	public PacketPipeline(IEnforcedCore mod)
 	{
 		this.mod = mod;
 	}

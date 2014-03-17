@@ -22,7 +22,7 @@ import java.util.zip.Inflater;
 
 import org.apache.commons.io.output.ByteArrayOutputStream;
 
-import com.radixshock.radixcore.core.IMod;
+import com.radixshock.radixcore.core.IEnforcedCore;
 import com.radixshock.radixcore.core.RadixCore;
 
 /**
@@ -30,14 +30,14 @@ import com.radixshock.radixcore.core.RadixCore;
  */
 public abstract class AbstractPacketCodec 
 {
-	private IMod mod;
+	private IEnforcedCore mod;
 	
 	/**
 	 * Constructor
 	 * 
 	 * @param 	mod	The mod this codec belongs to.
 	 */
-	public AbstractPacketCodec(IMod mod)
+	public AbstractPacketCodec(IEnforcedCore mod)
 	{
 		this.mod = mod;
 	}
