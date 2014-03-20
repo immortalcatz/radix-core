@@ -19,19 +19,11 @@ import java.util.logging.Level;
 import net.minecraft.client.Minecraft;
 import net.minecraft.crash.CrashReport;
 import net.minecraftforge.common.MinecraftForge;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import com.radixshock.radixcore.command.CommandGetModProperty;
 import com.radixshock.radixcore.command.CommandListModProperties;
 import com.radixshock.radixcore.command.CommandSetModProperty;
-import com.radixshock.radixcore.enums.EnumNetworkType;
-import com.radixshock.radixcore.file.ModPropertiesManager;
-import com.radixshock.radixcore.lang.ILanguageLoaderHook;
-import com.radixshock.radixcore.lang.ILanguageParser;
 import com.radixshock.radixcore.lang.LanguageLoader;
-import com.radixshock.radixcore.network.AbstractPacketCodec;
-import com.radixshock.radixcore.network.AbstractPacketHandler;
-import com.radixshock.radixcore.network.PacketPipeline;
 
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
@@ -49,7 +41,7 @@ import cpw.mods.fml.relauncher.SideOnly;
  * The core of the RadixCore mod API.
  */
 @Mod(modid="radixcore", name="RadixCore", version="1.0.0")
-public class RadixCore implements IEnforcedCore
+public class RadixCore extends UnenforcedCore
 {
 	@Instance("radixcore")
 	private static RadixCore instance;
@@ -169,6 +161,7 @@ public class RadixCore implements IEnforcedCore
 			}
 			
 			mod.serverStarting(event);
+			mod.initializeCommands(event);
 		}
 	}
 
@@ -236,141 +229,39 @@ public class RadixCore implements IEnforcedCore
 		Minecraft.getMinecraft().crashed(crashReport);
 		Minecraft.getMinecraft().displayCrashReport(crashReport);
 	}
-
-	
-	public void preInit(FMLPreInitializationEvent event) { throw new NotImplementedException(); }
-
-	
-	public void init(FMLInitializationEvent event) { throw new NotImplementedException(); }
-
-	
-	public void postInit(FMLPostInitializationEvent event) { throw new NotImplementedException(); }
-
-	
-	public void serverStarting(FMLServerStartingEvent event) { throw new NotImplementedException(); }
-
-	
-	public void serverStopping(FMLServerStoppingEvent event) { throw new NotImplementedException(); }
-
 	
 	public String getShortModName() 
 	{
 		return getLongModName();
 	}
-
 	
 	public String getLongModName() 
 	{
 		return "RadixCore";
 	}
-
 	
 	public String getVersion() 
 	{
 		return "1.0.0";
 	}
-
 	
 	public boolean getChecksForUpdates() 
 	{
 		return true;
 	}
-
 	
 	public String getUpdateURL() 
 	{
 		return "http://pastebin.com/raw.php?i=fWd8huwd";
 	}
 
-	
 	public String getRedirectURL() 
 	{
 		return "http://goo.gl/cRzaJ0";
 	}
 
-	
 	public ModLogger getLogger() 
 	{
 		return logger;
 	}
-
-	
-	@Override
-	public EnumNetworkType getNetworkSystemType() 
-	{
-		return null;
-	}
-
-	public AbstractPacketCodec getPacketCodec() 
-	{
-		return null;
-	}
-
-	
-	public AbstractPacketHandler getPacketHandler() 
-	{
-		return null;
-	}
-
-	
-	public PacketPipeline getPacketPipeline() 
-	{
-		return null;
-	}
-
-	
-	public Class getPacketTypeClass() 
-	{
-		return null;
-	}
-
-	
-	public Class getEventHookClass()
-	{
-		return null;
-	}
-
-	
-	public void initializeProxy() { throw new NotImplementedException(); }
-
-	
-	public void initializeItems() { throw new NotImplementedException(); }
-
-	
-	public void initializeBlocks() { throw new NotImplementedException(); }
-
-	
-	public void initializeRecipes() { throw new NotImplementedException(); }
-
-	
-	public void initializeSmeltings() { throw new NotImplementedException(); }
-
-	
-	public void initializeAchievements() { throw new NotImplementedException(); }
-
-	
-	public void initializeEntities() { throw new NotImplementedException(); }
-
-	
-	public void initializeNetwork() { throw new NotImplementedException(); }
-
-	public ModPropertiesManager getModPropertiesManager() { return null; }
-
-	public boolean getSetModPropertyCommandEnabled() { return false; }
-
-	public boolean getGetModPropertyCommandEnabled() { return false; }
-
-	public boolean getListModPropertiesCommandEnabled() { return false; }
-	
-	public String getPropertyCommandPrefix() { return null; }
-
-	public boolean getLanguageLoaded() { return false; }
-
-	public void setLanguageLoaded(boolean value) { throw new NotImplementedException(); }
-
-	public ILanguageLoaderHook getLanguageLoaderHook() { return null; }
-	
-	public LanguageLoader getLanguageLoader() { return null; }
-	
-	public ILanguageParser getLanguageParser() { return null; }
 }

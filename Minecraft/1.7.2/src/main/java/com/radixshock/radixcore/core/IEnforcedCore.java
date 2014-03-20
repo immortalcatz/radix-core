@@ -107,6 +107,11 @@ public interface IEnforcedCore
 	void initializeNetwork();
 
 	/**
+	 * Add all of your commands here using <b>event.registerServerCommand()</b>.
+	 */
+	void initializeCommands(FMLServerStartingEvent event);
+	
+	/**
 	 * @return	Your mod's short name. This should be the name of your assets folder, and will also become the name
 	 * 		   	of your mod's folder that will be created in config. For MCA, it is "MCA".
 	 */

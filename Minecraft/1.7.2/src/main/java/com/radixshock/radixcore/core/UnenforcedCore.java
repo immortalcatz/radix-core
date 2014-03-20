@@ -99,6 +99,12 @@ public class UnenforcedCore implements IEnforcedCore
 	}
 
 	@Override
+	public void initializeCommands(FMLServerStartingEvent event) 
+	{
+		
+	}
+
+	@Override
 	public String getShortModName() 
 	{
 		return null;

@@ -19,7 +19,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 /**
- * Base pausing GUI class that allows exiting by pressing escape..
+ * Base pausing GUI class that allows exiting by pressing escape.
  */
 @SideOnly(Side.CLIENT)
 public abstract class AbstractGui extends GuiScreen
