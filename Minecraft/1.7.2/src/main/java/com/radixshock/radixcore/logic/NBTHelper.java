@@ -12,7 +12,6 @@ package com.radixshock.radixcore.logic;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 
-import mca.core.MCA;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
 
