@@ -1,3 +1,12 @@
+/*******************************************************************************
+ * CommandListModProperties.java
+ * Copyright (c) 2014 Radix-Shock Entertainment.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the GNU Public License v3.0
+ * which accompanies this distribution, and is available at
+ * http://www.gnu.org/licenses/gpl.html
+ ******************************************************************************/
+
 package com.radixshock.radixcore.command;
 
 import java.lang.reflect.Field;
@@ -11,6 +20,9 @@ import com.radixshock.radixcore.constant.Font.Format;
 import com.radixshock.radixcore.core.IEnforcedCore;
 import com.radixshock.radixcore.file.ModPropertiesManager;
 
+/**
+ * Defines the ListModProperties command.
+ */
 public class CommandListModProperties extends CommandBase
 {
 	private IEnforcedCore mod;
