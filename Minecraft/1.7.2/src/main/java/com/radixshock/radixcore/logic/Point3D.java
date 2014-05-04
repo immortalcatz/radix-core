@@ -14,29 +14,98 @@ package com.radixshock.radixcore.logic;
  */
 public class Point3D
 {
-	/** The x coordinate value. */
-    public double posX;
-
-    /** The y coordinate value. */
-    public double posY;
+    public short sPosX;
+    public short sPosY;
+    public short sPosZ;
     
-    /** The z coordiante value. */
-    public double posZ;
+    public int iPosX;
+    public int iPosY;
+    public int iPosZ;
 
-    /**
-     * Constructor
-     * 
-     * @param	posX	The x coordinate value.
-     * @param	posY	The y coordinate value.
-     * @param	posZ	The z coordinate value.
-     */
-    public Point3D(double posX, double posY, double posZ)
-    {
-        this.posX = posX;
-        this.posY = posY;
-        this.posZ = posZ;
+    public float fPosX;
+    public float fPosY;
+    public float fPosZ;
+    
+    public double dPosX;
+    public double dPosY;
+    public double dPosZ;
+    
+    public Point3D(short posX, short posY, short posZ)
+    {        
+        this.sPosX = posX;
+        this.sPosY = posY;
+        this.sPosZ = posZ;
+        
+        this.iPosX = posX;
+        this.iPosY = posY;
+        this.iPosZ = posZ;
+        
+        this.fPosX = posX;
+        this.fPosX = posY;
+        this.fPosX = posZ;
+        
+        this.dPosZ = posX;
+        this.dPosZ = posY;
+        this.dPosZ = posZ;
     }
     
+    public Point3D(int posX, int posY, int posZ)
+    {
+        this.sPosX = (short) posX;
+        this.sPosY = (short) posY;
+        this.sPosZ = (short) posZ;
+        
+        this.iPosX = posX;
+        this.iPosY = posY;
+        this.iPosZ = posZ;
+        
+        this.fPosX = posX;
+        this.fPosX = posY;
+        this.fPosX = posZ;
+        
+        this.dPosZ = posX;
+        this.dPosZ = posY;
+        this.dPosZ = posZ;
+    }
+    
+    public Point3D(float posX, float posY, float posZ)
+    {
+        this.sPosX = (short) posX;
+        this.sPosY = (short) posY;
+        this.sPosZ = (short) posZ;
+        
+        this.iPosX = (int) posX;
+        this.iPosY = (int) posY;
+        this.iPosZ = (int) posZ;
+        
+        this.fPosX = posX;
+        this.fPosX = posY;
+        this.fPosX = posZ;
+        
+        this.dPosZ = posX;
+        this.dPosZ = posY;
+        this.dPosZ = posZ;
+    }
+    
+    public Point3D(double posX, double posY, double posZ)
+    {
+        this.sPosX = (short) posX;
+        this.sPosY = (short) posY;
+        this.sPosZ = (short) posZ;
+        
+        this.iPosX = (int) posX;
+        this.iPosY = (int) posY;
+        this.iPosZ = (int) posZ;
+        
+        this.fPosX = (float) posX;
+        this.fPosX = (float) posY;
+        this.fPosX = (float) posZ;
+        
+        this.dPosZ = posX;
+        this.dPosZ = posY;
+        this.dPosZ = posZ;
+    }
+
     /**
      * Gets string representation of the Coordinates object.
      * 
@@ -44,6 +113,6 @@ public class Point3D
      */
     public String toString()
     {
-    	return posX + ", " + posY + ", " + posZ;
+    	return dPosX + ", " + dPosY + ", " + dPosZ;
     }
 }
