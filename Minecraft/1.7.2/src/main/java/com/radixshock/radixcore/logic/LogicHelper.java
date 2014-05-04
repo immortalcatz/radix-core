@@ -9,6 +9,7 @@
 
 package com.radixshock.radixcore.logic;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.ConcurrentModificationException;
 import java.util.LinkedList;
@@ -16,8 +17,11 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Random;
 
+import com.radixshock.radixcore.core.RadixCore;
+
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.AxisAlignedBB;
@@ -610,6 +614,7 @@ public final class LogicHelper
 	 * 
 	 * @return	An coordinates object containing the coordinates of the randomly selected block.
 	 */
+	//TODO Match overloading method below
 	public static Point3D getRandomNearbyBlockCoordinatesOfType(Entity entity, Block block)
 	{
 		//Create a list to store valid coordinates and specify the maximum distance away.
@@ -659,6 +664,76 @@ public final class LogicHelper
 				continue;
 			}
 
+			xMov++;
+		}
+	}
+
+	/**
+	 * Gets the coordinates of a random block of the specified type.
+	 * 
+	 * @param	world				The world the search will take place in.
+	 * @param 	point				The base point at which to start the search.
+	 * @param 	block				The block being searched for.
+	 * @param	maxDistanceAway		The maximum distance away from the point that the search should scan.
+	 * 
+	 * @return	An coordinates object containing the coordinates of the randomly selected block.
+	 */
+	public static Point3D getRandomNearbyBlockCoordinatesOfType(World world, Point3D point, Block block, int maxDistanceAway)
+	{
+		//Create a list to store valid coordinates and specify the maximum distance away.
+		List<Point3D> validCoordinatesList = new LinkedList<Point3D>();
+	
+		//Assign entity's position.
+		int x = point.iPosX;
+		int y = point.iPosY;
+		int z = point.iPosZ;
+	
+		//Assign x, y, and z movement.
+		int xMov = 0 - maxDistanceAway;
+		int yMov = -3;
+		int zMov = 0 - maxDistanceAway;
+	
+		while (true)
+		{
+			//If the block ID at the following coordinates matches the block ID being searched for...
+			if (world.getBlock(x + xMov, y + yMov, z + zMov) == block)
+			{
+				//Add the block's coordinates to the coordinates list.
+				validCoordinatesList.add(new Point3D(x + xMov, y + yMov, z + zMov));
+			}
+	
+			//If z and x movement has reached the maximum distance and y movement has reached 2, then return the list as searching has completed.
+			if (zMov == maxDistanceAway && xMov == maxDistanceAway && yMov == 2)
+			{
+				if (!validCoordinatesList.isEmpty())
+				{
+					return validCoordinatesList.get(world.rand.nextInt(validCoordinatesList.size()));
+				}
+	
+				else
+				{
+					return null;
+				}
+			}
+	
+			//But if y movement isn't 2 then searching should continue.
+			else if (zMov == maxDistanceAway && xMov == maxDistanceAway)
+			{
+				//Increase y movement by 1 and reset x and z movement, bringing the search up another level.
+				yMov++;
+				xMov = 0 - maxDistanceAway;
+				zMov = 0 - maxDistanceAway;
+			}
+	
+			//If x movement has reached the maximum distance...
+			if (xMov == maxDistanceAway)
+			{
+				//Increase z movement by one and reset x movement, restarting the loop.
+				zMov++;
+				xMov = 0 - maxDistanceAway;
+				continue;
+			}
+	
 			xMov++;
 		}
 	}
@@ -728,6 +803,98 @@ public final class LogicHelper
 		return 0;
 	}
 
+	public static void spawnGroupOfEntitiesAtPlayer(EntityPlayer player, Class entityClass, int minimum, int maximum) 
+	{
+		try
+		{
+			final int amountToSpawn = LogicHelper.getNumberInRange(minimum, maximum);
+
+			for (int i = 0; i < amountToSpawn; i++)
+			{
+				final EntityLivingBase entity = (EntityLivingBase) entityClass.getDeclaredConstructor(World.class).newInstance(player.worldObj);
+				final Point3D spawnPoint = LogicHelper.getRandomNearbyBlockCoordinatesOfType(player, Blocks.air);
+
+				entity.setPosition(spawnPoint.dPosX, spawnPoint.dPosY, spawnPoint.dPosZ);
+				player.worldObj.spawnEntityInWorld(entity);
+			}
+		}
+
+		catch (NoSuchMethodException e)
+		{
+			RadixCore.getInstance().getLogger().log("Entity class provided doesn't contain a constructor accepting only a World as an argument.");
+			RadixCore.getInstance().getLogger().log(e);
+		}
+		
+		catch (Exception e) 
+		{
+			RadixCore.getInstance().getLogger().log("Unexpected exception while spawning group of entities at player.");
+			RadixCore.getInstance().getLogger().log(e);
+		}
+	}
+
+	public static void spawnGroupOfEntitiesAtPoint(World world, Point3D point, Class entityClass, int minimum, int maximum)
+	{
+		try
+		{
+			final int amountToSpawn = LogicHelper.getNumberInRange(minimum, maximum);
+
+			for (int i = 0; i < amountToSpawn; i++)
+			{
+				final EntityLivingBase entity = (EntityLivingBase) entityClass.getDeclaredConstructor(World.class).newInstance(world);
+				final Point3D spawnPoint = getRandomNearbyBlockCoordinatesOfType(world, point, Blocks.air, 10);
+
+				if (spawnPoint != null)
+				{
+					int blocksUntilGround = 0;
+
+					while (world.isAirBlock(point.iPosX, point.iPosY + blocksUntilGround, point.iPosZ) && blocksUntilGround != 255)
+					{
+						blocksUntilGround--;
+					}
+
+					entity.setPosition(spawnPoint.dPosX, spawnPoint.dPosY + blocksUntilGround + 1, spawnPoint.dPosZ);
+					world.spawnEntityInWorld(entity);
+				}
+			}
+		}
+
+		catch (NoSuchMethodException e)
+		{
+			RadixCore.getInstance().getLogger().log("Entity class provided doesn't contain a constructor accepting only a World as an argument.");
+			RadixCore.getInstance().getLogger().log(e);
+		}
+		
+		catch (Exception e) 
+		{
+			RadixCore.getInstance().getLogger().log("Unexpected exception while spawning a group of entities.");
+			RadixCore.getInstance().getLogger().log(e);
+		}
+	}
+
+	public static void spawnEntityAtPlayer(EntityPlayer player, Class entityClass) 
+	{
+		try
+		{
+			final EntityLivingBase entity = (EntityLivingBase) entityClass.getDeclaredConstructor(World.class).newInstance(player.worldObj);
+			final Point3D spawnPoint = LogicHelper.getRandomNearbyBlockCoordinatesOfType(player, Blocks.air);
+
+			entity.setPosition(spawnPoint.iPosX, spawnPoint.iPosY, spawnPoint.iPosZ);
+			player.worldObj.spawnEntityInWorld(entity);
+		}
+		
+		catch (NoSuchMethodException e)
+		{
+			RadixCore.getInstance().getLogger().log("Entity class provided doesn't contain a constructor accepting only a World as an argument.");
+			RadixCore.getInstance().getLogger().log(e);
+		}
+		
+		catch (Exception e) 
+		{
+			RadixCore.getInstance().getLogger().log("Unexpected exception while spawning entity at player.");
+			RadixCore.getInstance().getLogger().log(e);
+		}
+	}
+	
 	/**
 	 * Gets the closest player to the specified entity, up to a maximum of 64 blocks away.
 	 * 
