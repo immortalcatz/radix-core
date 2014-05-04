@@ -31,7 +31,7 @@ public class NBTHelper
 	{
 		autoWriteEntityToNBT(entity, nbt, entity.getClass());
 	}
-	
+
 	/**
 	 * Automatically saves the provided entity's public fields to NBT. <p>
 	 * 
@@ -55,7 +55,7 @@ public class NBTHelper
 				{
 					final String fieldName = field.getName();
 					final String fieldType = field.getType().toString();
-					
+
 					if (!Modifier.isTransient(field.getModifiers()))
 					{
 						if (fieldType.contains("String"))
@@ -84,7 +84,7 @@ public class NBTHelper
 						}
 					}
 				}
-				
+
 				catch (NullPointerException e)
 				{
 					continue;
@@ -102,7 +102,7 @@ public class NBTHelper
 			}
 		}
 	}
-	
+
 	/**
 	 * Automatically reads the provided entity's public fields from NBT. <p>
 	 * 
@@ -115,7 +115,7 @@ public class NBTHelper
 	{
 		autoReadEntityFromNBT(entity, nbt, entity.getClass());
 	}
-	
+
 	/**
 	 * Automatically reads the provided entity's public fields from NBT. <p>
 	 * 
@@ -188,11 +188,141 @@ public class NBTHelper
 			}
 		}
 	}
-	
+
+	/**
+	 * Automatically saves the provided class's public fields to NBT. <p>
+	 * 
+	 * <b>For public fields you <u>do not</u> want saved to NBT, apply the <code>transient</code> modifier.</b> <p>
+	 * 
+	 * @param 	clazz		The class containing field signatures to be written to NBT.
+	 * @param 	instance	The instance of the provided class type that contains the data you wish to be saved.
+	 * @param	nbt			The NBTTagCompound the data will be written to.
+	 */
+	public static void autoWriteClassFieldsToNBT(Class clazz, Object instance, NBTTagCompound nbt)
+	{
+		for (final Field field : clazz.getFields())
+		{
+			try
+			{
+				final String fieldName = field.getName();
+				final String fieldType = field.getType().toString();
+
+				if (!Modifier.isTransient(field.getModifiers()))
+				{
+					if (fieldType.contains("String"))
+					{
+						nbt.setString(fieldName, (String)field.get(instance));
+					}
+
+					else if (fieldType.contains("boolean"))
+					{
+						nbt.setBoolean(fieldName, Boolean.parseBoolean(field.get(instance).toString()));
+					}
+
+					else if (fieldType.contains("double"))
+					{
+						nbt.setDouble(fieldName, Double.parseDouble(field.get(instance).toString()));
+					}
+
+					else if (fieldType.contains("int"))
+					{
+						nbt.setInteger(fieldName, Integer.parseInt(field.get(instance).toString()));
+					}
+
+					else if (fieldType.contains("float"))
+					{
+						nbt.setFloat(fieldName, Float.parseFloat(field.get(instance).toString()));
+					}
+				}
+			}
+
+			catch (NullPointerException e)
+			{
+				continue;
+			}
+
+			catch (IllegalArgumentException e)
+			{
+				continue;
+			}
+
+			catch (IllegalAccessException e)
+			{
+				continue;
+			}
+		}
+	}
+
+	/**
+	 * Automatically reads the provided class's public fields to NBT. <p>
+	 * 
+	 * <b>For public fields you <u>do not</u> want saved to NBT, apply the <code>transient</code> modifier.</b> <p>
+	 * 
+	 * @param 	clazz		The class containing field signatures to be read from NBT.
+	 * @param 	instance	The instance of the provided class type that contains the fields that will receive the read data.
+	 * @param	nbt			The NBTTagCompound the data will be read from.
+	 */
+	public static void autoReadClassFieldsFromNBT(Class clazz, Object instance, NBTTagCompound nbt)
+	{
+		for (final Field field : clazz.getFields())
+		{
+			final Class fieldDeclaringClass = field.getDeclaringClass();
+
+			try
+			{
+				final String fieldName = field.getName();
+				final String fieldType = field.getType().toString();
+
+				if (!Modifier.isTransient(field.getModifiers()))
+				{
+					if (fieldType.contains("String"))
+					{
+						field.set(instance, String.valueOf(nbt.getString(fieldName)));
+					}
+
+					else if (fieldType.contains("boolean"))
+					{
+						field.set(instance, Boolean.valueOf(nbt.getBoolean(fieldName)));
+					}
+
+					else if (fieldType.contains("double"))
+					{
+						field.set(instance, Double.valueOf(nbt.getDouble(fieldName)));
+					}
+
+					else if (fieldType.contains("int"))
+					{
+						field.set(instance, Integer.valueOf(nbt.getInteger(fieldName)));
+					}
+
+					else if (fieldType.contains("float"))
+					{
+						field.set(instance, Float.valueOf(nbt.getFloat(fieldName)));
+					}
+				}
+			}
+
+			catch (NullPointerException e)
+			{
+				continue;
+			}
+
+			catch (IllegalArgumentException e)
+			{
+				continue;
+			}
+
+			catch (IllegalAccessException e)
+			{
+				continue;
+			}
+		}
+	}
+
 	private static boolean isFieldDeclaredInAnExtendingClass(Field field, Class... classes)
 	{
 		int assignableClasses = 0;
-		
+
 		for (Class clazz : classes)
 		{
 			if (clazz.isAssignableFrom(field.getDeclaringClass()))
@@ -200,7 +330,7 @@ public class NBTHelper
 				assignableClasses++;
 			}
 		}
-		
+
 		return assignableClasses > 0;
 	}
 }
