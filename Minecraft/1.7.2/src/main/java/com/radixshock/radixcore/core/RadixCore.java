@@ -40,7 +40,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 /**
  * The core of the RadixCore mod API.
  */
-@Mod(modid="radixcore", name="RadixCore", version="1.0.0")
+@Mod(modid="radixcore", name="RadixCore", version="1.1.0")
 public class RadixCore extends UnenforcedCore
 {
 	@Instance("radixcore")
@@ -242,7 +242,7 @@ public class RadixCore extends UnenforcedCore
 	
 	public String getVersion() 
 	{
-		return "1.0.0";
+		return "1.1.0";
 	}
 	
 	public boolean getChecksForUpdates() 
