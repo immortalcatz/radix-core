@@ -387,7 +387,7 @@ public final class LogicHelper
 	 * @param	y2	Another entity's y position.
 	 * @param	z2	Another entity's z position.
 	 * 
-	 * @return	double expressing the distance between the two 3d coordinates.
+	 * @return	Double expressing the distance between the two 3d coordinates.
 	 */
 	public static double getDistanceToXYZ(double x1, double y1, double z1, double x2, double y2, double z2)
 	{
@@ -398,6 +398,22 @@ public final class LogicHelper
 		return Math.sqrt((deltaX * deltaX) + (deltaY * deltaY) + (deltaZ * deltaZ));
 	}
 
+	/**
+	 * Uses 3D distance formula to determine the distance between two 3d coordinates.
+	 * 
+	 * @param	point1
+	 * @param	point2
+	 * 
+	 * @return	Double expressing the distance between the two 3d coordinates.
+	 */
+	public static double getDistanceToPoint(Point3D point1, Point3D point2)
+	{
+		double deltaX = point2.dPosX - point1.dPosX;
+		double deltaY = point2.dPosY - point1.dPosY;
+		double deltaZ = point2.dPosZ - point1.dPosZ;
+
+		return Math.sqrt((deltaX * deltaX) + (deltaY * deltaY) + (deltaZ * deltaZ));
+	}
 	/**
 	 * Gets the coordinates of each block close to the entity that is the specified block.
 	 * 
@@ -609,17 +625,16 @@ public final class LogicHelper
 	/**
 	 * Gets the coordinates of a random block of the specified type within 10 blocks away from the provided entity.
 	 * 
-	 * @param 	entity	The entity being used as a base point to start the search.
-	 * @param 	block	The block being searched for.
+	 * @param 	entity				The entity being used as a base point to start the search.
+	 * @param 	block				The block being searched for.
+	 * @param	maxDistanceAway		The maximum distance away from the point that the search should scan.
 	 * 
 	 * @return	An coordinates object containing the coordinates of the randomly selected block.
 	 */
-	//TODO Match overloading method below
-	public static Point3D getRandomNearbyBlockCoordinatesOfType(Entity entity, Block block)
+	public static Point3D getRandomNearbyBlockCoordinatesOfType(Entity entity, Block block, int maxDistanceAway)
 	{
 		//Create a list to store valid coordinates and specify the maximum distance away.
 		List<Point3D> validCoordinatesList = new LinkedList<Point3D>();
-		int maxDistanceAway = 10;
 
 		//Assign entity's position.
 		int x = (int)entity.posX;
@@ -803,36 +818,29 @@ public final class LogicHelper
 		return 0;
 	}
 
-	public static void spawnGroupOfEntitiesAtPlayer(EntityPlayer player, Class entityClass, int minimum, int maximum) 
+	/**
+	 * Spawns a group of entities of the provided type near the player.
+	 * 
+	 * @param	player		The player around which the entities will spawn.
+	 * @param 	entityClass	The entity's class.
+	 * @param	minimum		The minimum number of entities to spawn.
+	 * @param	maximum		The maximum number of entities to spawn.
+	 */
+	public static void spawnGroupOfEntitiesAroundPlayer(EntityPlayer player, Class entityClass, int minimum, int maximum) 
 	{
-		try
-		{
-			final int amountToSpawn = LogicHelper.getNumberInRange(minimum, maximum);
-
-			for (int i = 0; i < amountToSpawn; i++)
-			{
-				final EntityLivingBase entity = (EntityLivingBase) entityClass.getDeclaredConstructor(World.class).newInstance(player.worldObj);
-				final Point3D spawnPoint = LogicHelper.getRandomNearbyBlockCoordinatesOfType(player, Blocks.air);
-
-				entity.setPosition(spawnPoint.dPosX, spawnPoint.dPosY, spawnPoint.dPosZ);
-				player.worldObj.spawnEntityInWorld(entity);
-			}
-		}
-
-		catch (NoSuchMethodException e)
-		{
-			RadixCore.getInstance().getLogger().log("Entity class provided doesn't contain a constructor accepting only a World as an argument.");
-			RadixCore.getInstance().getLogger().log(e);
-		}
-		
-		catch (Exception e) 
-		{
-			RadixCore.getInstance().getLogger().log("Unexpected exception while spawning group of entities at player.");
-			RadixCore.getInstance().getLogger().log(e);
-		}
+		spawnGroupOfEntitiesAroundPoint(player.worldObj, new Point3D(player.posX, player.posY, player.posZ), entityClass, minimum, maximum);
 	}
 
-	public static void spawnGroupOfEntitiesAtPoint(World world, Point3D point, Class entityClass, int minimum, int maximum)
+	/**
+	 * Spawns a group of entities of the provided type near a point.
+	 * 
+	 * @param 	world		The world the entities should be spawned in.
+	 * @param	point		The point around which the entities will spawn.
+	 * @param 	entityClass	The entity's class.
+	 * @param	minimum		The minimum number of entities to spawn.
+	 * @param	maximum		The maximum number of entities to spawn.
+	 */
+	public static void spawnGroupOfEntitiesAroundPoint(World world, Point3D point, Class entityClass, int minimum, int maximum)
 	{
 		try
 		{
@@ -871,12 +879,18 @@ public final class LogicHelper
 		}
 	}
 
+	/**
+	 * Spawns an entity of the provided type near the player.
+	 * 
+	 * @param 	player		The player the entity should be spawned near.
+	 * @param 	entityClass	The entity's class.
+	 */
 	public static void spawnEntityAtPlayer(EntityPlayer player, Class entityClass) 
 	{
 		try
 		{
 			final EntityLivingBase entity = (EntityLivingBase) entityClass.getDeclaredConstructor(World.class).newInstance(player.worldObj);
-			final Point3D spawnPoint = LogicHelper.getRandomNearbyBlockCoordinatesOfType(player, Blocks.air);
+			final Point3D spawnPoint = LogicHelper.getRandomNearbyBlockCoordinatesOfType(player, Blocks.air, 10);
 
 			entity.setPosition(spawnPoint.iPosX, spawnPoint.iPosY, spawnPoint.iPosZ);
 			player.worldObj.spawnEntityInWorld(entity);
