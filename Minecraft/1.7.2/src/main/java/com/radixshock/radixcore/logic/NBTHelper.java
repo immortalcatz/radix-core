@@ -200,6 +200,35 @@ public class NBTHelper
 	 */
 	public static void autoWriteClassFieldsToNBT(Class clazz, Object instance, NBTTagCompound nbt)
 	{
+		autoWriteClassFieldsToNBT(clazz, instance, nbt, "");
+	}
+
+	/**
+	 * Automatically reads the provided class's public fields to NBT. <p>
+	 * 
+	 * <b>For public fields you <u>do not</u> want saved to NBT, apply the <code>transient</code> modifier.</b> <p>
+	 * 
+	 * @param 	clazz		The class containing field signatures to be read from NBT.
+	 * @param 	instance	The instance of the provided class type that contains the fields that will receive the read data.
+	 * @param	nbt			The NBTTagCompound the data will be read from.
+	 */
+	public static void autoReadClassFieldsFromNBT(Class clazz, Object instance, NBTTagCompound nbt)
+	{
+		autoReadClassFieldsFromNBT(clazz, instance, nbt, "");
+	}
+
+	/**
+	 * Automatically saves the provided class's public fields to NBT. <p>
+	 * 
+	 * <b>For public fields you <u>do not</u> want saved to NBT, apply the <code>transient</code> modifier.</b> <p>
+	 * 
+	 * @param 	clazz		The class containing field signatures to be written to NBT.
+	 * @param 	instance	The instance of the provided class type that contains the data you wish to be saved.
+	 * @param	nbt			The NBTTagCompound the data will be written to.
+	 * @param	prefix		A prefix to append to the fields' NBT entry, if any.
+	 */
+	public static void autoWriteClassFieldsToNBT(Class clazz, Object instance, NBTTagCompound nbt, String prefix)
+	{
 		for (final Field field : clazz.getFields())
 		{
 			try
@@ -211,27 +240,27 @@ public class NBTHelper
 				{
 					if (fieldType.contains("String"))
 					{
-						nbt.setString(fieldName, (String)field.get(instance));
+						nbt.setString(prefix + fieldName, (String)field.get(instance));
 					}
 
 					else if (fieldType.contains("boolean"))
 					{
-						nbt.setBoolean(fieldName, Boolean.parseBoolean(field.get(instance).toString()));
+						nbt.setBoolean(prefix + fieldName, Boolean.parseBoolean(field.get(instance).toString()));
 					}
 
 					else if (fieldType.contains("double"))
 					{
-						nbt.setDouble(fieldName, Double.parseDouble(field.get(instance).toString()));
+						nbt.setDouble(prefix + fieldName, Double.parseDouble(field.get(instance).toString()));
 					}
 
 					else if (fieldType.contains("int"))
 					{
-						nbt.setInteger(fieldName, Integer.parseInt(field.get(instance).toString()));
+						nbt.setInteger(prefix + fieldName, Integer.parseInt(field.get(instance).toString()));
 					}
 
 					else if (fieldType.contains("float"))
 					{
-						nbt.setFloat(fieldName, Float.parseFloat(field.get(instance).toString()));
+						nbt.setFloat(prefix + fieldName, Float.parseFloat(field.get(instance).toString()));
 					}
 				}
 			}
@@ -261,8 +290,9 @@ public class NBTHelper
 	 * @param 	clazz		The class containing field signatures to be read from NBT.
 	 * @param 	instance	The instance of the provided class type that contains the fields that will receive the read data.
 	 * @param	nbt			The NBTTagCompound the data will be read from.
+	 * @param	prefix		A prefix to append to the fields' NBT entry, if any.
 	 */
-	public static void autoReadClassFieldsFromNBT(Class clazz, Object instance, NBTTagCompound nbt)
+	public static void autoReadClassFieldsFromNBT(Class clazz, Object instance, NBTTagCompound nbt, String prefix)
 	{
 		for (final Field field : clazz.getFields())
 		{
@@ -277,27 +307,27 @@ public class NBTHelper
 				{
 					if (fieldType.contains("String"))
 					{
-						field.set(instance, String.valueOf(nbt.getString(fieldName)));
+						field.set(instance, String.valueOf(nbt.getString(prefix + fieldName)));
 					}
 
 					else if (fieldType.contains("boolean"))
 					{
-						field.set(instance, Boolean.valueOf(nbt.getBoolean(fieldName)));
+						field.set(instance, Boolean.valueOf(nbt.getBoolean(prefix + fieldName)));
 					}
 
 					else if (fieldType.contains("double"))
 					{
-						field.set(instance, Double.valueOf(nbt.getDouble(fieldName)));
+						field.set(instance, Double.valueOf(nbt.getDouble(prefix + fieldName)));
 					}
 
 					else if (fieldType.contains("int"))
 					{
-						field.set(instance, Integer.valueOf(nbt.getInteger(fieldName)));
+						field.set(instance, Integer.valueOf(nbt.getInteger(prefix + fieldName)));
 					}
 
 					else if (fieldType.contains("float"))
 					{
-						field.set(instance, Float.valueOf(nbt.getFloat(fieldName)));
+						field.set(instance, Float.valueOf(nbt.getFloat(prefix + fieldName)));
 					}
 				}
 			}
@@ -318,7 +348,7 @@ public class NBTHelper
 			}
 		}
 	}
-
+	
 	private static boolean isFieldDeclaredInAnExtendingClass(Field field, Class... classes)
 	{
 		int assignableClasses = 0;
