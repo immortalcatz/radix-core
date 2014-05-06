@@ -9,15 +9,12 @@
 
 package com.radixshock.radixcore.logic;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.ConcurrentModificationException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Random;
-
-import com.radixshock.radixcore.core.RadixCore;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
@@ -27,6 +24,8 @@ import net.minecraft.init.Blocks;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
+
+import com.radixshock.radixcore.core.RadixCore;
 
 /**
  * Defines many different helper methods.
