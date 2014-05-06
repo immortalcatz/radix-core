@@ -41,11 +41,11 @@ public class Point3D
         this.iPosZ = posZ;
         
         this.fPosX = posX;
-        this.fPosX = posY;
-        this.fPosX = posZ;
+        this.fPosY = posY;
+        this.fPosZ = posZ;
         
-        this.dPosZ = posX;
-        this.dPosZ = posY;
+        this.dPosX = posX;
+        this.dPosY = posY;
         this.dPosZ = posZ;
     }
     
@@ -59,13 +59,13 @@ public class Point3D
         this.iPosY = posY;
         this.iPosZ = posZ;
         
-        this.fPosX = posX;
-        this.fPosX = posY;
-        this.fPosX = posZ;
+        this.fPosX = (float) posX;
+        this.fPosX = (float) posY;
+        this.fPosX = (float) posZ;
         
-        this.dPosZ = posX;
-        this.dPosZ = posY;
-        this.dPosZ = posZ;
+        this.dPosX = (double) posX;
+        this.dPosY = (double) posY;
+        this.dPosZ = (double) posZ;
     }
     
     public Point3D(float posX, float posY, float posZ)
@@ -79,12 +79,12 @@ public class Point3D
         this.iPosZ = (int) posZ;
         
         this.fPosX = posX;
-        this.fPosX = posY;
-        this.fPosX = posZ;
+        this.fPosY = posY;
+        this.fPosZ = posZ;
         
-        this.dPosZ = posX;
-        this.dPosZ = posY;
-        this.dPosZ = posZ;
+        this.dPosX = (double) posX;
+        this.dPosY = (double) posY;
+        this.dPosZ = (double) posZ;
     }
     
     public Point3D(double posX, double posY, double posZ)
@@ -98,11 +98,11 @@ public class Point3D
         this.iPosZ = (int) posZ;
         
         this.fPosX = (float) posX;
-        this.fPosX = (float) posY;
-        this.fPosX = (float) posZ;
+        this.fPosY = (float) posY;
+        this.fPosZ = (float) posZ;
         
-        this.dPosZ = posX;
-        this.dPosZ = posY;
+        this.dPosX = posX;
+        this.dPosY = posY;
         this.dPosZ = posZ;
     }
 
