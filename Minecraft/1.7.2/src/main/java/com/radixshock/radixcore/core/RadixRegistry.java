@@ -3,8 +3,6 @@ package com.radixshock.radixcore.core;
 import java.util.HashMap;
 import java.util.Map;
 
-import spiderqueen.enums.EnumCocoonType;
-import spiderqueen.items.ItemCocoon;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import cpw.mods.fml.common.registry.EntityRegistry;
