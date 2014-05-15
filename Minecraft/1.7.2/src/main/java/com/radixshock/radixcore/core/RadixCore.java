@@ -26,6 +26,7 @@ import com.radixshock.radixcore.command.CommandSetModProperty;
 import com.radixshock.radixcore.lang.LanguageLoader;
 
 import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
@@ -40,7 +41,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 /**
  * The core of the RadixCore mod API.
  */
-@Mod(modid="radixcore", name="RadixCore", version="1.1.1")
+@Mod(modid="radixcore", name="RadixCore", version="1.1.2")
 public class RadixCore extends UnenforcedCore
 {
 	@Instance("radixcore")
@@ -242,7 +243,7 @@ public class RadixCore extends UnenforcedCore
 	
 	public String getVersion() 
 	{
-		return "1.1.1";
+		return "1.1.2";
 	}
 	
 	public boolean getChecksForUpdates() 
@@ -257,7 +258,8 @@ public class RadixCore extends UnenforcedCore
 
 	public String getRedirectURL() 
 	{
-		return "http://goo.gl/cRzaJ0";
+		return "http://radix-shock.com/update-page.html?userRadixCore=" + getVersion() + "&currentRadixCore=%" + 
+				"&userMC=" + Loader.instance().getMCVersionString().substring(10) + "&currentMC=%";
 	}
 
 	public ModLogger getLogger() 

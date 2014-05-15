@@ -15,7 +15,10 @@ import java.net.URL;
 import java.util.Scanner;
 
 import net.minecraft.command.ICommandSender;
+import net.minecraft.event.ClickEvent;
 import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.ChatComponentTranslation;
+import net.minecraft.util.IChatComponent;
 
 import com.radixshock.radixcore.constant.Font;
 
@@ -71,12 +74,26 @@ public final class UpdateChecker implements Runnable
 							Font.Color.YELLOW + " is available.";
 
 					final String messageUpdateURL = 
-							Font.Color.YELLOW + "See " + 
-									Font.Color.BLUE   + Font.Format.ITALIC + updateRedirectionURL + " " + Font.Format.RESET + 
-									Font.Color.YELLOW + "to download.";
+							Font.Color.YELLOW + "Click " + 
+									Font.Color.BLUE   + Font.Format.ITALIC + Font.Format.UNDERLINE + "here" + Font.Format.RESET +
+									Font.Color.YELLOW + " to download.";
 
 					commandSender.addChatMessage(new ChatComponentText(messageUpdateVersion));
-					commandSender.addChatMessage(new ChatComponentText(messageUpdateURL));
+					
+					if (updateRedirectionURL.contains("current" + mod.getShortModName() + "=%"))
+					{
+						updateRedirectionURL = updateRedirectionURL.replace("current" + mod.getShortModName() + "=%", "current" + mod.getShortModName() + "=" + mostRecentVersion);
+					}
+					
+					if (updateRedirectionURL.contains("currentMC=%"))
+					{
+						updateRedirectionURL = updateRedirectionURL.replace("currentMC=%", "currentMC=" + validGameVersions);
+					}
+					
+					IChatComponent chatComponentUpdate = new ChatComponentText(messageUpdateURL);
+					chatComponentUpdate.getChatStyle().setChatClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, updateRedirectionURL));
+					chatComponentUpdate.getChatStyle().setUnderlined(true);
+					commandSender.addChatMessage(chatComponentUpdate);
 				}
 
 				scanner.close();
