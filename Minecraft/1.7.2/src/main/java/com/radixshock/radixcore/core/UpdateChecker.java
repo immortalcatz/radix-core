@@ -76,7 +76,7 @@ public final class UpdateChecker implements Runnable
 					final String messageUpdateURL = 
 							Font.Color.YELLOW + "Click " + 
 									Font.Color.BLUE   + Font.Format.ITALIC + Font.Format.UNDERLINE + "here" + Font.Format.RESET +
-									Font.Color.YELLOW + " to download.";
+									Font.Color.YELLOW + " to download the update for " + mod.getShortModName() + ".";
 
 					commandSender.addChatMessage(new ChatComponentText(messageUpdateVersion));
 					
@@ -88,6 +88,21 @@ public final class UpdateChecker implements Runnable
 					if (updateRedirectionURL.contains("currentMC=%"))
 					{
 						updateRedirectionURL = updateRedirectionURL.replace("currentMC=%", "currentMC=" + validGameVersions);
+					}
+					
+					if (!updateRedirectionURL.contains("currentRadixCore=") && !updateRedirectionURL.contains("userRadixCore="))
+					{
+						updateRedirectionURL += "&userRadixCore=" + RadixCore.getInstance().getVersion();
+						
+						final URL radixUrl = new URL(RadixCore.getInstance().getUpdateURL());
+						final Scanner radixScanner = new Scanner(radixUrl.openStream());
+
+						String radixGameVersions = radixScanner.nextLine();
+						String radixRecentVersion = radixScanner.nextLine();
+						
+						radixScanner.close();
+						
+						updateRedirectionURL += "&currentRadixCore=" + radixRecentVersion;
 					}
 					
 					IChatComponent chatComponentUpdate = new ChatComponentText(messageUpdateURL);
