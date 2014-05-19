@@ -28,7 +28,7 @@ import cpw.mods.fml.common.FMLCommonHandler;
  */
 public class CommandSetModProperty extends CommandBase
 {
-	private IEnforcedCore mod;
+	private final IEnforcedCore	mod;
 
 	public CommandSetModProperty(IEnforcedCore mod)
 	{
@@ -36,19 +36,19 @@ public class CommandSetModProperty extends CommandBase
 	}
 
 	@Override
-	public String getCommandName() 
+	public String getCommandName()
 	{
 		return mod.getPropertyCommandPrefix() + "setmodproperty";
 	}
 
 	@Override
-	public String getCommandUsage(ICommandSender sender) 
+	public String getCommandUsage(ICommandSender sender)
 	{
 		return mod.getPropertyCommandPrefix() + "setmodproperty <property name> <property value>";
 	}
 
 	@Override
-	public void processCommand(ICommandSender sender, String[] arguments) 
+	public void processCommand(ICommandSender sender, String[] arguments)
 	{
 		if (FMLCommonHandler.instance().getSide().isServer())
 		{
@@ -58,7 +58,7 @@ public class CommandSetModProperty extends CommandBase
 				return;
 			}
 		}
-		
+
 		if (arguments.length == 2)
 		{
 			try
@@ -76,17 +76,17 @@ public class CommandSetModProperty extends CommandBase
 						{
 							field.set(modPropertiesManager.modPropertiesInstance, Integer.parseInt(propertyValue));
 						}
-						
+
 						else if (field.getType().toString().equals("boolean"))
 						{
 							field.set(modPropertiesManager.modPropertiesInstance, Boolean.parseBoolean(propertyValue));
 						}
-						
+
 						else
 						{
 							field.set(modPropertiesManager.modPropertiesInstance, field.getType().cast(propertyValue));
 						}
-						
+
 						sender.addChatMessage(new ChatComponentText(Color.GREEN + field.getName() + " set to " + propertyValue + "."));
 						modPropertiesManager.saveModProperties();
 						return;
@@ -96,7 +96,7 @@ public class CommandSetModProperty extends CommandBase
 				sender.addChatMessage(new ChatComponentText(Color.RED + "Property not found for " + mod.getLongModName() + ": " + propertyName));
 			}
 
-			catch (Throwable e)
+			catch (final Throwable e)
 			{
 				sender.addChatMessage(new ChatComponentText(Color.RED + "Error setting mod property: " + e.getMessage()));
 			}
@@ -109,7 +109,7 @@ public class CommandSetModProperty extends CommandBase
 	}
 
 	@Override
-	public int compareTo(Object arg0) 
+	public int compareTo(Object arg0)
 	{
 		return 0;
 	}

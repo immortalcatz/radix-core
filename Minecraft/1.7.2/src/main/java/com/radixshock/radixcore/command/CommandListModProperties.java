@@ -25,7 +25,7 @@ import com.radixshock.radixcore.file.ModPropertiesManager;
  */
 public class CommandListModProperties extends CommandBase
 {
-	private IEnforcedCore mod;
+	private final IEnforcedCore	mod;
 
 	public CommandListModProperties(IEnforcedCore mod)
 	{
@@ -33,19 +33,19 @@ public class CommandListModProperties extends CommandBase
 	}
 
 	@Override
-	public String getCommandName() 
+	public String getCommandName()
 	{
 		return mod.getPropertyCommandPrefix() + "listmodproperties";
 	}
 
 	@Override
-	public String getCommandUsage(ICommandSender sender) 
+	public String getCommandUsage(ICommandSender sender)
 	{
 		return mod.getPropertyCommandPrefix() + "listmodproperties";
 	}
 
 	@Override
-	public void processCommand(ICommandSender sender, String[] arguments) 
+	public void processCommand(ICommandSender sender, String[] arguments)
 	{
 		try
 		{
@@ -56,12 +56,11 @@ public class CommandListModProperties extends CommandBase
 			sender.addChatMessage(new ChatComponentText(Color.GREEN + "--- " + mod.getLongModName() + " Properties" + " ---"));
 			for (final Field field : modPropertiesListClass.getDeclaredFields())
 			{
-				sender.addChatMessage(new ChatComponentText(Color.YELLOW + 
-						field.getName() + Format.RESET + " = " + Color.WHITE + field.get(modPropertiesManager.modPropertiesInstance).toString()));
+				sender.addChatMessage(new ChatComponentText(Color.YELLOW + field.getName() + Format.RESET + " = " + Color.WHITE + field.get(modPropertiesManager.modPropertiesInstance).toString()));
 			}
 		}
 
-		catch (Throwable e)
+		catch (final Throwable e)
 		{
 			sender.addChatMessage(new ChatComponentText(Color.RED + "An unexpected error has occurred."));
 			e.printStackTrace();
@@ -69,7 +68,7 @@ public class CommandListModProperties extends CommandBase
 	}
 
 	@Override
-	public int compareTo(Object arg0) 
+	public int compareTo(Object arg0)
 	{
 		return 0;
 	}

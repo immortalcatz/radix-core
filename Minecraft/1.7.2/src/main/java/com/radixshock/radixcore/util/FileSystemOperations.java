@@ -14,12 +14,13 @@ import java.io.File;
 /**
  * Defines utility methods that interact with the file system.
  */
-public final class FileSystemOperations 
+public final class FileSystemOperations
 {
 	/**
 	 * Deletes a path and all files and folders within.
 	 * 
-	 * @param 	file	The path to delete.
+	 * @param file
+	 *            The path to delete.
 	 */
 	public static void recursiveDeletePath(File file)
 	{
@@ -32,11 +33,11 @@ public final class FileSystemOperations
 
 			else
 			{
-				String files[] = file.list();
+				final String files[] = file.list();
 
-				for (String temp : files)
+				for (final String temp : files)
 				{
-					File fileDelete = new File(file, temp);
+					final File fileDelete = new File(file, temp);
 					recursiveDeletePath(fileDelete);
 				}
 

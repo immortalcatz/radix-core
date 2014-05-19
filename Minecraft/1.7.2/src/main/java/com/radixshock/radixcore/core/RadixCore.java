@@ -41,24 +41,25 @@ import cpw.mods.fml.relauncher.SideOnly;
 /**
  * The core of the RadixCore mod API.
  */
-@Mod(modid="radixcore", name="RadixCore", version="1.2.0")
+@Mod(modid = "radixcore", name = "RadixCore", version = "1.2.0")
 public class RadixCore extends UnenforcedCore
 {
 	@Instance("radixcore")
-	private static RadixCore instance;
-	private ModLogger logger;
+	private static RadixCore				instance;
+	private ModLogger						logger;
 
 	/** The current working directory. The .minecraft folder. */
-	public String runningDirectory;
+	public String							runningDirectory;
 
 	/** A list of mods registered with RadixCore. */
-	public static final List<IEnforcedCore> registeredMods = new ArrayList<IEnforcedCore>();
+	public static final List<IEnforcedCore>	registeredMods	= new ArrayList<IEnforcedCore>();
 
 	/**
-	 * Handles the FMLPreInitialization event and passes it to all loaded mods after
-	 * initializing their proxies, items, and blocks.
+	 * Handles the FMLPreInitialization event and passes it to all loaded mods
+	 * after initializing their proxies, items, and blocks.
 	 * 
-	 * @param 	event	The event.
+	 * @param event
+	 *            The event.
 	 */
 	@EventHandler
 	public void onPreInit(FMLPreInitializationEvent event)
@@ -74,7 +75,7 @@ public class RadixCore extends UnenforcedCore
 			FMLCommonHandler.instance().bus().register(new RadixEvents());
 			MinecraftForge.EVENT_BUS.register(new RadixEvents());
 
-			for (IEnforcedCore mod : registeredMods)
+			for (final IEnforcedCore mod : registeredMods)
 			{
 				mod.preInit(event);
 				mod.initializeProxy();
@@ -96,7 +97,7 @@ public class RadixCore extends UnenforcedCore
 			}
 		}
 
-		catch (Exception e)
+		catch (final Exception e)
 		{
 			quitWithException("Unexpected exception during pre-initialization.", e);
 		}
@@ -104,14 +105,16 @@ public class RadixCore extends UnenforcedCore
 
 	/**
 	 * Handles the FMLInitializationEvent and passes it to all registered mods.
-	 * Initializes recipes, smeltings, achievements. entities, and the network on all mods.
+	 * Initializes recipes, smeltings, achievements. entities, and the network
+	 * on all mods.
 	 * 
-	 * @param 	event	The event.	
+	 * @param event
+	 *            The event.
 	 */
 	@EventHandler
 	public void onInit(FMLInitializationEvent event)
 	{
-		for (IEnforcedCore mod : registeredMods)
+		for (final IEnforcedCore mod : registeredMods)
 		{
 			mod.init(event);
 			mod.initializeRecipes();
@@ -123,14 +126,16 @@ public class RadixCore extends UnenforcedCore
 	}
 
 	/**
-	 * Handles the FMLPostInitializationEvent and passes it to all registered mods.
-	 *
-	 * @param 	event	The event.
+	 * Handles the FMLPostInitializationEvent and passes it to all registered
+	 * mods.
+	 * 
+	 * @param event
+	 *            The event.
 	 */
 	@EventHandler
 	public void onPostInit(FMLPostInitializationEvent event)
 	{
-		for (IEnforcedCore mod : registeredMods)
+		for (final IEnforcedCore mod : registeredMods)
 		{
 			mod.postInit(event);
 		}
@@ -139,28 +144,29 @@ public class RadixCore extends UnenforcedCore
 	/**
 	 * Passes the FMLServerStartingEvent to all registered mods.
 	 * 
-	 * @param 	event	The event.
+	 * @param event
+	 *            The event.
 	 */
 	@EventHandler
 	public void onServerStarting(FMLServerStartingEvent event)
 	{
-		for (IEnforcedCore mod : registeredMods)
+		for (final IEnforcedCore mod : registeredMods)
 		{
 			if (mod.getSetModPropertyCommandEnabled())
 			{
 				event.registerServerCommand(new CommandSetModProperty(mod));
 			}
-			
+
 			if (mod.getGetModPropertyCommandEnabled())
 			{
 				event.registerServerCommand(new CommandGetModProperty(mod));
 			}
-			
+
 			if (mod.getListModPropertiesCommandEnabled())
 			{
 				event.registerServerCommand(new CommandListModProperties(mod));
 			}
-			
+
 			mod.serverStarting(event);
 			mod.initializeCommands(event);
 		}
@@ -169,19 +175,20 @@ public class RadixCore extends UnenforcedCore
 	/**
 	 * Passes the FMLServerStoppingEvent to all registered mods.
 	 * 
-	 * @param 	event	The event.
+	 * @param event
+	 *            The event.
 	 */
 	@EventHandler
 	public void onServerStopping(FMLServerStoppingEvent event)
 	{
-		for (IEnforcedCore mod : registeredMods)
+		for (final IEnforcedCore mod : registeredMods)
 		{
 			mod.serverStopping(event);
 		}
 	}
 
 	/**
-	 * @return	An instance of RadixCore.
+	 * @return An instance of RadixCore.
 	 */
 	public static RadixCore getInstance()
 	{
@@ -191,7 +198,8 @@ public class RadixCore extends UnenforcedCore
 	/**
 	 * Stops the game and writes the error to the Forge crash log.
 	 * 
-	 * @param 	description	A string providing a short description of the problem.
+	 * @param description
+	 *            A string providing a short description of the problem.
 	 */
 	@SideOnly(Side.CLIENT)
 	public void quitWithDescription(String description)
@@ -199,7 +207,7 @@ public class RadixCore extends UnenforcedCore
 		final Writer stackTrace = new StringWriter();
 		final Exception exception = new Exception();
 
-		PrintWriter stackTraceWriter = new PrintWriter(stackTrace);
+		final PrintWriter stackTraceWriter = new PrintWriter(stackTrace);
 		exception.printStackTrace(stackTraceWriter);
 
 		logger.log(Level.FINER, "Radix Core: An exception occurred.\n>>>>>" + description + "<<<<<\n" + stackTrace.toString());
@@ -213,8 +221,10 @@ public class RadixCore extends UnenforcedCore
 	/**
 	 * Stops the game and writes the error to the Forge crash log.
 	 * 
-	 * @param 	description	A string providing a short description of the problem.
-	 * @param 	exception	The exception that caused this method to be called.
+	 * @param description
+	 *            A string providing a short description of the problem.
+	 * @param exception
+	 *            The exception that caused this method to be called.
 	 */
 	@SideOnly(Side.CLIENT)
 	public void quitWithException(String description, Exception exception)
@@ -230,39 +240,45 @@ public class RadixCore extends UnenforcedCore
 		Minecraft.getMinecraft().crashed(crashReport);
 		Minecraft.getMinecraft().displayCrashReport(crashReport);
 	}
-	
-	public String getShortModName() 
+
+	@Override
+	public String getShortModName()
 	{
 		return getLongModName();
 	}
-	
-	public String getLongModName() 
+
+	@Override
+	public String getLongModName()
 	{
 		return "RadixCore";
 	}
-	
-	public String getVersion() 
+
+	@Override
+	public String getVersion()
 	{
 		return "1.2.0";
 	}
-	
-	public boolean getChecksForUpdates() 
+
+	@Override
+	public boolean getChecksForUpdates()
 	{
 		return true;
 	}
-	
-	public String getUpdateURL() 
+
+	@Override
+	public String getUpdateURL()
 	{
 		return "http://pastebin.com/raw.php?i=fWd8huwd";
 	}
 
-	public String getRedirectURL() 
+	@Override
+	public String getRedirectURL()
 	{
-		return "http://radix-shock.com/update-page.html?userRadixCore=" + getVersion() + "&currentRadixCore=%" + 
-				"&userMC=" + Loader.instance().getMCVersionString().substring(10) + "&currentMC=%";
+		return "http://radix-shock.com/update-page.html?userRadixCore=" + getVersion() + "&currentRadixCore=%" + "&userMC=" + Loader.instance().getMCVersionString().substring(10) + "&currentMC=%";
 	}
 
-	public ModLogger getLogger() 
+	@Override
+	public ModLogger getLogger()
 	{
 		return logger;
 	}

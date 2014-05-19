@@ -16,27 +16,30 @@ import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.relauncher.Side;
 
 /**
- * Logger that has the ability to log any sort of object or even exceptions to the FMLLog.
+ * Logger that has the ability to log any sort of object or even exceptions to
+ * the FMLLog.
  */
-public final class ModLogger 
+public final class ModLogger
 {
-	private IEnforcedCore mod;
-	private final Logger logger = FMLLog.getLogger();
-	
+	private final IEnforcedCore	mod;
+	private final Logger		logger	= FMLLog.getLogger();
+
 	/**
 	 * Constructor
 	 * 
-	 * @param 	mod	The logger's owner IMod.
+	 * @param mod
+	 *            The logger's owner IMod.
 	 */
 	public ModLogger(IEnforcedCore mod)
 	{
 		this.mod = mod;
 	}
-	
+
 	/**
 	 * Writes the specified object's string representation to System.out.
 	 * 
-	 * @param 	objects	The object(s) to write to System.out.
+	 * @param objects
+	 *            The object(s) to write to System.out.
 	 */
 	public void log(Object... objects)
 	{
@@ -53,13 +56,13 @@ public final class ModLogger
 
 			if (objects[0] instanceof Throwable)
 			{
-				((Throwable)objects[0]).printStackTrace();
+				((Throwable) objects[0]).printStackTrace();
 			}
 
 			logger.info(mod.getLongModName() + " " + side.toString() + ": " + objectsToString);
 		}
 
-		catch (NullPointerException e) //Object provided is null.
+		catch (final NullPointerException e) // Object provided is null.
 		{
 			logger.info(mod.getLongModName() + " " + side.toString() + ": null");
 		}

@@ -28,43 +28,52 @@ import com.radixshock.radixcore.core.RadixCore;
 /**
  * Base class to define a packet codec: COder-DECoder.
  */
-public abstract class AbstractPacketCodec 
+public abstract class AbstractPacketCodec
 {
-	private IEnforcedCore mod;
-	
+	private final IEnforcedCore	mod;
+
 	/**
 	 * Constructor
 	 * 
-	 * @param 	mod	The mod this codec belongs to.
+	 * @param mod
+	 *            The mod this codec belongs to.
 	 */
 	public AbstractPacketCodec(IEnforcedCore mod)
 	{
 		this.mod = mod;
 	}
-	
+
 	/**
 	 * Encodes the provided packet's data into the buffer.
 	 * 
-	 * @param 	packet	The packet containing data to be encoded.
-	 * @param 	context	Contains the packet's info such as channel, pipeline, etc.
-	 * @param 	buffer	Buffer used to convert packet data into bytes.
+	 * @param packet
+	 *            The packet containing data to be encoded.
+	 * @param context
+	 *            Contains the packet's info such as channel, pipeline, etc.
+	 * @param buffer
+	 *            Buffer used to convert packet data into bytes.
 	 */
 	public abstract void encode(Packet packet, ChannelHandlerContext context, ByteBuf buffer);
 
 	/**
 	 * Decodes the provided buffer's data and places it back into the packet.
 	 * 
-	 * @param 	packet	The packet that will be filled with data.
-	 * @param 	context	Contains the packet's info such as channel, pipeline, etc.
-	 * @param 	buffer	Buffer containing data to be decoded.
+	 * @param packet
+	 *            The packet that will be filled with data.
+	 * @param context
+	 *            Contains the packet's info such as channel, pipeline, etc.
+	 * @param buffer
+	 *            Buffer containing data to be decoded.
 	 */
 	public abstract void decode(Packet packet, ChannelHandlerContext context, ByteBuf buffer);
 
 	/**
 	 * Writes the provided object to the provided ByteBuf.
 	 * 
-	 * @param 	buffer	The ByteBuf that the object should be written to.
-	 * @param 	object	The object to write to the buffer.
+	 * @param buffer
+	 *            The ByteBuf that the object should be written to.
+	 * @param object
+	 *            The object to write to the buffer.
 	 */
 	protected void writeObject(ByteBuf buffer, Object object)
 	{
@@ -74,21 +83,24 @@ public abstract class AbstractPacketCodec
 	/**
 	 * Reads the next object from the provided ByteBuf.
 	 * 
-	 * @param 	buffer	The ByteBuf containing the object to be read.
+	 * @param buffer
+	 *            The ByteBuf containing the object to be read.
 	 * 
-	 * @return	Object form of the object read. Must be cast to expected type.
+	 * @return Object form of the object read. Must be cast to expected type.
 	 */
 	protected Object readObject(ByteBuf buffer)
 	{
-		 return convertBytesToObject(readByteArray(buffer));
+		return convertBytesToObject(readByteArray(buffer));
 	}
 
 	/**
-	 * Converts the provided object to a byte array that can be written to the buffer.
+	 * Converts the provided object to a byte array that can be written to the
+	 * buffer.
 	 * 
-	 * @param 	obj	The object to be converted to a byte array.
+	 * @param obj
+	 *            The object to be converted to a byte array.
 	 * 
-	 * @return	The object's byte array representation.
+	 * @return The object's byte array representation.
 	 */
 	private byte[] convertToByteArray(Object obj)
 	{
@@ -101,7 +113,7 @@ public abstract class AbstractPacketCodec
 			objectOutput.close();
 		}
 
-		catch (IOException e)
+		catch (final IOException e)
 		{
 			mod.getLogger().log(e);
 		}
@@ -112,9 +124,11 @@ public abstract class AbstractPacketCodec
 	/**
 	 * Converts the provided byte array back into an Object.
 	 * 
-	 * @param 	byteArray	The byte array to be converted.
+	 * @param byteArray
+	 *            The byte array to be converted.
 	 * 
-	 * @return	Object form of the provided byte array. Must be cast to expected type.
+	 * @return Object form of the provided byte array. Must be cast to expected
+	 *         type.
 	 */
 	private Object convertBytesToObject(byte[] byteArray)
 	{
@@ -129,12 +143,12 @@ public abstract class AbstractPacketCodec
 			objectInput.close();
 		}
 
-		catch (IOException e)
+		catch (final IOException e)
 		{
 			mod.getLogger().log(e);
 		}
 
-		catch (ClassNotFoundException e)
+		catch (final ClassNotFoundException e)
 		{
 			mod.getLogger().log(e);
 		}
@@ -145,9 +159,10 @@ public abstract class AbstractPacketCodec
 	/**
 	 * Compresses the data in a byte array.
 	 * 
-	 * @param 	input	The byte array to be compressed.
+	 * @param input
+	 *            The byte array to be compressed.
 	 * 
-	 * @return	The byte array in its compressed form.
+	 * @return The byte array in its compressed form.
 	 */
 	private byte[] compress(byte[] input)
 	{
@@ -172,7 +187,7 @@ public abstract class AbstractPacketCodec
 			return byteOutput.toByteArray();
 		}
 
-		catch (IOException e)
+		catch (final IOException e)
 		{
 			RadixCore.getInstance().quitWithException("Error compressing byte array.", e);
 			return null;
@@ -182,9 +197,10 @@ public abstract class AbstractPacketCodec
 	/**
 	 * Decompresses a compressed byte array.
 	 * 
-	 * @param 	input	The byte array to be decompressed.
+	 * @param input
+	 *            The byte array to be decompressed.
 	 * 
-	 * @return	The byte array in its decompressed, readable form.
+	 * @return The byte array in its decompressed, readable form.
 	 */
 	private byte[] decompress(byte[] input)
 	{
@@ -205,25 +221,28 @@ public abstract class AbstractPacketCodec
 			return byteOutput.toByteArray();
 		}
 
-		catch (DataFormatException e)
+		catch (final DataFormatException e)
 		{
 			RadixCore.getInstance().quitWithException("Error decompressing byte array.", e);
 			return null;
 		}
 
-		catch (IOException e)
+		catch (final IOException e)
 		{
 			RadixCore.getInstance().quitWithException("Error decompressing byte array.", e);
 			return null;
 		}
 	}
-	
+
 	/**
-	 * Writes the provided byte array to the buffer. Compresses the provided array and 
-	 * precedes it data with its length as an int. Then the compressed array itself is written.
+	 * Writes the provided byte array to the buffer. Compresses the provided
+	 * array and precedes it data with its length as an int. Then the compressed
+	 * array itself is written.
 	 * 
-	 * @param 	buffer		ByteBuf that the byte array will be written to.
-	 * @param 	byteArray	The byte array that will be written to the ByteBuf.
+	 * @param buffer
+	 *            ByteBuf that the byte array will be written to.
+	 * @param byteArray
+	 *            The byte array that will be written to the ByteBuf.
 	 */
 	private void writeByteArray(ByteBuf buffer, byte[] byteArray)
 	{
@@ -231,14 +250,15 @@ public abstract class AbstractPacketCodec
 		buffer.writeInt(compressedArray.length);
 		buffer.writeBytes(compressedArray);
 	}
-	
+
 	/**
-	 * Reads the next byte array from the buffer. Gets the array's size by reading 
-	 * the next int, then reads that amount of bytes and returns the decompressed byte array.
+	 * Reads the next byte array from the buffer. Gets the array's size by
+	 * reading the next int, then reads that amount of bytes and returns the
+	 * decompressed byte array.
 	 * 
-	 * @param 	buffer
+	 * @param buffer
 	 * 
-	 * @return	
+	 * @return
 	 */
 	private byte[] readByteArray(ByteBuf buffer)
 	{

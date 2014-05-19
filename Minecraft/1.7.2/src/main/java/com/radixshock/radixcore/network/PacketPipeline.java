@@ -38,92 +38,88 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 /**
- * A mod's packet pipeline. Directs packets to their targets, codec, and handler.
- * Adapted from code shared by Sirgingalot on the MinecraftForge wiki.
+ * A mod's packet pipeline. Directs packets to their targets, codec, and
+ * handler. Adapted from code shared by Sirgingalot on the MinecraftForge wiki.
  */
 @ChannelHandler.Sharable
-public final class PacketPipeline extends MessageToMessageCodec<FMLProxyPacket, Packet> 
+public final class PacketPipeline extends MessageToMessageCodec<FMLProxyPacket, Packet>
 {
-	private IEnforcedCore mod;
-	private EnumMap<Side, FMLEmbeddedChannel> channels;
-	private LinkedList<Class<? extends Packet>> packets = new LinkedList<Class<? extends Packet>>();
+	private final IEnforcedCore							mod;
+	private EnumMap<Side, FMLEmbeddedChannel>			channels;
+	private final LinkedList<Class<? extends Packet>>	packets	= new LinkedList<Class<? extends Packet>>();
 
 	/**
 	 * Constructor
 	 * 
-	 * @param 	mod	The pipeline's owner IMod.
+	 * @param mod
+	 *            The pipeline's owner IMod.
 	 */
 	public PacketPipeline(IEnforcedCore mod)
 	{
 		this.mod = mod;
 	}
-	
+
 	/**
 	 * Registers the provided packet class with the pipeline.
-	 *
-	 * @param 	packetClass	The packet class to be registered.
 	 * 
-	 * @return	True if adding the packet was successful.
+	 * @param packetClass
+	 *            The packet class to be registered.
+	 * 
+	 * @return True if adding the packet was successful.
 	 */
-	public boolean registerPacket(Class<? extends Packet> packetClass) 
+	public boolean registerPacket(Class<? extends Packet> packetClass)
 	{
-		return this.packets.add(packetClass);
+		return packets.add(packetClass);
 	}
 
 	@Override
-	protected void encode(ChannelHandlerContext context, Packet packet, List<Object> out) throws Exception 
+	protected void encode(ChannelHandlerContext context, Packet packet, List<Object> out) throws Exception
 	{
-		packet.mod = this.mod;
-		
+		packet.mod = mod;
+
 		final ByteBuf buffer = Unpooled.buffer();
 		final Class<? extends Packet> packetClass = packet.getClass();
 
-		if (!this.packets.contains(packet.getClass())) 
-		{
-			throw new NullPointerException("No packet registered for: " + packet.getClass().getCanonicalName());
-		}
+		if (!packets.contains(packet.getClass())) { throw new NullPointerException("No packet registered for: " + packet.getClass().getCanonicalName()); }
 
-		final byte discriminator = (byte) this.packets.indexOf(packetClass);
+		final byte discriminator = (byte) packets.indexOf(packetClass);
 		buffer.writeByte(discriminator);
-		
+
 		packet.encodeInto(context, buffer);
-		
+
 		final FMLProxyPacket proxyPacket = new FMLProxyPacket(buffer.copy(), context.channel().attr(NetworkRegistry.FML_CHANNEL).get());
 		out.add(proxyPacket);
 	}
 
 	@Override
-	protected void decode(ChannelHandlerContext context, FMLProxyPacket proxyPacket, List<Object> out) throws Exception 
+	protected void decode(ChannelHandlerContext context, FMLProxyPacket proxyPacket, List<Object> out) throws Exception
 	{
 		final ByteBuf payload = proxyPacket.payload();
 		final byte discriminator = payload.readByte();
-		final Class<? extends Packet> packetClass = this.packets.get(discriminator);
+		final Class<? extends Packet> packetClass = packets.get(discriminator);
 
-		if (packetClass == null) 
-		{
-			throw new NullPointerException("No packet registered for discriminator: " + discriminator);
-		}
+		if (packetClass == null) { throw new NullPointerException("No packet registered for discriminator: " + discriminator); }
 
 		final Packet packet = packetClass.newInstance();
-		packet.mod = this.mod;
+		packet.mod = mod;
 		packet.decodeInto(context, payload.slice());
 
 		EntityPlayer player;
 
-		switch (FMLCommonHandler.instance().getEffectiveSide()) 
+		switch (FMLCommonHandler.instance().getEffectiveSide())
 		{
-		case CLIENT:
-			player = this.getClientPlayer();
-			packet.handleClientSide(player);
-			break;
+			case CLIENT:
+				player = getClientPlayer();
+				packet.handleClientSide(player);
+				break;
 
-		case SERVER:
-			INetHandler netHandler = context.channel().attr(NetworkRegistry.NET_HANDLER).get();
-			player = ((NetHandlerPlayServer) netHandler).playerEntity;
-			packet.handleServerSide(player);
-			break;
+			case SERVER:
+				final INetHandler netHandler = context.channel().attr(NetworkRegistry.NET_HANDLER).get();
+				player = ((NetHandlerPlayServer) netHandler).playerEntity;
+				packet.handleServerSide(player);
+				break;
 
-		default:
+			default:
 		}
 
 		out.add(packet);
@@ -132,15 +128,16 @@ public final class PacketPipeline extends MessageToMessageCodec<FMLProxyPacket, 
 	/**
 	 * Add a name for your packet's channel.
 	 * 
-	 * @param 	channelName	The channel's name.
+	 * @param channelName
+	 *            The channel's name.
 	 */
 	public void addChannel(String channelName)
 	{
-		this.channels = NetworkRegistry.INSTANCE.newChannel(channelName, this);
+		channels = NetworkRegistry.INSTANCE.newChannel(channelName, this);
 	}
 
 	@SideOnly(Side.CLIENT)
-	private EntityPlayer getClientPlayer() 
+	private EntityPlayer getClientPlayer()
 	{
 		return Minecraft.getMinecraft().thePlayer;
 	}
@@ -148,19 +145,22 @@ public final class PacketPipeline extends MessageToMessageCodec<FMLProxyPacket, 
 	/**
 	 * Sends the provided packet to all players.
 	 * 
-	 * @param 	packet 	The packet to be sent.
+	 * @param packet
+	 *            The packet to be sent.
 	 */
-	public void sendPacketToAllPlayers(Packet packet) 
+	public void sendPacketToAllPlayers(Packet packet)
 	{
-		this.channels.get(Side.SERVER).attr(FMLOutboundHandler.FML_MESSAGETARGET).set(FMLOutboundHandler.OutboundTarget.ALL);
-		this.channels.get(Side.SERVER).writeAndFlush(packet);
+		channels.get(Side.SERVER).attr(FMLOutboundHandler.FML_MESSAGETARGET).set(FMLOutboundHandler.OutboundTarget.ALL);
+		channels.get(Side.SERVER).writeAndFlush(packet);
 	}
 
 	/**
 	 * Sends the provided packet to all players except the provided player.
 	 * 
-	 * @param	packet	The packet to be sent.
-	 * @param	player	The player that will not receive the packet.
+	 * @param packet
+	 *            The packet to be sent.
+	 * @param player
+	 *            The player that will not receive the packet.
 	 */
 	public void sendPacketToAllPlayersExcept(Packet packet, EntityPlayerMP player)
 	{
@@ -169,7 +169,7 @@ public final class PacketPipeline extends MessageToMessageCodec<FMLProxyPacket, 
 
 		for (int index = 0; index < serverConfiguration.playerEntityList.size(); ++index)
 		{
-			final EntityPlayerMP playerInList = (EntityPlayerMP)serverConfiguration.playerEntityList.get(index);
+			final EntityPlayerMP playerInList = (EntityPlayerMP) serverConfiguration.playerEntityList.get(index);
 
 			if (!playerInList.getCommandSenderName().equals(player.getCommandSenderName()))
 			{
@@ -181,50 +181,58 @@ public final class PacketPipeline extends MessageToMessageCodec<FMLProxyPacket, 
 	/**
 	 * Sends the provided packet to the provided player.
 	 * 
-	 * @param	packet	The packet to be sent.
-	 * @param	player	The player that will receive the packet.
+	 * @param packet
+	 *            The packet to be sent.
+	 * @param player
+	 *            The player that will receive the packet.
 	 */
-	public void sendPacketToPlayer(Packet packet, EntityPlayerMP player) 
+	public void sendPacketToPlayer(Packet packet, EntityPlayerMP player)
 	{
-		this.channels.get(Side.SERVER).attr(FMLOutboundHandler.FML_MESSAGETARGET).set(FMLOutboundHandler.OutboundTarget.PLAYER);
-		this.channels.get(Side.SERVER).attr(FMLOutboundHandler.FML_MESSAGETARGETARGS).set(player);
-		this.channels.get(Side.SERVER).writeAndFlush(packet);
+		channels.get(Side.SERVER).attr(FMLOutboundHandler.FML_MESSAGETARGET).set(FMLOutboundHandler.OutboundTarget.PLAYER);
+		channels.get(Side.SERVER).attr(FMLOutboundHandler.FML_MESSAGETARGETARGS).set(player);
+		channels.get(Side.SERVER).writeAndFlush(packet);
 	}
 
 	/**
-	 * Sends the provided packet to everyone within a certain range of the provided point.
+	 * Sends the provided packet to everyone within a certain range of the
+	 * provided point.
 	 * 
-	 * @param	packet	The packet to be sent.
-	 * @param	point	The point around which to send the packet.
+	 * @param packet
+	 *            The packet to be sent.
+	 * @param point
+	 *            The point around which to send the packet.
 	 */
-	public void sendPacketToAllAround(Packet packet, NetworkRegistry.TargetPoint point) 
+	public void sendPacketToAllAround(Packet packet, NetworkRegistry.TargetPoint point)
 	{
-		this.channels.get(Side.SERVER).attr(FMLOutboundHandler.FML_MESSAGETARGET).set(FMLOutboundHandler.OutboundTarget.ALLAROUNDPOINT);
-		this.channels.get(Side.SERVER).attr(FMLOutboundHandler.FML_MESSAGETARGETARGS).set(point);
-		this.channels.get(Side.SERVER).writeAndFlush(packet);
+		channels.get(Side.SERVER).attr(FMLOutboundHandler.FML_MESSAGETARGET).set(FMLOutboundHandler.OutboundTarget.ALLAROUNDPOINT);
+		channels.get(Side.SERVER).attr(FMLOutboundHandler.FML_MESSAGETARGETARGS).set(point);
+		channels.get(Side.SERVER).writeAndFlush(packet);
 	}
 
 	/**
 	 * Sends the provided packet to everyone within the supplied dimension.
 	 * 
-	 * @param 	packet		The packet to be sent.
-	 * @param 	dimensionId The dimension id.
+	 * @param packet
+	 *            The packet to be sent.
+	 * @param dimensionId
+	 *            The dimension id.
 	 */
-	public void sendPacketToDimension(Packet packet, int dimensionId) 
+	public void sendPacketToDimension(Packet packet, int dimensionId)
 	{
-		this.channels.get(Side.SERVER).attr(FMLOutboundHandler.FML_MESSAGETARGET).set(FMLOutboundHandler.OutboundTarget.DIMENSION);
-		this.channels.get(Side.SERVER).attr(FMLOutboundHandler.FML_MESSAGETARGETARGS).set(dimensionId);
-		this.channels.get(Side.SERVER).writeAndFlush(packet);
+		channels.get(Side.SERVER).attr(FMLOutboundHandler.FML_MESSAGETARGET).set(FMLOutboundHandler.OutboundTarget.DIMENSION);
+		channels.get(Side.SERVER).attr(FMLOutboundHandler.FML_MESSAGETARGETARGS).set(dimensionId);
+		channels.get(Side.SERVER).writeAndFlush(packet);
 	}
 
 	/**
 	 * Sends this message to the server.
 	 * 
-	 * @param 	packet 	The packet to be sent.
+	 * @param packet
+	 *            The packet to be sent.
 	 */
-	public void sendPacketToServer(Packet packet) 
+	public void sendPacketToServer(Packet packet)
 	{
-		this.channels.get(Side.CLIENT).attr(FMLOutboundHandler.FML_MESSAGETARGET).set(FMLOutboundHandler.OutboundTarget.TOSERVER);
-		this.channels.get(Side.CLIENT).writeAndFlush(packet);
+		channels.get(Side.CLIENT).attr(FMLOutboundHandler.FML_MESSAGETARGET).set(FMLOutboundHandler.OutboundTarget.TOSERVER);
+		channels.get(Side.CLIENT).writeAndFlush(packet);
 	}
 }

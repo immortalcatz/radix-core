@@ -22,27 +22,30 @@ import com.radixshock.radixcore.core.IEnforcedCore;
 import com.radixshock.radixcore.core.RadixCore;
 
 /**
- * Handles reading and writing properties that effect how the entire mod operates.
+ * Handles reading and writing properties that effect how the entire mod
+ * operates.
  */
 public class ModPropertiesManager implements Serializable
 {
-	private transient IEnforcedCore mod;
-	private transient Properties properties = new Properties();
-	private transient FileInputStream inputStream   = null;
-	private transient FileOutputStream outputStream = null;
-	private transient File modPropertiesFile = null;
-	private transient File configFolder = null;
+	private transient IEnforcedCore		mod;
+	private transient Properties		properties			= new Properties();
+	private transient FileInputStream	inputStream			= null;
+	private transient FileOutputStream	outputStream		= null;
+	private transient File				modPropertiesFile	= null;
+	private transient File				configFolder		= null;
 
-	private transient Class modPropertiesClass;
-	
+	private transient Class				modPropertiesClass;
+
 	/** An instance of the class containing mod properties. */
-	public transient Object modPropertiesInstance;
-	
+	public transient Object				modPropertiesInstance;
+
 	/**
 	 * Constructor
 	 * 
-	 * @param 	mod					This ModPropertiesManager's owner mod.
-	 * @param 	modPropertiesClass	The class containing the mod's properties.
+	 * @param mod
+	 *            This ModPropertiesManager's owner mod.
+	 * @param modPropertiesClass
+	 *            The class containing the mod's properties.
 	 */
 	public ModPropertiesManager(IEnforcedCore mod, Class modPropertiesClass)
 	{
@@ -51,25 +54,26 @@ public class ModPropertiesManager implements Serializable
 
 		try
 		{
-			this.modPropertiesInstance = modPropertiesClass.newInstance();
+			modPropertiesInstance = modPropertiesClass.newInstance();
 		}
 
-		catch (Exception e)
+		catch (final Exception e)
 		{
 			e.printStackTrace();
 		}
-		
-		//Assign the location of the mod properties file and config folder.
+
+		// Assign the location of the mod properties file and config folder.
 		configFolder = new File(RadixCore.getInstance().runningDirectory + "/config/" + mod.getShortModName() + "/");
 		modPropertiesFile = new File(RadixCore.getInstance().runningDirectory + "/config/" + mod.getShortModName() + "/ModProps.properties");
 
-		//Ensure the config folder exists.
+		// Ensure the config folder exists.
 		if (!configFolder.exists())
 		{
 			configFolder.mkdirs();
 		}
 
-		//Now check if the mod properties file must be created or should be loaded.
+		// Now check if the mod properties file must be created or should be
+		// loaded.
 		if (!modPropertiesFile.exists())
 		{
 			mod.getLogger().log("File not found: " + RadixCore.getInstance().runningDirectory + "/config/" + mod.getShortModName() + "/ModProps.properties. " + "Creating new mod properties file...");
@@ -89,13 +93,14 @@ public class ModPropertiesManager implements Serializable
 	{
 		try
 		{
-			//Clear the properties instance to avoid saving unwanted variables.
+			// Clear the properties instance to avoid saving unwanted variables.
 			properties.clear();
 
-			//Use reflection to get all the fields in this class. Only work with the ones whose name is prefixed with setting_.
-			for (Field f : modPropertiesClass.getFields())
+			// Use reflection to get all the fields in this class. Only work
+			// with the ones whose name is prefixed with setting_.
+			for (final Field f : modPropertiesClass.getFields())
 			{
-				String fieldType = f.getType().toString();
+				final String fieldType = f.getType().toString();
 
 				if (fieldType.contains("int"))
 				{
@@ -113,7 +118,7 @@ public class ModPropertiesManager implements Serializable
 				}
 			}
 
-			//Store information in the properties instance to file.
+			// Store information in the properties instance to file.
 			outputStream = new FileOutputStream(modPropertiesFile);
 			properties.store(outputStream, mod.getShortModName() + " Mod Properties File - Change global mod settings here.");
 			outputStream.close();
@@ -121,17 +126,17 @@ public class ModPropertiesManager implements Serializable
 			mod.getLogger().log("Mod properties successfully saved.");
 		}
 
-		catch (FileNotFoundException e)
+		catch (final FileNotFoundException e)
 		{
 			RadixCore.getInstance().quitWithException("FileNotFoundException occurred while creating a new mod properties file.", e);
 		}
 
-		catch (IllegalAccessException e)
+		catch (final IllegalAccessException e)
 		{
 			RadixCore.getInstance().quitWithException("IllegalAccessException occurred while creating a new mod properties file.", e);
 		}
 
-		catch (IOException e)
+		catch (final IOException e)
 		{
 			RadixCore.getInstance().quitWithException("IOException occurred while creating a new mod properties file.", e);
 		}
@@ -146,21 +151,22 @@ public class ModPropertiesManager implements Serializable
 
 		try
 		{
-			//Clear the properties instance and get the mod's properties file.
+			// Clear the properties instance and get the mod's properties file.
 			properties.clear();
 
-			//Make sure the file exists.
+			// Make sure the file exists.
 			if (modPropertiesFile.exists())
 			{
-				//Load its properties into the properties instance.
+				// Load its properties into the properties instance.
 				inputStream = new FileInputStream(modPropertiesFile);
 				properties.load(inputStream);
 				inputStream.close();
 
-				//Loop through each field and assign the value stored in the properties.
-				for (Field f : modPropertiesClass.getFields())
+				// Loop through each field and assign the value stored in the
+				// properties.
+				for (final Field f : modPropertiesClass.getFields())
 				{
-					String fieldType = f.getType().toString();
+					final String fieldType = f.getType().toString();
 
 					if (fieldType.contains("int"))
 					{
@@ -179,51 +185,54 @@ public class ModPropertiesManager implements Serializable
 				}
 			}
 
-			else //The mod properties file does not exist. It was either deleted by the user or hasn't been created yet.
+			else
+			// The mod properties file does not exist. It was either deleted by
+			// the user or hasn't been created yet.
 			{
 				mod.getLogger().log("Mod properties file was not found.");
 				saveModProperties();
 			}
 		}
 
-		//The user didn't edit the file correctly or assigned an invalid ID for an item or block. A new property could have also been added.
-		catch (NumberFormatException e)
+		// The user didn't edit the file correctly or assigned an invalid ID for
+		// an item or block. A new property could have also been added.
+		catch (final NumberFormatException e)
 		{
 			mod.getLogger().log("NumberFormatException while reading mod properties. You edited the file incorrectly or a new property has been added to " + mod.getShortModName() + ".");
 			resetModProperties();
 			saveModProperties();
 		}
 
-		catch (FileNotFoundException e)
+		catch (final FileNotFoundException e)
 		{
 			RadixCore.getInstance().quitWithException("FileNotFoundException occurred while loading the mod properties file.", e);
 		}
 
-		catch (IllegalAccessException e)
+		catch (final IllegalAccessException e)
 		{
 			RadixCore.getInstance().quitWithException("IllegalAccessException occurred while loading the new mod properties file.", e);
 		}
 
-		catch (IOException e)
+		catch (final IOException e)
 		{
 			RadixCore.getInstance().quitWithException("IOException occurred while loading the new mod properties file.", e);
 		}
 	}
 
-	/** Resets all mod properties back to their default values.*/
+	/** Resets all mod properties back to their default values. */
 	public void resetModProperties()
 	{
-		try 
+		try
 		{
 			modPropertiesInstance = modPropertiesClass.newInstance();
-		} 
+		}
 
-		catch (InstantiationException e) 
+		catch (final InstantiationException e)
 		{
 			e.printStackTrace();
-		} 
+		}
 
-		catch (IllegalAccessException e) 
+		catch (final IllegalAccessException e)
 		{
 			e.printStackTrace();
 		}

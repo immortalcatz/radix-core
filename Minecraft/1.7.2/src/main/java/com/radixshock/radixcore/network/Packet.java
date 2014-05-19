@@ -21,16 +21,16 @@ import cpw.mods.fml.relauncher.Side;
 /**
  * Defines a packet that will be sent through a mod's packet pipeline.
  */
-public class Packet 
+public class Packet
 {
 	/** The packet's owner IMod. Assigned by the pipeline. */
-	protected IEnforcedCore mod;
+	protected IEnforcedCore	mod;
 
 	/** The packet's packet type as an enum. */
-	public Enum packetType;
+	public Enum				packetType;
 
 	/** The packet's data/payload. */
-	public Object[] arguments;
+	public Object[]			arguments;
 
 	/**
 	 * Constructor required by pipeline.
@@ -42,12 +42,15 @@ public class Packet
 	/**
 	 * Creates a new packet. Use only with the Legacy network type.
 	 * 
-	 * @param packetType	The packet's packet type, defined by the mod.
-	 * @param arguments		The packet's data. This can accept any number of arguments, 
-	 * 						and should be encoded, decoded, and cast in the PacketHandler
-	 * 						in the <b>exact same order listed when the packet was created.</b> Be consistent.
+	 * @param packetType
+	 *            The packet's packet type, defined by the mod.
+	 * @param arguments
+	 *            The packet's data. This can accept any number of arguments,
+	 *            and should be encoded, decoded, and cast in the PacketHandler
+	 *            in the <b>exact same order listed when the packet was
+	 *            created.</b> Be consistent.
 	 */
-	public Packet(Enum packetType, Object... arguments) 
+	public Packet(Enum packetType, Object... arguments)
 	{
 		this.packetType = packetType;
 		this.arguments = arguments;
@@ -56,18 +59,21 @@ public class Packet
 	/**
 	 * Encodes a packet's data into the provided ByteBuf.
 	 * 
-	 * @param 	context	The packet's ChannelHandlerContext.
-	 * @param 	buffer	The buffer that data will be written to.
+	 * @param context
+	 *            The packet's ChannelHandlerContext.
+	 * @param buffer
+	 *            The buffer that data will be written to.
 	 */
-	protected void encodeInto(ChannelHandlerContext context, ByteBuf buffer) 
+	protected void encodeInto(ChannelHandlerContext context, ByteBuf buffer)
 	{
 		if (mod.getNetworkSystemType() == EnumNetworkType.Legacy)
 		{
-			//Add header containing the packet's type ordinal and the number of arguments.
+			// Add header containing the packet's type ordinal and the number of
+			// arguments.
 			buffer.writeInt(packetType.ordinal());
 			buffer.writeInt(arguments.length);
 
-			//Encode the packet's payload.
+			// Encode the packet's payload.
 			mod.getPacketCodec().encode(this, context, buffer);
 		}
 
@@ -85,27 +91,29 @@ public class Packet
 	/**
 	 * Decodes a packet's data from the provided ByteBuf.
 	 * 
-	 * @param 	context	The packet's ChannelHandlerContext.
-	 * @param 	buffer	The buffer that data will be read from.
+	 * @param context
+	 *            The packet's ChannelHandlerContext.
+	 * @param buffer
+	 *            The buffer that data will be read from.
 	 */
-	protected void decodeInto(ChannelHandlerContext context, ByteBuf buffer) 
+	protected void decodeInto(ChannelHandlerContext context, ByteBuf buffer)
 	{
 		if (mod.getNetworkSystemType() == EnumNetworkType.Legacy)
 		{
-			//Read packet type and arguments length from the header.
-			try 
+			// Read packet type and arguments length from the header.
+			try
 			{
-				packetType = (Enum)mod.getPacketTypeClass().getFields()[buffer.readInt()].get(mod.getPacketTypeClass());
-			} 
+				packetType = (Enum) mod.getPacketTypeClass().getFields()[buffer.readInt()].get(mod.getPacketTypeClass());
+			}
 
-			catch (Throwable e)
+			catch (final Throwable e)
 			{
 				e.printStackTrace();
 			}
 
 			arguments = new Object[buffer.readInt()];
 
-			//Decode the packet's payload.
+			// Decode the packet's payload.
 			mod.getPacketCodec().decode(this, context, buffer);
 		}
 
@@ -121,11 +129,13 @@ public class Packet
 	}
 
 	/**
-	 * Sends a packet to the packet handler, providing Side.CLIENT as the packet's side.
+	 * Sends a packet to the packet handler, providing Side.CLIENT as the
+	 * packet's side.
 	 * 
-	 * @param 	player	The client player.
+	 * @param player
+	 *            The client player.
 	 */
-	protected void handleClientSide(EntityPlayer player) 
+	protected void handleClientSide(EntityPlayer player)
 	{
 		if (mod.getNetworkSystemType() == EnumNetworkType.Legacy)
 		{
@@ -144,11 +154,13 @@ public class Packet
 	}
 
 	/**
-	 * Sends a packet to the packet handler, providing Side.SERVER as the packet's side.
+	 * Sends a packet to the packet handler, providing Side.SERVER as the
+	 * packet's side.
 	 * 
-	 * @param 	player	The player that sent the packet.
+	 * @param player
+	 *            The player that sent the packet.
 	 */
-	protected void handleServerSide(EntityPlayer player) 
+	protected void handleServerSide(EntityPlayer player)
 	{
 		if (mod.getNetworkSystemType() == EnumNetworkType.Legacy)
 		{

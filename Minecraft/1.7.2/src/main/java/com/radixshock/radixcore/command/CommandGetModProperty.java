@@ -26,7 +26,7 @@ import com.radixshock.radixcore.file.ModPropertiesManager;
  */
 public class CommandGetModProperty extends CommandBase
 {
-	private IEnforcedCore mod;
+	private final IEnforcedCore	mod;
 
 	public CommandGetModProperty(IEnforcedCore mod)
 	{
@@ -34,19 +34,19 @@ public class CommandGetModProperty extends CommandBase
 	}
 
 	@Override
-	public String getCommandName() 
+	public String getCommandName()
 	{
 		return mod.getPropertyCommandPrefix() + "getmodproperty";
 	}
 
 	@Override
-	public String getCommandUsage(ICommandSender sender) 
+	public String getCommandUsage(ICommandSender sender)
 	{
 		return mod.getPropertyCommandPrefix() + "getmodproperty <property name>";
 	}
 
 	@Override
-	public void processCommand(ICommandSender sender, String[] arguments) 
+	public void processCommand(ICommandSender sender, String[] arguments)
 	{
 		if (arguments.length == 1)
 		{
@@ -68,7 +68,7 @@ public class CommandGetModProperty extends CommandBase
 				sender.addChatMessage(new ChatComponentText(Color.RED + "Property not found for " + mod.getLongModName() + ": " + propertyName));
 			}
 
-			catch (Throwable e)
+			catch (final Throwable e)
 			{
 				sender.addChatMessage(new ChatComponentText(Color.RED + "Error getting mod property: " + e.getMessage()));
 			}
@@ -81,7 +81,7 @@ public class CommandGetModProperty extends CommandBase
 	}
 
 	@Override
-	public int compareTo(Object arg0) 
+	public int compareTo(Object arg0)
 	{
 		return 0;
 	}

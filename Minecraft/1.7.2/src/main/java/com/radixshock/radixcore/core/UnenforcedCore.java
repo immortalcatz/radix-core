@@ -25,230 +25,231 @@ import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.event.FMLServerStoppingEvent;
 
 /**
- * Allows a core mod class to be loaded by RadixCore. You can override each method as needed.
+ * Allows a core mod class to be loaded by RadixCore. You can override each
+ * method as needed.
  */
 public class UnenforcedCore implements IEnforcedCore
 {
 	@Override
-	public void preInit(FMLPreInitializationEvent event) 
+	public void preInit(FMLPreInitializationEvent event)
 	{
-		
+
 	}
 
 	@Override
-	public void init(FMLInitializationEvent event) 
+	public void init(FMLInitializationEvent event)
 	{
-		
+
 	}
 
 	@Override
-	public void postInit(FMLPostInitializationEvent event) 
+	public void postInit(FMLPostInitializationEvent event)
 	{
-		
+
 	}
 
 	@Override
-	public void serverStarting(FMLServerStartingEvent event) 
+	public void serverStarting(FMLServerStartingEvent event)
 	{
-		
+
 	}
 
 	@Override
-	public void serverStopping(FMLServerStoppingEvent event) 
+	public void serverStopping(FMLServerStoppingEvent event)
 	{
-		
+
 	}
 
 	@Override
-	public void initializeProxy() 
+	public void initializeProxy()
 	{
-		
+
 	}
 
 	@Override
-	public void initializeItems() 
+	public void initializeItems()
 	{
-		
+
 	}
 
 	@Override
-	public void initializeBlocks() 
+	public void initializeBlocks()
 	{
-		
+
 	}
 
 	@Override
-	public void initializeRecipes() 
+	public void initializeRecipes()
 	{
-		
+
 	}
 
 	@Override
-	public void initializeSmeltings() 
+	public void initializeSmeltings()
 	{
-		
+
 	}
 
 	@Override
-	public void initializeAchievements() 
+	public void initializeAchievements()
 	{
-		
+
 	}
 
 	@Override
-	public void initializeEntities() 
+	public void initializeEntities()
 	{
-		
+
 	}
 
 	@Override
-	public void initializeNetwork() 
+	public void initializeNetwork()
 	{
-		
+
 	}
 
 	@Override
-	public void initializeCommands(FMLServerStartingEvent event) 
+	public void initializeCommands(FMLServerStartingEvent event)
 	{
-		
+
 	}
 
 	@Override
-	public String getShortModName() 
-	{
-		return null;
-	}
-
-	@Override
-	public String getLongModName() 
+	public String getShortModName()
 	{
 		return null;
 	}
 
 	@Override
-	public String getVersion() 
+	public String getLongModName()
 	{
 		return null;
 	}
 
 	@Override
-	public boolean getChecksForUpdates() 
+	public String getVersion()
+	{
+		return null;
+	}
+
+	@Override
+	public boolean getChecksForUpdates()
 	{
 		return false;
 	}
 
 	@Override
-	public String getUpdateURL() 
+	public String getUpdateURL()
 	{
 		return null;
 	}
 
 	@Override
-	public String getRedirectURL() 
+	public String getRedirectURL()
 	{
 		return null;
 	}
 
 	@Override
-	public ModLogger getLogger() 
+	public ModLogger getLogger()
 	{
 		return null;
 	}
 
 	@Override
-	public EnumNetworkType getNetworkSystemType() 
+	public EnumNetworkType getNetworkSystemType()
 	{
 		return null;
 	}
 
 	@Override
-	public AbstractPacketCodec getPacketCodec() 
+	public AbstractPacketCodec getPacketCodec()
 	{
 		return null;
 	}
 
 	@Override
-	public AbstractPacketHandler getPacketHandler() 
+	public AbstractPacketHandler getPacketHandler()
 	{
 		return null;
 	}
 
 	@Override
-	public PacketPipeline getPacketPipeline() 
+	public PacketPipeline getPacketPipeline()
 	{
 		return null;
 	}
 
 	@Override
-	public Class getPacketTypeClass() 
+	public Class getPacketTypeClass()
 	{
 		return null;
 	}
 
 	@Override
-	public Class getEventHookClass() 
+	public Class getEventHookClass()
 	{
 		return null;
 	}
 
 	@Override
-	public ModPropertiesManager getModPropertiesManager() 
+	public ModPropertiesManager getModPropertiesManager()
 	{
 		return null;
 	}
 
 	@Override
-	public boolean getSetModPropertyCommandEnabled() 
-	{
-		return false; 
-	}
-
-	@Override
-	public boolean getGetModPropertyCommandEnabled() 
+	public boolean getSetModPropertyCommandEnabled()
 	{
 		return false;
 	}
 
 	@Override
-	public boolean getListModPropertiesCommandEnabled() 
+	public boolean getGetModPropertyCommandEnabled()
 	{
 		return false;
 	}
 
 	@Override
-	public String getPropertyCommandPrefix() 
-	{
-		return null;
-	}
-
-	@Override
-	public LanguageLoader getLanguageLoader() 
-	{
-		return null;
-	}
-
-	@Override
-	public ILanguageParser getLanguageParser() 
-	{
-		return null;
-	}
-
-	@Override
-	public ILanguageLoaderHook getLanguageLoaderHook() 
-	{
-		return null;
-	}
-
-	@Override
-	public boolean getLanguageLoaded() 
+	public boolean getListModPropertiesCommandEnabled()
 	{
 		return false;
 	}
 
 	@Override
-	public void setLanguageLoaded(boolean value) 
+	public String getPropertyCommandPrefix()
+	{
+		return null;
+	}
+
+	@Override
+	public LanguageLoader getLanguageLoader()
+	{
+		return null;
+	}
+
+	@Override
+	public ILanguageParser getLanguageParser()
+	{
+		return null;
+	}
+
+	@Override
+	public ILanguageLoaderHook getLanguageLoaderHook()
+	{
+		return null;
+	}
+
+	@Override
+	public boolean getLanguageLoaded()
+	{
+		return false;
+	}
+
+	@Override
+	public void setLanguageLoaded(boolean value)
 	{
 
 	}
-	
+
 }

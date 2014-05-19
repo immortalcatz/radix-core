@@ -25,15 +25,16 @@ import cpw.mods.fml.relauncher.SideOnly;
 public abstract class AbstractGui extends GuiScreen
 {
 	/** The last GUI screen shown. */
-	protected GuiScreen parentGui;
-	
+	protected GuiScreen		parentGui;
+
 	/** An instance of the player that opened this GUI. */
-	protected EntityPlayer player;
-		
+	protected EntityPlayer	player;
+
 	/**
 	 * Constructor
 	 * 
-	 * @param 	player	The player who caused this GUI to open.
+	 * @param player
+	 *            The player who caused this GUI to open.
 	 */
 	public AbstractGui(EntityPlayer player)
 	{
@@ -49,13 +50,13 @@ public abstract class AbstractGui extends GuiScreen
 		{
 			Minecraft.getMinecraft().displayGuiScreen(parentGui);
 		}
-		
+
 		else
 		{
 			Minecraft.getMinecraft().displayGuiScreen(null);
 		}
 	}
-	
+
 	/**
 	 * Closes the GUI screen.
 	 */

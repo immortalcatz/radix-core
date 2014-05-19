@@ -26,27 +26,29 @@ import com.radixshock.radixcore.core.IEnforcedCore;
 import com.radixshock.radixcore.core.RadixCore;
 
 /**
- * Handles loading the language files into the mod and retrieving strings from them.
+ * Handles loading the language files into the mod and retrieving strings from
+ * them.
  */
-public final class LanguageLoader 
+public final class LanguageLoader
 {
-	private IEnforcedCore mod = null;
-	private ConcurrentHashMap<String, String> translationsMap = new ConcurrentHashMap();
-	private String languageName = "";
+	private IEnforcedCore							mod				= null;
+	private final ConcurrentHashMap<String, String>	translationsMap	= new ConcurrentHashMap();
+	private String									languageName	= "";
 
 	/** The properties instance used to load languages. */
-	private Properties properties = new Properties();
+	private final Properties						properties		= new Properties();
 
 	/**
 	 * Constructor
 	 * 
-	 * @param 	mod	The language loader's owner IMod.
+	 * @param mod
+	 *            The language loader's owner IMod.
 	 */
 	public LanguageLoader(IEnforcedCore mod)
 	{
 		this.mod = mod;
 	}
-	
+
 	/**
 	 * Loads the language whose ID is in the options.txt file.
 	 */
@@ -62,14 +64,15 @@ public final class LanguageLoader
 	/**
 	 * Loads the language with the specified language ID.
 	 * 
-	 * @param 	languageID	The ID of the language to load.
+	 * @param languageID
+	 *            The ID of the language to load.
 	 */
 	public void loadLanguage(String languageID)
 	{
-		//Clear old data.
+		// Clear old data.
 		translationsMap.clear();
 
-		//Get the name and location of the appropriate language file.
+		// Get the name and location of the appropriate language file.
 		languageName = Language.valueOf(getLanguageIDFromOptions()).getEnglishName();
 		mod.getLogger().log("Language ID: " + languageID + " - " + languageName);
 
@@ -84,14 +87,14 @@ public final class LanguageLoader
 
 		try
 		{
-			ILanguageLoaderHook modHook = mod.getLanguageLoaderHook();
+			final ILanguageLoaderHook modHook = mod.getLanguageLoaderHook();
 
 			properties.load(StringTranslate.class.getResourceAsStream("/assets/" + mod.getShortModName().toLowerCase() + "/lang/" + languageID + ".lang"));
 
-			//Loop through each item in the properties instance.
+			// Loop through each item in the properties instance.
 			for (final Map.Entry<Object, Object> entrySet : properties.entrySet())
 			{
-				//OMIT will make the language loader skip that phrase.
+				// OMIT will make the language loader skip that phrase.
 				if (!entrySet.getValue().toString().equalsIgnoreCase("OMIT"))
 				{
 					if (modHook != null && modHook.processEntrySet(entrySet))
@@ -106,18 +109,18 @@ public final class LanguageLoader
 				}
 			}
 
-			//Clear the properties instance.
+			// Clear the properties instance.
 			properties.clear();
 
 			mod.getLogger().log("Loaded " + translationsMap.size() + " phrases in " + languageName + ".");
 		}
 
-		catch (IOException e)
+		catch (final IOException e)
 		{
 			RadixCore.getInstance().quitWithException("IOException while loading language.", e);
 		}
-		
-		catch (NullPointerException e)
+
+		catch (final NullPointerException e)
 		{
 			mod.getLogger().log("WARNING: Recoverable error while loading language. Language may not be supported. Defaulting to English.");
 			loadLanguage("en_US");
@@ -125,13 +128,16 @@ public final class LanguageLoader
 	}
 
 	/**
-	 * Retrieves the specified string from the string translations map. Used when the string being retrieved
-	 * is not being spoken by an entity, such as a GUI button or item name.
+	 * Retrieves the specified string from the string translations map. Used
+	 * when the string being retrieved is not being spoken by an entity, such as
+	 * a GUI button or item name.
 	 * 
-	 * @param	elementId	The ID of the string to retrieve.
-	 * @param	arguments	Arguments to use when parsing the string.
+	 * @param elementId
+	 *            The ID of the string to retrieve.
+	 * @param arguments
+	 *            Arguments to use when parsing the string.
 	 * 
-	 * @return	Returns localized string matching the ID provided.
+	 * @return Returns localized string matching the ID provided.
 	 */
 	public String getString(String elementId, Object... arguments)
 	{
@@ -140,27 +146,27 @@ public final class LanguageLoader
 		String outputString = "";
 		elementId = elementId.toLowerCase();
 
-		if (modHook != null && modHook.shouldReceiveGetStringCalls())
-		{
-			return modHook.onGetString(elementId, arguments);
-		}
-		
-		//Loop through each item in the string translations map.
+		if (modHook != null && modHook.shouldReceiveGetStringCalls()) { return modHook.onGetString(elementId, arguments); }
+
+		// Loop through each item in the string translations map.
 		for (final Map.Entry<String, String> entrySet : translationsMap.entrySet())
 		{
-			//Check if the entry's key contains the ID.
+			// Check if the entry's key contains the ID.
 			if (entrySet.getKey().contains(elementId))
 			{
-				//Then check if it completely equals the ID.
+				// Then check if it completely equals the ID.
 				if (entrySet.getKey().equals(elementId))
 				{
-					//In this case, clear the values list and add only the value that equals the ID.
+					// In this case, clear the values list and add only the
+					// value that equals the ID.
 					matchingValues.clear();
 					matchingValues.add(entrySet.getValue());
 					break;
 				}
 
-				else //Otherwise just add the matching ID's value to the matching values list.
+				else
+				// Otherwise just add the matching ID's value to the matching
+				// values list.
 				{
 					matchingValues.add(entrySet.getValue());
 				}
@@ -178,14 +184,14 @@ public final class LanguageLoader
 	/**
 	 * Reads Minecraft's options file and retrieves the language ID from it.
 	 * 
-	 * @return	Returns the language ID last loaded by Minecraft.
+	 * @return Returns the language ID last loaded by Minecraft.
 	 */
 	public String getLanguageIDFromOptions()
 	{
 		BufferedReader reader = null;
 		String languageID = "";
 
-		try 
+		try
 		{
 			reader = new BufferedReader(new FileReader(RadixCore.getInstance().runningDirectory + "/options.txt"));
 
@@ -206,21 +212,21 @@ public final class LanguageLoader
 				reader.close();
 				languageID = line.substring(5);
 			}
-		} 
+		}
 
-		catch (FileNotFoundException e) 
+		catch (final FileNotFoundException e)
 		{
 			mod.getLogger().log("Could not find options.txt file. Defaulting to English.");
 			languageID = "en_US";
-		} 
+		}
 
-		catch (IOException e)
+		catch (final IOException e)
 		{
 			RadixCore.getInstance().quitWithException("Error reading from Minecraft options.txt file.", e);
 			languageID = null;
 		}
 
-		catch (NullPointerException e)
+		catch (final NullPointerException e)
 		{
 			mod.getLogger().log("NullPointerException while trying to read options.txt. Defaulting to English.");
 			languageID = "en_US";
@@ -236,7 +242,7 @@ public final class LanguageLoader
 	{
 		return translationsMap;
 	}
-	
+
 	public boolean isValidString(String elementId)
 	{
 		return !getString(elementId).contains("(" + elementId + " not found)");
