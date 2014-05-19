@@ -657,7 +657,15 @@ public final class LogicHelper
 			//If z and x movement has reached the maximum distance and y movement has reached 2, then return the list as searching has completed.
 			if (zMov == maxDistanceAway && xMov == maxDistanceAway && yMov == 2)
 			{
-				return validCoordinatesList.get(entity.worldObj.rand.nextInt(validCoordinatesList.size()));
+				if (validCoordinatesList.size() > 0)
+				{
+					return validCoordinatesList.get(entity.worldObj.rand.nextInt(validCoordinatesList.size()));
+				}
+
+				else
+				{
+					return null;
+				}
 			}
 
 			//But if y movement isn't 2 then searching should continue.
@@ -696,17 +704,17 @@ public final class LogicHelper
 	{
 		//Create a list to store valid coordinates and specify the maximum distance away.
 		List<Point3D> validCoordinatesList = new LinkedList<Point3D>();
-	
+
 		//Assign entity's position.
 		int x = point.iPosX;
 		int y = point.iPosY;
 		int z = point.iPosZ;
-	
+
 		//Assign x, y, and z movement.
 		int xMov = 0 - maxDistanceAway;
 		int yMov = -3;
 		int zMov = 0 - maxDistanceAway;
-	
+
 		while (true)
 		{
 			//If the block ID at the following coordinates matches the block ID being searched for...
@@ -715,7 +723,7 @@ public final class LogicHelper
 				//Add the block's coordinates to the coordinates list.
 				validCoordinatesList.add(new Point3D(x + xMov, y + yMov, z + zMov));
 			}
-	
+
 			//If z and x movement has reached the maximum distance and y movement has reached 2, then return the list as searching has completed.
 			if (zMov == maxDistanceAway && xMov == maxDistanceAway && yMov == 2)
 			{
@@ -723,13 +731,13 @@ public final class LogicHelper
 				{
 					return validCoordinatesList.get(world.rand.nextInt(validCoordinatesList.size()));
 				}
-	
+
 				else
 				{
 					return null;
 				}
 			}
-	
+
 			//But if y movement isn't 2 then searching should continue.
 			else if (zMov == maxDistanceAway && xMov == maxDistanceAway)
 			{
@@ -738,7 +746,7 @@ public final class LogicHelper
 				xMov = 0 - maxDistanceAway;
 				zMov = 0 - maxDistanceAway;
 			}
-	
+
 			//If x movement has reached the maximum distance...
 			if (xMov == maxDistanceAway)
 			{
@@ -747,7 +755,7 @@ public final class LogicHelper
 				xMov = 0 - maxDistanceAway;
 				continue;
 			}
-	
+
 			xMov++;
 		}
 	}
@@ -771,10 +779,10 @@ public final class LogicHelper
 			//What is forward for the direction the player is facing?
 			switch (directionPlayerFacing)
 			{
-			case 0: return 0;
-			case 1: return 90;
-			case 2: return 180;
-			case 3: return -90;
+				case 0: return 0;
+				case 1: return 90;
+				case 2: return 180;
+				case 3: return -90;
 			}
 		}
 
@@ -783,10 +791,10 @@ public final class LogicHelper
 		{
 			switch (directionPlayerFacing)
 			{
-			case 0: return 180;
-			case 1: return -90;
-			case 2: return 0;
-			case 3: return 90;
+				case 0: return 180;
+				case 1: return -90;
+				case 2: return 0;
+				case 3: return 90;
 			}
 		}
 
@@ -795,10 +803,10 @@ public final class LogicHelper
 		{
 			switch (directionPlayerFacing)
 			{
-			case 0: return -90;
-			case 1: return 0;
-			case 2: return 90;
-			case 3: return 180;
+				case 0: return -90;
+				case 1: return 0;
+				case 2: return 90;
+				case 3: return 180;
 			}
 		}
 
@@ -807,10 +815,10 @@ public final class LogicHelper
 		{
 			switch (directionPlayerFacing)
 			{
-			case 0: return 90;
-			case 1: return 180;
-			case 2: return -90;
-			case 3: return 0;
+				case 0: return 90;
+				case 1: return 180;
+				case 2: return -90;
+				case 3: return 0;
 			}
 		}
 
@@ -870,7 +878,7 @@ public final class LogicHelper
 			RadixCore.getInstance().getLogger().log("Entity class provided doesn't contain a constructor accepting only a World as an argument.");
 			RadixCore.getInstance().getLogger().log(e);
 		}
-		
+
 		catch (Exception e) 
 		{
 			RadixCore.getInstance().getLogger().log("Unexpected exception while spawning a group of entities.");
@@ -891,23 +899,26 @@ public final class LogicHelper
 			final EntityLivingBase entity = (EntityLivingBase) entityClass.getDeclaredConstructor(World.class).newInstance(player.worldObj);
 			final Point3D spawnPoint = LogicHelper.getRandomNearbyBlockCoordinatesOfType(player, Blocks.air, 10);
 
-			entity.setPosition(spawnPoint.iPosX, spawnPoint.iPosY, spawnPoint.iPosZ);
-			player.worldObj.spawnEntityInWorld(entity);
+			if (spawnPoint != null)
+			{
+				entity.setPosition(spawnPoint.iPosX, spawnPoint.iPosY, spawnPoint.iPosZ);
+				player.worldObj.spawnEntityInWorld(entity);
+			}
 		}
-		
+
 		catch (NoSuchMethodException e)
 		{
 			RadixCore.getInstance().getLogger().log("Entity class provided doesn't contain a constructor accepting only a World as an argument.");
 			RadixCore.getInstance().getLogger().log(e);
 		}
-		
+
 		catch (Exception e) 
 		{
 			RadixCore.getInstance().getLogger().log("Unexpected exception while spawning entity at player.");
 			RadixCore.getInstance().getLogger().log(e);
 		}
 	}
-	
+
 	/**
 	 * Gets the closest player to the specified entity, up to a maximum of 64 blocks away.
 	 * 
@@ -1032,7 +1043,7 @@ public final class LogicHelper
 
 		return nearestEntity;
 	}
-	
+
 	/**
 	 * Produces a number within the specified range.
 	 * 
@@ -1045,7 +1056,7 @@ public final class LogicHelper
 	{
 		return new Random().nextInt((maximum - minimum) + 1) + minimum;
 	}
-	
+
 	/**
 	 * Gets a random boolean with a probability of being true.
 	 * 
