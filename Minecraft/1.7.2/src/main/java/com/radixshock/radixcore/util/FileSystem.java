@@ -14,7 +14,7 @@ import java.io.File;
 /**
  * Defines utility methods that interact with the file system.
  */
-public final class FileSystemOperations
+public final class FileSystem
 {
 	/**
 	 * Deletes a path and all files and folders within.

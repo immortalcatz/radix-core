@@ -9,14 +9,12 @@
 
 package com.radixshock.radixcore.core;
 
-import com.radixshock.radixcore.enums.EnumNetworkType;
 import com.radixshock.radixcore.file.ModPropertiesManager;
+import com.radixshock.radixcore.file.WorldPropertiesManager;
 import com.radixshock.radixcore.lang.ILanguageLoaderHook;
 import com.radixshock.radixcore.lang.ILanguageParser;
 import com.radixshock.radixcore.lang.LanguageLoader;
-import com.radixshock.radixcore.network.AbstractPacketCodec;
 import com.radixshock.radixcore.network.AbstractPacketHandler;
-import com.radixshock.radixcore.network.PacketPipeline;
 
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
@@ -133,6 +131,12 @@ public class UnenforcedCore implements IEnforcedCore
 	}
 
 	@Override
+	public String getMinimumRadixCoreVersion() 
+	{
+		return null;
+	}
+
+	@Override
 	public boolean getChecksForUpdates()
 	{
 		return false;
@@ -152,36 +156,6 @@ public class UnenforcedCore implements IEnforcedCore
 
 	@Override
 	public ModLogger getLogger()
-	{
-		return null;
-	}
-
-	@Override
-	public EnumNetworkType getNetworkSystemType()
-	{
-		return null;
-	}
-
-	@Override
-	public AbstractPacketCodec getPacketCodec()
-	{
-		return null;
-	}
-
-	@Override
-	public AbstractPacketHandler getPacketHandler()
-	{
-		return null;
-	}
-
-	@Override
-	public PacketPipeline getPacketPipeline()
-	{
-		return null;
-	}
-
-	@Override
-	public Class getPacketTypeClass()
 	{
 		return null;
 	}
@@ -252,4 +226,35 @@ public class UnenforcedCore implements IEnforcedCore
 
 	}
 
+	@Override
+	public WorldPropertiesManager getWorldPropertiesManager() 
+	{
+		return null;
+	}
+
+	@Override
+	public void onCreateNewWorldProperties(WorldPropertiesManager manager)
+	{	
+	}
+
+	@Override
+	public void onLoadWorldProperties(WorldPropertiesManager manager) 
+	{	
+	}
+
+	@Override
+	public void onSaveWorldProperties(WorldPropertiesManager manager) 
+	{
+	}
+
+	@Override
+	public AbstractPacketHandler getPacketHandler() 
+	{
+		return null;
+	}
+
+	@Override
+	public void onUpdateWorldProperties(WorldPropertiesManager manager) 
+	{
+	}
 }

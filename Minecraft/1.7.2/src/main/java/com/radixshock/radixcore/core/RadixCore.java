@@ -18,18 +18,23 @@ import java.util.logging.Level;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.crash.CrashReport;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.MinecraftForge;
 
 import com.radixshock.radixcore.command.CommandGetModProperty;
 import com.radixshock.radixcore.command.CommandListModProperties;
 import com.radixshock.radixcore.command.CommandSetModProperty;
 import com.radixshock.radixcore.lang.LanguageLoader;
+import com.radixshock.radixcore.util.object.Version;
 
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
+import cpw.mods.fml.common.ModContainer;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
@@ -41,12 +46,15 @@ import cpw.mods.fml.relauncher.SideOnly;
 /**
  * The core of the RadixCore mod API.
  */
-@Mod(modid = "radixcore", name = "RadixCore", version = "1.2.0")
+@Mod(modid = "radixcore", name = "RadixCore", version = Constants.VERSION)
 public class RadixCore extends UnenforcedCore
 {
 	@Instance("radixcore")
 	private static RadixCore				instance;
 	private ModLogger						logger;
+
+	protected boolean isBadVersion = false;
+	protected IEnforcedCore throwingMod = null;
 
 	/** The current working directory. The .minecraft folder. */
 	public String							runningDirectory;
@@ -77,22 +85,25 @@ public class RadixCore extends UnenforcedCore
 
 			for (final IEnforcedCore mod : registeredMods)
 			{
-				mod.preInit(event);
-				mod.initializeProxy();
-				mod.initializeItems();
-				mod.initializeBlocks();
-
-				if (mod.getEventHookClass() != null)
+				if (canUseLoadedRadixCore(mod))
 				{
-					FMLCommonHandler.instance().bus().register(mod.getEventHookClass().newInstance());
-					MinecraftForge.EVENT_BUS.register(mod.getEventHookClass().newInstance());
-				}
+					mod.preInit(event);
+					mod.initializeProxy();
+					mod.initializeItems();
+					mod.initializeBlocks();
 
-				final LanguageLoader modLanguageLoader = mod.getLanguageLoader();
+					if (mod.getEventHookClass() != null)
+					{
+						FMLCommonHandler.instance().bus().register(mod.getEventHookClass().newInstance());
+						MinecraftForge.EVENT_BUS.register(mod.getEventHookClass().newInstance());
+					}
 
-				if (modLanguageLoader != null)
-				{
-					modLanguageLoader.loadLanguage();
+					final LanguageLoader modLanguageLoader = mod.getLanguageLoader();
+
+					if (modLanguageLoader != null)
+					{
+						modLanguageLoader.loadLanguage();
+					}
 				}
 			}
 		}
@@ -116,12 +127,15 @@ public class RadixCore extends UnenforcedCore
 	{
 		for (final IEnforcedCore mod : registeredMods)
 		{
-			mod.init(event);
-			mod.initializeRecipes();
-			mod.initializeSmeltings();
-			mod.initializeAchievements();
-			mod.initializeEntities();
-			mod.initializeNetwork();
+			if (canUseLoadedRadixCore(mod))
+			{
+				mod.init(event);
+				mod.initializeRecipes();
+				mod.initializeSmeltings();
+				mod.initializeAchievements();
+				mod.initializeEntities();
+				mod.initializeNetwork();
+			}
 		}
 	}
 
@@ -137,7 +151,10 @@ public class RadixCore extends UnenforcedCore
 	{
 		for (final IEnforcedCore mod : registeredMods)
 		{
-			mod.postInit(event);
+			if (canUseLoadedRadixCore(mod))
+			{
+				mod.postInit(event);
+			}
 		}
 	}
 
@@ -152,23 +169,26 @@ public class RadixCore extends UnenforcedCore
 	{
 		for (final IEnforcedCore mod : registeredMods)
 		{
-			if (mod.getSetModPropertyCommandEnabled())
+			if (canUseLoadedRadixCore(mod))
 			{
-				event.registerServerCommand(new CommandSetModProperty(mod));
-			}
+				if (mod.getSetModPropertyCommandEnabled())
+				{
+					event.registerServerCommand(new CommandSetModProperty(mod));
+				}
 
-			if (mod.getGetModPropertyCommandEnabled())
-			{
-				event.registerServerCommand(new CommandGetModProperty(mod));
-			}
+				if (mod.getGetModPropertyCommandEnabled())
+				{
+					event.registerServerCommand(new CommandGetModProperty(mod));
+				}
 
-			if (mod.getListModPropertiesCommandEnabled())
-			{
-				event.registerServerCommand(new CommandListModProperties(mod));
-			}
+				if (mod.getListModPropertiesCommandEnabled())
+				{
+					event.registerServerCommand(new CommandListModProperties(mod));
+				}
 
-			mod.serverStarting(event);
-			mod.initializeCommands(event);
+				mod.serverStarting(event);
+				mod.initializeCommands(event);
+			}
 		}
 	}
 
@@ -183,7 +203,10 @@ public class RadixCore extends UnenforcedCore
 	{
 		for (final IEnforcedCore mod : registeredMods)
 		{
-			mod.serverStopping(event);
+			if (canUseLoadedRadixCore(mod))
+			{
+				mod.serverStopping(event);
+			}
 		}
 	}
 
@@ -256,7 +279,7 @@ public class RadixCore extends UnenforcedCore
 	@Override
 	public String getVersion()
 	{
-		return "1.2.0";
+		return Constants.VERSION;
 	}
 
 	@Override
@@ -281,5 +304,65 @@ public class RadixCore extends UnenforcedCore
 	public ModLogger getLogger()
 	{
 		return logger;
+	}
+
+	public void setBadVersionInfo(IEnforcedCore throwingMod)
+	{
+		this.throwingMod = throwingMod;
+		this.isBadVersion = true;
+	}
+
+	public static boolean canUseLoadedRadixCore(IEnforcedCore core)
+	{
+		for (ModContainer mod : Loader.instance().getModList())
+		{
+			if (mod.getModId().equals("radixcore"))
+			{
+				int version = -1;
+				int major = -1;
+				int minor = -1;
+
+				Version minimumVersion = new Version(core.getMinimumRadixCoreVersion());
+				Version radixCoreVersion = new Version(mod.getVersion());
+
+				boolean returnBool = radixCoreVersion.isGreaterOrEqual(minimumVersion);
+
+				if (!returnBool)
+				{
+					RadixCore.getInstance().setBadVersionInfo(core);
+				}
+
+				return returnBool;
+			}
+		}
+
+		return false;
+	}
+	
+	/**
+	 * Gets a player with the name provided.
+	 * 
+	 * @param 	username	The username of the player.
+	 * 
+	 * @return	The player entity with the specified username.
+	 */
+	public static EntityPlayer getPlayerByName(String username)
+	{
+		for (final WorldServer world : MinecraftServer.getServer().worldServers)
+		{
+			final EntityPlayer player = world.getPlayerEntityByName(username);
+
+			if (player == null)
+			{
+				continue;
+			}
+
+			else
+			{
+				return player;
+			}
+		}
+
+		return null;
 	}
 }

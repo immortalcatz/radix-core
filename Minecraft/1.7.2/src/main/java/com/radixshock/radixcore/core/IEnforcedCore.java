@@ -9,14 +9,12 @@
 
 package com.radixshock.radixcore.core;
 
-import com.radixshock.radixcore.enums.EnumNetworkType;
 import com.radixshock.radixcore.file.ModPropertiesManager;
+import com.radixshock.radixcore.file.WorldPropertiesManager;
 import com.radixshock.radixcore.lang.ILanguageLoaderHook;
 import com.radixshock.radixcore.lang.ILanguageParser;
 import com.radixshock.radixcore.lang.LanguageLoader;
-import com.radixshock.radixcore.network.AbstractPacketCodec;
 import com.radixshock.radixcore.network.AbstractPacketHandler;
-import com.radixshock.radixcore.network.PacketPipeline;
 
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
@@ -108,19 +106,7 @@ public interface IEnforcedCore
 	void initializeEntities();
 
 	/**
-	 * Initialize your mod's networking system components here. Always
-	 * initialize your packet pipeline, unless you're not using a networking
-	 * system.
-	 * <p>
-	 * 
-	 * If using the Legacy networking type, initialize your codec, handler, and
-	 * add channels as well as register the packet class.
-	 * <p>
-	 * 
-	 * If using the SelfContained networking type, do all of the above while
-	 * registering all packet classes you've defined yourself
-	 * <p>
-	 * <b>instead of<b> the Packet class.
+	 * Initialize your mod's packet handler and other networking components here.
 	 */
 	void initializeNetwork();
 
@@ -148,6 +134,11 @@ public interface IEnforcedCore
 	String getVersion();
 
 	/**
+	 * @return Your mod's minimum compatible RadixCore version.
+	 */
+	String getMinimumRadixCoreVersion();
+	
+	/**
 	 * @return True if you want your mod to check for updates. False if
 	 *         otherwise.
 	 */
@@ -173,41 +164,17 @@ public interface IEnforcedCore
 	ModLogger getLogger();
 
 	/**
-	 * @return The method you will be using to interface with the networking
-	 *         system.
-	 */
-	EnumNetworkType getNetworkSystemType();
-
-	/**
-	 * @return Return an instance of your mod's packet codec here. Null if you
-	 *         don't need one.
-	 */
-	AbstractPacketCodec getPacketCodec();
-
-	/**
-	 * @return Return an instance of your mod's packet handler here. Null if you
-	 *         don't need one.
-	 */
-	AbstractPacketHandler getPacketHandler();
-
-	/**
-	 * @return Return an instance of your mod's packet pipeline here. Null if
-	 *         you don't need one.
-	 */
-	PacketPipeline getPacketPipeline();
-
-	/**
-	 * @return Return the enum type that contains the types of packets you are
-	 *         going to send. Null if you don't do this.
-	 */
-	Class getPacketTypeClass();
-
-	/**
 	 * @return An instance of your mod's ModPropertiesManager. Null if you don't
 	 *         use one.
 	 */
 	ModPropertiesManager getModPropertiesManager();
 
+	/**
+	 * @return An instance of your mod's WorldPropertiesManager. Null if you don't
+	 * 		   use one.
+	 */
+	WorldPropertiesManager getWorldPropertiesManager();
+	
 	/**
 	 * @return True if RadixCore should define the SetModProperty command for
 	 *         your mod. For security reasons, this command can only be used
@@ -240,6 +207,11 @@ public interface IEnforcedCore
 	Class getEventHookClass();
 
 	/**
+	 * @return Your mod's packet handler, if you use one.
+	 */
+	AbstractPacketHandler getPacketHandler();
+	
+	/**
 	 * @return Return an instance of your mod's language loader here. Null if
 	 *         you don't need one.
 	 */
@@ -271,4 +243,12 @@ public interface IEnforcedCore
 	 *            The value to set <code>languageLoaded</code> to.
 	 */
 	void setLanguageLoaded(boolean value);
+	
+	void onCreateNewWorldProperties(WorldPropertiesManager manager);
+	
+	void onSaveWorldProperties(WorldPropertiesManager manager);
+	
+	void onLoadWorldProperties(WorldPropertiesManager manager);
+	
+	void onUpdateWorldProperties(WorldPropertiesManager manager);
 }
