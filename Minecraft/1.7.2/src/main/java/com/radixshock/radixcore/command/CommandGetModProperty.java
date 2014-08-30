@@ -26,7 +26,7 @@ import com.radixshock.radixcore.file.ModPropertiesManager;
  */
 public class CommandGetModProperty extends CommandBase
 {
-	private final IEnforcedCore	mod;
+	private final IEnforcedCore mod;
 
 	public CommandGetModProperty(IEnforcedCore mod)
 	{

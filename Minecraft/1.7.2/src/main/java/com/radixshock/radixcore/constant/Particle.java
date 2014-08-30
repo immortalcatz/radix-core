@@ -1,6 +1,6 @@
 package com.radixshock.radixcore.constant;
 
-public final class Particle 
+public final class Particle
 {
 	public static final String EXPLOSION = "hugeexplosion";
 	public static final String SMALL_EXPLOSION = "largeexplode";

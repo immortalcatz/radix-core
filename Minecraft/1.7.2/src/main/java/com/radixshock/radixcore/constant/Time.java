@@ -15,11 +15,11 @@ package com.radixshock.radixcore.constant;
 public final class Time
 {
 	/** How many ticks in a second. */
-	public static final int	SECOND	= 20;
+	public static final int SECOND = 20;
 
 	/** How many ticks in a minute. */
-	public static final int	MINUTE	= 1200;
+	public static final int MINUTE = 1200;
 
 	/** How many ticks in an hour. */
-	public static final int	HOUR	= 72000;
+	public static final int HOUR = 72000;
 }

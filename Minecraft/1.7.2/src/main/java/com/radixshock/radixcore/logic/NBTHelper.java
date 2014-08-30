@@ -23,13 +23,10 @@ public class NBTHelper
 	/**
 	 * Automatically saves the provided entity's public fields to NBT.
 	 * <p>
-	 * <b>For public fields you <u>do not</u> want saved to NBT, apply the
-	 * <code>transient</code> modifier.</b>
+	 * <b>For public fields you <u>do not</u> want saved to NBT, apply the <code>transient</code> modifier.</b>
 	 * 
-	 * @param entity
-	 *            The entity containing data to be written to NBT.
-	 * @param nbt
-	 *            The entity's NBTTagCompound provided by Minecraft.
+	 * @param entity The entity containing data to be written to NBT.
+	 * @param nbt The entity's NBTTagCompound provided by Minecraft.
 	 */
 	public static void autoWriteEntityToNBT(Entity entity, NBTTagCompound nbt)
 	{
@@ -39,22 +36,13 @@ public class NBTHelper
 	/**
 	 * Automatically saves the provided entity's public fields to NBT.
 	 * <p>
-	 * 
-	 * <b>For public fields you <u>do not</u> want saved to NBT, apply the
-	 * <code>transient</code> modifier.</b>
+	 * <b>For public fields you <u>do not</u> want saved to NBT, apply the <code>transient</code> modifier.</b>
 	 * <p>
+	 * Use this method if you have a base/abstract class for an entity and want to avoid overriding writeEntityToNBT() in all extending classes. Provide each possible extending class to this method and its public fields will be written to NBT automatically.
 	 * 
-	 * Use this method if you have a base/abstract class for an entity and want
-	 * to avoid overriding writeEntityToNBT() in all extending classes. Provide
-	 * each possible extending class to this method and its public fields will
-	 * be written to NBT automatically.
-	 * 
-	 * @param entity
-	 *            The entity containing data to be written to NBT.
-	 * @param nbt
-	 *            The entity's NBTTagCompound provided by Miencraft.
-	 * @param extendingClasses
-	 *            A list of classes that extend from this entity's base class.
+	 * @param entity The entity containing data to be written to NBT.
+	 * @param nbt The entity's NBTTagCompound provided by Miencraft.
+	 * @param extendingClasses A list of classes that extend from this entity's base class.
 	 */
 	public static void autoWriteEntityToNBT(Entity entity, NBTTagCompound nbt, Class... extendingClasses)
 	{
@@ -117,14 +105,10 @@ public class NBTHelper
 	/**
 	 * Automatically reads the provided entity's public fields from NBT.
 	 * <p>
+	 * <b>For public fields you <u>do not</u> want read from NBT, apply the <code>transient</code> modifier.</b>
 	 * 
-	 * <b>For public fields you <u>do not</u> want read from NBT, apply the
-	 * <code>transient</code> modifier.</b>
-	 * 
-	 * @param entity
-	 *            The entity containing fields to be read from NBT.
-	 * @param nbt
-	 *            The entity's NBTTagCompound provided by Minecraft.
+	 * @param entity The entity containing fields to be read from NBT.
+	 * @param nbt The entity's NBTTagCompound provided by Minecraft.
 	 */
 	public static void autoReadEntityFromNBT(Entity entity, NBTTagCompound nbt)
 	{
@@ -134,22 +118,13 @@ public class NBTHelper
 	/**
 	 * Automatically reads the provided entity's public fields from NBT.
 	 * <p>
-	 * 
-	 * <b>For public fields you <u>do not</u> want read from NBT, apply the
-	 * <code>transient</code> modifier.</b>
+	 * <b>For public fields you <u>do not</u> want read from NBT, apply the <code>transient</code> modifier.</b>
 	 * <p>
+	 * Use this method if you have a base/abstract class for an entity and want to avoid overriding readEntityFromNBT() in all extending classes. Provide each possible extending class to this method and its public fields will be read from NBT automatically.
 	 * 
-	 * Use this method if you have a base/abstract class for an entity and want
-	 * to avoid overriding readEntityFromNBT() in all extending classes. Provide
-	 * each possible extending class to this method and its public fields will
-	 * be read from NBT automatically.
-	 * 
-	 * @param entity
-	 *            The entity containing fields to be read from NBT.
-	 * @param nbt
-	 *            The entity's NBTTagCompound provided by Miencraft.
-	 * @param extendingClasses
-	 *            A list of classes that extend from this entity's base class.
+	 * @param entity The entity containing fields to be read from NBT.
+	 * @param nbt The entity's NBTTagCompound provided by Miencraft.
+	 * @param extendingClasses A list of classes that extend from this entity's base class.
 	 */
 	public static void autoReadEntityFromNBT(Entity entity, NBTTagCompound nbt, Class... extendingClasses)
 	{
@@ -214,18 +189,12 @@ public class NBTHelper
 	/**
 	 * Automatically saves the provided class's public fields to NBT.
 	 * <p>
-	 * 
-	 * <b>For public fields you <u>do not</u> want saved to NBT, apply the
-	 * <code>transient</code> modifier.</b>
+	 * <b>For public fields you <u>do not</u> want saved to NBT, apply the <code>transient</code> modifier.</b>
 	 * <p>
 	 * 
-	 * @param clazz
-	 *            The class containing field signatures to be written to NBT.
-	 * @param instance
-	 *            The instance of the provided class type that contains the data
-	 *            you wish to be saved.
-	 * @param nbt
-	 *            The NBTTagCompound the data will be written to.
+	 * @param clazz The class containing field signatures to be written to NBT.
+	 * @param instance The instance of the provided class type that contains the data you wish to be saved.
+	 * @param nbt The NBTTagCompound the data will be written to.
 	 */
 	public static void autoWriteClassFieldsToNBT(Class clazz, Object instance, NBTTagCompound nbt)
 	{
@@ -235,18 +204,12 @@ public class NBTHelper
 	/**
 	 * Automatically reads the provided class's public fields to NBT.
 	 * <p>
-	 * 
-	 * <b>For public fields you <u>do not</u> want saved to NBT, apply the
-	 * <code>transient</code> modifier.</b>
+	 * <b>For public fields you <u>do not</u> want saved to NBT, apply the <code>transient</code> modifier.</b>
 	 * <p>
 	 * 
-	 * @param clazz
-	 *            The class containing field signatures to be read from NBT.
-	 * @param instance
-	 *            The instance of the provided class type that contains the
-	 *            fields that will receive the read data.
-	 * @param nbt
-	 *            The NBTTagCompound the data will be read from.
+	 * @param clazz The class containing field signatures to be read from NBT.
+	 * @param instance The instance of the provided class type that contains the fields that will receive the read data.
+	 * @param nbt The NBTTagCompound the data will be read from.
 	 */
 	public static void autoReadClassFieldsFromNBT(Class clazz, Object instance, NBTTagCompound nbt)
 	{
@@ -256,20 +219,13 @@ public class NBTHelper
 	/**
 	 * Automatically saves the provided class's public fields to NBT.
 	 * <p>
-	 * 
-	 * <b>For public fields you <u>do not</u> want saved to NBT, apply the
-	 * <code>transient</code> modifier.</b>
+	 * <b>For public fields you <u>do not</u> want saved to NBT, apply the <code>transient</code> modifier.</b>
 	 * <p>
 	 * 
-	 * @param clazz
-	 *            The class containing field signatures to be written to NBT.
-	 * @param instance
-	 *            The instance of the provided class type that contains the data
-	 *            you wish to be saved.
-	 * @param nbt
-	 *            The NBTTagCompound the data will be written to.
-	 * @param prefix
-	 *            A prefix to append to the fields' NBT entry, if any.
+	 * @param clazz The class containing field signatures to be written to NBT.
+	 * @param instance The instance of the provided class type that contains the data you wish to be saved.
+	 * @param nbt The NBTTagCompound the data will be written to.
+	 * @param prefix A prefix to append to the fields' NBT entry, if any.
 	 */
 	public static void autoWriteClassFieldsToNBT(Class clazz, Object instance, NBTTagCompound nbt, String prefix)
 	{
@@ -329,20 +285,13 @@ public class NBTHelper
 	/**
 	 * Automatically reads the provided class's public fields to NBT.
 	 * <p>
-	 * 
-	 * <b>For public fields you <u>do not</u> want saved to NBT, apply the
-	 * <code>transient</code> modifier.</b>
+	 * <b>For public fields you <u>do not</u> want saved to NBT, apply the <code>transient</code> modifier.</b>
 	 * <p>
 	 * 
-	 * @param clazz
-	 *            The class containing field signatures to be read from NBT.
-	 * @param instance
-	 *            The instance of the provided class type that contains the
-	 *            fields that will receive the read data.
-	 * @param nbt
-	 *            The NBTTagCompound the data will be read from.
-	 * @param prefix
-	 *            A prefix to append to the fields' NBT entry, if any.
+	 * @param clazz The class containing field signatures to be read from NBT.
+	 * @param instance The instance of the provided class type that contains the fields that will receive the read data.
+	 * @param nbt The NBTTagCompound the data will be read from.
+	 * @param prefix A prefix to append to the fields' NBT entry, if any.
 	 */
 	public static void autoReadClassFieldsFromNBT(Class clazz, Object instance, NBTTagCompound nbt, String prefix)
 	{

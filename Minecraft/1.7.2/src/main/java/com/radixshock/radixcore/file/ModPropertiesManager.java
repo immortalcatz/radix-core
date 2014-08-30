@@ -22,30 +22,27 @@ import com.radixshock.radixcore.core.IEnforcedCore;
 import com.radixshock.radixcore.core.RadixCore;
 
 /**
- * Handles reading and writing properties that effect how the entire mod
- * operates.
+ * Handles reading and writing properties that effect how the entire mod operates.
  */
 public class ModPropertiesManager implements Serializable
 {
-	private transient IEnforcedCore		mod;
-	private transient Properties		properties			= new Properties();
-	private transient FileInputStream	inputStream			= null;
-	private transient FileOutputStream	outputStream		= null;
-	private transient File				modPropertiesFile	= null;
-	private transient File				configFolder		= null;
+	private transient IEnforcedCore mod;
+	private transient Properties properties = new Properties();
+	private transient FileInputStream inputStream = null;
+	private transient FileOutputStream outputStream = null;
+	private transient File modPropertiesFile = null;
+	private transient File configFolder = null;
 
-	private transient Class				modPropertiesClass;
+	private transient Class modPropertiesClass;
 
 	/** An instance of the class containing mod properties. */
-	public transient Object				modPropertiesInstance;
+	public transient Object modPropertiesInstance;
 
 	/**
 	 * Constructor
 	 * 
-	 * @param mod
-	 *            This ModPropertiesManager's owner mod.
-	 * @param modPropertiesClass
-	 *            The class containing the mod's properties.
+	 * @param mod This ModPropertiesManager's owner mod.
+	 * @param modPropertiesClass The class containing the mod's properties.
 	 */
 	public ModPropertiesManager(IEnforcedCore mod, Class modPropertiesClass)
 	{

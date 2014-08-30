@@ -33,18 +33,12 @@ import com.radixshock.radixcore.core.RadixCore;
 public final class LogicHelper
 {
 	/**
-	 * Gets whether or not there is a certain block close to the entity
-	 * provided.
+	 * Gets whether or not there is a certain block close to the entity provided.
 	 * 
-	 * @param entity
-	 *            The entity being used as a base point for searching.
-	 * @param block
-	 *            The block that is being searched for.
-	 * @param maxDistanceAway
-	 *            The maximum distance from the entity to search.
-	 * 
-	 * @return True if the specified block is within the maximum distance of the
-	 *         specified entity. False if otherwise.
+	 * @param entity The entity being used as a base point for searching.
+	 * @param block The block that is being searched for.
+	 * @param maxDistanceAway The maximum distance from the entity to search.
+	 * @return True if the specified block is within the maximum distance of the specified entity. False if otherwise.
 	 */
 	public static boolean isBlockNearby(Entity entity, Block block, int maxDistanceAway)
 	{
@@ -58,7 +52,10 @@ public final class LogicHelper
 
 		while (true)
 		{
-			if (entity.worldObj.getBlock(x + xMov, y + yMov, z + zMov) == block) { return true; }
+			if (entity.worldObj.getBlock(x + xMov, y + yMov, z + zMov) == block)
+			{
+				return true;
+			}
 
 			if (zMov == maxDistanceAway && xMov == maxDistanceAway && yMov == 3)
 			{
@@ -91,13 +88,8 @@ public final class LogicHelper
 	/**
 	 * Gets the distance from one entity to another.
 	 * 
-	 * @param entity1
-	 *            An entity whose position will be used with the second provided
-	 *            entity to find the distance between them.
-	 * @param entity2
-	 *            An entity whose position will be used with the first provided
-	 *            entity to find the distance between them.
-	 * 
+	 * @param entity1 An entity whose position will be used with the second provided entity to find the distance between them.
+	 * @param entity2 An entity whose position will be used with the first provided entity to find the distance between them.
 	 * @return The distance between the two provided entities.
 	 */
 	public static double getDistanceToEntity(Entity entity1, Entity entity2)
@@ -106,20 +98,12 @@ public final class LogicHelper
 	}
 
 	/**
-	 * Returns the coordinates of the first block found near the entity that is
-	 * the provided block. Scanning for the block starts 3 blocks above the
-	 * entity and moves down.
+	 * Returns the coordinates of the first block found near the entity that is the provided block. Scanning for the block starts 3 blocks above the entity and moves down.
 	 * 
-	 * @param entity
-	 *            The entity used as a base point to search for a block.
-	 * @param block
-	 *            The block that is being searched for.
-	 * @param maxDistanceAway
-	 *            The maximum distance away from the entity to search for
-	 *            blocks.
-	 * 
-	 * @return Point3D object containing the coordinates of the first block
-	 *         found.
+	 * @param entity The entity used as a base point to search for a block.
+	 * @param block The block that is being searched for.
+	 * @param maxDistanceAway The maximum distance away from the entity to search for blocks.
+	 * @return Point3D object containing the coordinates of the first block found.
 	 */
 	public static Point3D getNearbyBlock_StartAtTop(Entity entity, Block block, int maxDistanceAway)
 	{
@@ -135,7 +119,10 @@ public final class LogicHelper
 		{
 			final Block currentBlock = entity.worldObj.getBlock(x + xMov, y + yMov, z + zMov);
 
-			if (currentBlock == block) { return new Point3D(x + xMov, y + yMov, z + zMov); }
+			if (currentBlock == block)
+			{
+				return new Point3D(x + xMov, y + yMov, z + zMov);
+			}
 
 			if (zMov == maxDistanceAway && xMov == maxDistanceAway && yMov == -3)
 			{
@@ -164,20 +151,12 @@ public final class LogicHelper
 	}
 
 	/**
-	 * Returns the coordinates of the first block found near the entity that is
-	 * the specified block. Scanning for the block starts 3 blocks below the
-	 * entity and moves up.
+	 * Returns the coordinates of the first block found near the entity that is the specified block. Scanning for the block starts 3 blocks below the entity and moves up.
 	 * 
-	 * @param entity
-	 *            The entity used as a base point to search for a block.
-	 * @param block
-	 *            The block that is being searched for.
-	 * @param maxDistanceAway
-	 *            The maximum distance away from the entity to search for
-	 *            blocks.
-	 * 
-	 * @return Point3D object containing the coordinates of the first block
-	 *         found.
+	 * @param entity The entity used as a base point to search for a block.
+	 * @param block The block that is being searched for.
+	 * @param maxDistanceAway The maximum distance away from the entity to search for blocks.
+	 * @return Point3D object containing the coordinates of the first block found.
 	 */
 	public static Point3D getNearbyBlock_StartAtBottom(Entity entity, Block block, int maxDistanceAway)
 	{
@@ -193,7 +172,10 @@ public final class LogicHelper
 		{
 			final Block currentBlock = entity.worldObj.getBlock(x + xMov, y + yMov, z + zMov);
 
-			if (currentBlock == block) { return new Point3D(x + xMov, y + yMov, z + zMov); }
+			if (currentBlock == block)
+			{
+				return new Point3D(x + xMov, y + yMov, z + zMov);
+			}
 
 			if (zMov == maxDistanceAway && xMov == maxDistanceAway && yMov == 3)
 			{
@@ -222,20 +204,12 @@ public final class LogicHelper
 	}
 
 	/**
-	 * Returns the coordinates of the blocks found near the entity that are the
-	 * specified block. Scanning for the blocks starts 3 blocks below the entity
-	 * and moves up.
+	 * Returns the coordinates of the blocks found near the entity that are the specified block. Scanning for the blocks starts 3 blocks below the entity and moves up.
 	 * 
-	 * @param entity
-	 *            The entity used as a base point to search for a block.
-	 * @param block
-	 *            The block that is being searched for.
-	 * @param maxDistanceAway
-	 *            The maximum distance away from the entity to search for
-	 *            blocks.
-	 * 
-	 * @return List of Point3D objects representing the coordinates of each
-	 *         found block's location.
+	 * @param entity The entity used as a base point to search for a block.
+	 * @param block The block that is being searched for.
+	 * @param maxDistanceAway The maximum distance away from the entity to search for blocks.
+	 * @return List of Point3D objects representing the coordinates of each found block's location.
 	 */
 	public static List<Point3D> getNearbyBlocks_StartAtBottom(Entity entity, Block block, int maxDistanceAway)
 	{
@@ -285,22 +259,13 @@ public final class LogicHelper
 	}
 
 	/**
-	 * Returns the coordinates of the blocks found near the entity that are
-	 * specified block. Scanning for the blocks starts 3 blocks below the entity
-	 * and moves up.
+	 * Returns the coordinates of the blocks found near the entity that are specified block. Scanning for the blocks starts 3 blocks below the entity and moves up.
 	 * 
-	 * @param entity
-	 *            The entity used as a base point to search for a block.
-	 * @param block
-	 *            The block that is being searched for.
-	 * @param maxDistanceAway
-	 *            The maximum distance away from the entity to search for
-	 *            blocks.
-	 * @param maxY
-	 *            How high away from the entity's current Y axis to scan.
-	 * 
-	 * @return List of Point3D objects representing the coordinates of each
-	 *         found block's location.
+	 * @param entity The entity used as a base point to search for a block.
+	 * @param block The block that is being searched for.
+	 * @param maxDistanceAway The maximum distance away from the entity to search for blocks.
+	 * @param maxY How high away from the entity's current Y axis to scan.
+	 * @return List of Point3D objects representing the coordinates of each found block's location.
 	 */
 	public static List<Point3D> getNearbyBlocks_StartAtBottom(Entity entity, Block block, int maxDistanceAway, int maxY)
 	{
@@ -350,22 +315,14 @@ public final class LogicHelper
 	}
 
 	/**
-	 * Gets list of coordinates containing the coordinates of all of the land
-	 * that can be turned into tilled field.
+	 * Gets list of coordinates containing the coordinates of all of the land that can be turned into tilled field.
 	 * 
-	 * @param entity
-	 *            The entity that is farming.
-	 * @param startCoordinatesX
-	 *            The x coordinate at which the entity began farming.
-	 * @param startCoordinatesY
-	 *            The y coordinate at which the entity began farming.
-	 * @param startCoordinatesZ
-	 *            The z coordinate at which the entity began farming.
-	 * @param areaX
-	 *            The x size of the land that will be farmed.
-	 * @param areaZ
-	 *            The z size of the land that will be farmed.
-	 * 
+	 * @param entity The entity that is farming.
+	 * @param startCoordinatesX The x coordinate at which the entity began farming.
+	 * @param startCoordinatesY The y coordinate at which the entity began farming.
+	 * @param startCoordinatesZ The z coordinate at which the entity began farming.
+	 * @param areaX The x size of the land that will be farmed.
+	 * @param areaZ The z size of the land that will be farmed.
 	 * @return List containing coordinates of valid farmable land.
 	 */
 	public static List<Point3D> getNearbyFarmableLand(Entity entity, int startCoordinatesX, int startCoordinatesY, int startCoordinatesZ, int areaX, int areaZ)
@@ -410,22 +367,14 @@ public final class LogicHelper
 	}
 
 	/**
-	 * Uses 3D distance formula to determine the distance between two 3d
-	 * coordinates.
+	 * Uses 3D distance formula to determine the distance between two 3d coordinates.
 	 * 
-	 * @param x1
-	 *            An entity's x position.
-	 * @param y1
-	 *            An entity's y position.
-	 * @param z1
-	 *            An entity's z position.
-	 * @param x2
-	 *            Another entity's x position.
-	 * @param y2
-	 *            Another entity's y position.
-	 * @param z2
-	 *            Another entity's z position.
-	 * 
+	 * @param x1 An entity's x position.
+	 * @param y1 An entity's y position.
+	 * @param z1 An entity's z position.
+	 * @param x2 Another entity's x position.
+	 * @param y2 Another entity's y position.
+	 * @param z2 Another entity's z position.
 	 * @return Double expressing the distance between the two 3d coordinates.
 	 */
 	public static double getDistanceToXYZ(double x1, double y1, double z1, double x2, double y2, double z2)
@@ -438,12 +387,10 @@ public final class LogicHelper
 	}
 
 	/**
-	 * Uses 3D distance formula to determine the distance between two 3d
-	 * coordinates.
+	 * Uses 3D distance formula to determine the distance between two 3d coordinates.
 	 * 
 	 * @param point1
 	 * @param point2
-	 * 
 	 * @return Double expressing the distance between the two 3d coordinates.
 	 */
 	public static double getDistanceToPoint(Point3D point1, Point3D point2)
@@ -456,19 +403,12 @@ public final class LogicHelper
 	}
 
 	/**
-	 * Gets the coordinates of each block close to the entity that is the
-	 * specified block.
+	 * Gets the coordinates of each block close to the entity that is the specified block.
 	 * 
-	 * @param entity
-	 *            The entity being used as a base point to search for a block.
-	 * @param block
-	 *            The block that is being searched for.
-	 * @param maxDistanceAway
-	 *            The maximum distance away from the player to search for
-	 *            blocks.
-	 * 
-	 * @return List containing the coordinates of each block with the provided
-	 *         ID within the specified distance of the entity.
+	 * @param entity The entity being used as a base point to search for a block.
+	 * @param block The block that is being searched for.
+	 * @param maxDistanceAway The maximum distance away from the player to search for blocks.
+	 * @return List containing the coordinates of each block with the provided ID within the specified distance of the entity.
 	 */
 	public static List<Point3D> getNearbyBlockCoordinates(Entity entity, Block block, int maxDistanceAway)
 	{
@@ -513,21 +453,13 @@ public final class LogicHelper
 	}
 
 	/**
-	 * Gets the coordinates of each block close to the entity that is the
-	 * specified block and has the specified metadata.
+	 * Gets the coordinates of each block close to the entity that is the specified block and has the specified metadata.
 	 * 
-	 * @param entity
-	 *            The entity being used as a base point to search for a block.
-	 * @param block
-	 *            The ID block that is being searched for.
-	 * @param metadata
-	 *            The desired metadata value of the block.
-	 * @param maxDistanceAway
-	 *            The maximum distance away from the entity to search for
-	 *            blocks.
-	 * 
-	 * @return List containing the coordinates of each block with the provided
-	 *         ID within the specified distance of the entity.
+	 * @param entity The entity being used as a base point to search for a block.
+	 * @param block The ID block that is being searched for.
+	 * @param metadata The desired metadata value of the block.
+	 * @param maxDistanceAway The maximum distance away from the entity to search for blocks.
+	 * @return List containing the coordinates of each block with the provided ID within the specified distance of the entity.
 	 */
 	public static List<Point3D> getNearbyBlockCoordinatesWithMetadata(Entity entity, Block block, int metadata, int maxDistanceAway)
 	{
@@ -575,18 +507,11 @@ public final class LogicHelper
 	}
 
 	/**
-	 * Gets a list containing instances of all entities around the specified
-	 * entity up to the specified distance away.
+	 * Gets a list containing instances of all entities around the specified entity up to the specified distance away.
 	 * 
-	 * @param entity
-	 *            The entity that is being used as the starting point to search
-	 *            for more entities.
-	 * @param maxDistanceAway
-	 *            The maximum distance from the specified entity that should be
-	 *            searched.
-	 * 
-	 * @return List containing all entities within the specified distance of the
-	 *         specified entity.
+	 * @param entity The entity that is being used as the starting point to search for more entities.
+	 * @param maxDistanceAway The maximum distance from the specified entity that should be searched.
+	 * @return List containing all entities within the specified distance of the specified entity.
 	 */
 	public static List<Entity> getAllEntitiesWithinDistanceOfEntity(Entity entity, int maxDistanceAway)
 	{
@@ -599,22 +524,14 @@ public final class LogicHelper
 	}
 
 	/**
-	 * Gets a list containing instances of all entities around the specified
-	 * coordinates up to the specified distance away.
+	 * Gets a list containing instances of all entities around the specified coordinates up to the specified distance away.
 	 * 
-	 * @param worldObj
-	 *            The world that the entity should be in.
-	 * @param posX
-	 *            The X position to begin searching at.
-	 * @param posY
-	 *            The Y position to begin searching at.
-	 * @param posZ
-	 *            The Z position to begin searching at.
-	 * @param maxDistanceAway
-	 *            The maximum distance away from the points to search.
-	 * 
-	 * @return List containing all entities within the specified distance of the
-	 *         specified entity.
+	 * @param worldObj The world that the entity should be in.
+	 * @param posX The X position to begin searching at.
+	 * @param posY The Y position to begin searching at.
+	 * @param posZ The Z position to begin searching at.
+	 * @param maxDistanceAway The maximum distance away from the points to search.
+	 * @return List containing all entities within the specified distance of the specified entity.
 	 */
 	public static List<Entity> getAllEntitiesWithinDistanceOfCoordinates(World worldObj, double posX, double posY, double posZ, int maxDistanceAway)
 	{
@@ -623,21 +540,12 @@ public final class LogicHelper
 	}
 
 	/**
-	 * Gets a list containing instances of all the entities of the specified
-	 * type up to the specified distance away.
+	 * Gets a list containing instances of all the entities of the specified type up to the specified distance away.
 	 * 
-	 * @param entity
-	 *            The entity that is being used as the starting point to search
-	 *            for more entities.
-	 * @param entityType
-	 *            The type of entity that should be put in the list returned.
-	 * @param maxDistanceAway
-	 *            The maximum distance from the specified entity that should be
-	 *            searched.
-	 * 
-	 * @return Object containing a list of the entities matching the specified
-	 *         search credentials. List is expected to be cast to the
-	 *         appropriate type of list.
+	 * @param entity The entity that is being used as the starting point to search for more entities.
+	 * @param entityType The type of entity that should be put in the list returned.
+	 * @param maxDistanceAway The maximum distance from the specified entity that should be searched.
+	 * @return Object containing a list of the entities matching the specified search credentials. List is expected to be cast to the appropriate type of list.
 	 */
 	public static Object getAllEntitiesOfTypeWithinDistanceOfEntity(Entity entity, Class entityType, int maxDistanceAway)
 	{
@@ -681,13 +589,9 @@ public final class LogicHelper
 	/**
 	 * Gets the distance the entity is away from the player.
 	 * 
-	 * @param player
-	 *            The player to find the distance from.
-	 * @param entity
-	 *            The entity whose position is being compared to the player's.
-	 * 
-	 * @return Floating point decimal expressing the distance that the provided
-	 *         entity is from the player.
+	 * @param player The player to find the distance from.
+	 * @param entity The entity whose position is being compared to the player's.
+	 * @return Floating point decimal expressing the distance that the provided entity is from the player.
 	 */
 	public static float getEntityDistanceFromPlayer(EntityPlayer player, Entity entity)
 	{
@@ -699,19 +603,12 @@ public final class LogicHelper
 	}
 
 	/**
-	 * Gets the coordinates of a random block of the specified type within 10
-	 * blocks away from the provided entity.
+	 * Gets the coordinates of a random block of the specified type within 10 blocks away from the provided entity.
 	 * 
-	 * @param entity
-	 *            The entity being used as a base point to start the search.
-	 * @param block
-	 *            The block being searched for.
-	 * @param maxDistanceAway
-	 *            The maximum distance away from the point that the search
-	 *            should scan.
-	 * 
-	 * @return An coordinates object containing the coordinates of the randomly
-	 *         selected block.
+	 * @param entity The entity being used as a base point to start the search.
+	 * @param block The block being searched for.
+	 * @param maxDistanceAway The maximum distance away from the point that the search should scan.
+	 * @return An coordinates object containing the coordinates of the randomly selected block.
 	 */
 	public static Point3D getRandomNearbyBlockCoordinatesOfType(Entity entity, Block block, int maxDistanceAway)
 	{
@@ -782,18 +679,11 @@ public final class LogicHelper
 	/**
 	 * Gets the coordinates of a random block of the specified type.
 	 * 
-	 * @param world
-	 *            The world the search will take place in.
-	 * @param point
-	 *            The base point at which to start the search.
-	 * @param block
-	 *            The block being searched for.
-	 * @param maxDistanceAway
-	 *            The maximum distance away from the point that the search
-	 *            should scan.
-	 * 
-	 * @return An coordinates object containing the coordinates of the randomly
-	 *         selected block.
+	 * @param world The world the search will take place in.
+	 * @param point The base point at which to start the search.
+	 * @param block The block being searched for.
+	 * @param maxDistanceAway The maximum distance away from the point that the search should scan.
+	 * @return An coordinates object containing the coordinates of the randomly selected block.
 	 */
 	public static Point3D getRandomNearbyBlockCoordinatesOfType(World world, Point3D point, Block block, int maxDistanceAway)
 	{
@@ -862,18 +752,11 @@ public final class LogicHelper
 	}
 
 	/**
-	 * Gets an entity's heading relative to the direction that the player is
-	 * facing and the direction they should be moving in. Used to determine
-	 * which way is which from the player's perspective, not the entity that
-	 * should be moving.
+	 * Gets an entity's heading relative to the direction that the player is facing and the direction they should be moving in. Used to determine which way is which from the player's perspective, not the entity that should be moving.
 	 * 
-	 * @param player
-	 *            The player to use as a reference.
-	 * @param direction
-	 *            The name of the direction that the entity should be moving in.
-	 * 
-	 * @return Integer with value of 0, 90, 180, or -90, depending on the
-	 *         correct heading of the entity that should move.
+	 * @param player The player to use as a reference.
+	 * @param direction The name of the direction that the entity should be moving in.
+	 * @return Integer with value of 0, 90, 180, or -90, depending on the correct heading of the entity that should move.
 	 */
 	public static int getHeadingRelativeToPlayerAndSpecifiedDirection(EntityPlayer player, int direction)
 	{
@@ -950,14 +833,10 @@ public final class LogicHelper
 	/**
 	 * Spawns a group of entities of the provided type near the player.
 	 * 
-	 * @param player
-	 *            The player around which the entities will spawn.
-	 * @param entityClass
-	 *            The entity's class.
-	 * @param minimum
-	 *            The minimum number of entities to spawn.
-	 * @param maximum
-	 *            The maximum number of entities to spawn.
+	 * @param player The player around which the entities will spawn.
+	 * @param entityClass The entity's class.
+	 * @param minimum The minimum number of entities to spawn.
+	 * @param maximum The maximum number of entities to spawn.
 	 */
 	public static void spawnGroupOfEntitiesAroundPlayer(EntityPlayer player, Class entityClass, int minimum, int maximum)
 	{
@@ -967,16 +846,11 @@ public final class LogicHelper
 	/**
 	 * Spawns a group of entities of the provided type near a point.
 	 * 
-	 * @param world
-	 *            The world the entities should be spawned in.
-	 * @param point
-	 *            The point around which the entities will spawn.
-	 * @param entityClass
-	 *            The entity's class.
-	 * @param minimum
-	 *            The minimum number of entities to spawn.
-	 * @param maximum
-	 *            The maximum number of entities to spawn.
+	 * @param world The world the entities should be spawned in.
+	 * @param point The point around which the entities will spawn.
+	 * @param entityClass The entity's class.
+	 * @param minimum The minimum number of entities to spawn.
+	 * @param maximum The maximum number of entities to spawn.
 	 */
 	public static void spawnGroupOfEntitiesAroundPoint(World world, Point3D point, Class entityClass, int minimum, int maximum)
 	{
@@ -1020,10 +894,8 @@ public final class LogicHelper
 	/**
 	 * Spawns an entity of the provided type near the player.
 	 * 
-	 * @param player
-	 *            The player the entity should be spawned near.
-	 * @param entityClass
-	 *            The entity's class.
+	 * @param player The player the entity should be spawned near.
+	 * @param entityClass The entity's class.
 	 */
 	public static void spawnEntityAtPlayer(EntityPlayer player, Class entityClass)
 	{
@@ -1053,12 +925,9 @@ public final class LogicHelper
 	}
 
 	/**
-	 * Gets the closest player to the specified entity, up to a maximum of 64
-	 * blocks away.
+	 * Gets the closest player to the specified entity, up to a maximum of 64 blocks away.
 	 * 
-	 * @param entity
-	 *            The entity looking for a player.
-	 * 
+	 * @param entity The entity looking for a player.
 	 * @return The player closest to the provided entity.
 	 */
 	public static EntityPlayer getNearestPlayer(Entity entity)
@@ -1069,13 +938,9 @@ public final class LogicHelper
 	/**
 	 * Gets the closest entity of the provided type.
 	 * 
-	 * @param entityOrigin
-	 *            The entity that will serve as the origin point.
-	 * @param entityType
-	 *            The type of entity to search for.
-	 * @param maxDistanceAway
-	 *            The maximum distance from the origin to search.
-	 * 
+	 * @param entityOrigin The entity that will serve as the origin point.
+	 * @param entityType The type of entity to search for.
+	 * @param maxDistanceAway The maximum distance from the origin to search.
 	 * @return The entity of the provided type closest to the provided entity.
 	 */
 	public static Entity getNearestEntityOfType(Entity entityOrigin, Class entityType, int maxDistanceAway)
@@ -1111,22 +976,14 @@ public final class LogicHelper
 	}
 
 	/**
-	 * Gets an entity of the specified type located at the XYZ coordinates in
-	 * the specified world.
+	 * Gets an entity of the specified type located at the XYZ coordinates in the specified world.
 	 * 
-	 * @param type
-	 *            The type of entity to get.
-	 * @param world
-	 *            The world the entity is in.
-	 * @param x
-	 *            The X position of the entity.
-	 * @param y
-	 *            The Y position of the entity.
-	 * @param z
-	 *            The Z position of the entity.
-	 * 
-	 * @return The entity located at the specified XYZ coordinates. Null if one
-	 *         was not found.
+	 * @param type The type of entity to get.
+	 * @param world The world the entity is in.
+	 * @param x The X position of the entity.
+	 * @param y The Y position of the entity.
+	 * @param z The Z position of the entity.
+	 * @return The entity located at the specified XYZ coordinates. Null if one was not found.
 	 */
 	public static Object getEntityOfTypeAtXYZ(Class type, World world, int x, int y, int z)
 	{
@@ -1141,7 +998,10 @@ public final class LogicHelper
 				final int posY = (int) entity.posY;
 				final int posZ = (int) entity.posZ;
 
-				if (x == posX && y == posY && z == posZ) { return obj; }
+				if (x == posX && y == posY && z == posZ)
+				{
+					return obj;
+				}
 			}
 		}
 
@@ -1193,11 +1053,8 @@ public final class LogicHelper
 	/**
 	 * Produces a number within the specified range.
 	 * 
-	 * @param minimum
-	 *            The minimum number generated. Inclusive.
-	 * @param maximum
-	 *            The maximum number generated. Inclusive.
-	 * 
+	 * @param minimum The minimum number generated. Inclusive.
+	 * @param maximum The maximum number generated. Inclusive.
 	 * @return Number in range [minimum] to [maximum], both inclusive.
 	 */
 	public static int getNumberInRange(int minimum, int maximum)
@@ -1208,9 +1065,7 @@ public final class LogicHelper
 	/**
 	 * Gets a random boolean with a probability of being true.
 	 * 
-	 * @param probabilityOfTrue
-	 *            The probability that true should be returned.
-	 * 
+	 * @param probabilityOfTrue The probability that true should be returned.
 	 * @return A randomly generated boolean.
 	 */
 	public static boolean getBooleanWithProbability(int probabilityOfTrue)

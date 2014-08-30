@@ -14,21 +14,21 @@ package com.radixshock.radixcore.logic;
  */
 public class Point3D
 {
-	public short	sPosX;
-	public short	sPosY;
-	public short	sPosZ;
+	public short sPosX;
+	public short sPosY;
+	public short sPosZ;
 
-	public int		iPosX;
-	public int		iPosY;
-	public int		iPosZ;
+	public int iPosX;
+	public int iPosY;
+	public int iPosZ;
 
-	public float	fPosX;
-	public float	fPosY;
-	public float	fPosZ;
+	public float fPosX;
+	public float fPosY;
+	public float fPosZ;
 
-	public double	dPosX;
-	public double	dPosY;
-	public double	dPosZ;
+	public double dPosX;
+	public double dPosY;
+	public double dPosZ;
 
 	public Point3D(short posX, short posY, short posZ)
 	{
@@ -109,8 +109,7 @@ public class Point3D
 	/**
 	 * Gets string representation of the Coordinates object.
 	 * 
-	 * @return "x, y, z" as string representation of the coordinates stored in
-	 *         this object.
+	 * @return "x, y, z" as string representation of the coordinates stored in this object.
 	 */
 	@Override
 	public String toString()

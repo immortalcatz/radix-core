@@ -23,11 +23,11 @@ public class PacketSpawnParticles extends AbstractPacket implements IMessage, IM
 	private float height;
 	private String particleName;
 	private int intensity;
-	
+
 	public PacketSpawnParticles()
 	{
 	}
-	
+
 	public PacketSpawnParticles(double posX, double posY, double posZ, float width, float height, String particleName, int intensity)
 	{
 		this.posX = posX;
@@ -38,30 +38,30 @@ public class PacketSpawnParticles extends AbstractPacket implements IMessage, IM
 		this.particleName = particleName;
 		this.intensity = intensity;
 	}
-	
+
 	public PacketSpawnParticles(Entity entity, String particleName, int intensity)
 	{
-		this.posX = entity.posX;
-		this.posY = entity.posY;
-		this.posZ = entity.posZ;
-		this.width = entity.width;
-		this.height = entity.height;
+		posX = entity.posX;
+		posY = entity.posY;
+		posZ = entity.posZ;
+		width = entity.width;
+		height = entity.height;
 		this.particleName = particleName;
 		this.intensity = intensity;
 	}
-	
+
 	@Override
-	public void fromBytes(ByteBuf byteBuf) 
+	public void fromBytes(ByteBuf byteBuf)
 	{
-		this.posX = byteBuf.readDouble();
-		this.posY = byteBuf.readDouble();
-		this.posZ = byteBuf.readDouble();
-		this.particleName = (String) ByteBufIO.readObject(byteBuf);
-		this.intensity = byteBuf.readInt();
+		posX = byteBuf.readDouble();
+		posY = byteBuf.readDouble();
+		posZ = byteBuf.readDouble();
+		particleName = (String) ByteBufIO.readObject(byteBuf);
+		intensity = byteBuf.readInt();
 	}
 
 	@Override
-	public void toBytes(ByteBuf byteBuf) 
+	public void toBytes(ByteBuf byteBuf)
 	{
 		byteBuf.writeDouble(posX);
 		byteBuf.writeDouble(posY);
@@ -71,24 +71,20 @@ public class PacketSpawnParticles extends AbstractPacket implements IMessage, IM
 	}
 
 	@Override
-	public IMessage onMessage(PacketSpawnParticles packet, MessageContext context) 
+	public IMessage onMessage(PacketSpawnParticles packet, MessageContext context)
 	{
 		final Random rand = new Random();
 		final World worldObj = Minecraft.getMinecraft().theWorld;
-		
+
 		for (int loops = 0; loops < intensity; loops++)
 		{
 			final double velX = rand.nextGaussian() * 0.02D;
 			final double velY = rand.nextGaussian() * 0.02D;
 			final double velZ = rand.nextGaussian() * 0.02D;
 
-			worldObj.spawnParticle(particleName, 
-					posX + rand.nextFloat() * width * 2.0F - width, 
-					posY + 0.5D + rand.nextFloat() * height, 
-					posZ + rand.nextFloat() * width * 2.0F - width, 
-					velX, velY, velZ);
+			worldObj.spawnParticle(particleName, posX + rand.nextFloat() * width * 2.0F - width, posY + 0.5D + rand.nextFloat() * height, posZ + rand.nextFloat() * width * 2.0F - width, velX, velY, velZ);
 		}
-		
+
 		return null;
 	}
 }

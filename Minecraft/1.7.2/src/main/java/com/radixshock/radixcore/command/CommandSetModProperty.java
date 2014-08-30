@@ -28,7 +28,7 @@ import cpw.mods.fml.common.FMLCommonHandler;
  */
 public class CommandSetModProperty extends CommandBase
 {
-	private final IEnforcedCore	mod;
+	private final IEnforcedCore mod;
 
 	public CommandSetModProperty(IEnforcedCore mod)
 	{

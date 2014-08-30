@@ -23,8 +23,7 @@ import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.event.FMLServerStoppingEvent;
 
 /**
- * Allows a core mod class to be loaded by RadixCore. You can override each
- * method as needed.
+ * Allows a core mod class to be loaded by RadixCore. You can override each method as needed.
  */
 public class UnenforcedCore implements IEnforcedCore
 {
@@ -131,7 +130,7 @@ public class UnenforcedCore implements IEnforcedCore
 	}
 
 	@Override
-	public String getMinimumRadixCoreVersion() 
+	public String getMinimumRadixCoreVersion()
 	{
 		return null;
 	}
@@ -227,34 +226,46 @@ public class UnenforcedCore implements IEnforcedCore
 	}
 
 	@Override
-	public WorldPropertiesManager getWorldPropertiesManager() 
+	public WorldPropertiesManager getWorldPropertiesManager()
 	{
 		return null;
 	}
 
 	@Override
 	public void onCreateNewWorldProperties(WorldPropertiesManager manager)
-	{	
-	}
-
-	@Override
-	public void onLoadWorldProperties(WorldPropertiesManager manager) 
-	{	
-	}
-
-	@Override
-	public void onSaveWorldProperties(WorldPropertiesManager manager) 
 	{
 	}
 
 	@Override
-	public AbstractPacketHandler getPacketHandler() 
+	public void onLoadWorldProperties(WorldPropertiesManager manager)
+	{
+	}
+
+	@Override
+	public void onSaveWorldProperties(WorldPropertiesManager manager)
+	{
+	}
+
+	@Override
+	public AbstractPacketHandler getPacketHandler()
 	{
 		return null;
 	}
 
 	@Override
-	public void onUpdateWorldProperties(WorldPropertiesManager manager) 
+	public void onUpdateWorldProperties(WorldPropertiesManager manager)
 	{
+	}
+
+	@Override
+	public boolean getUsesCustomUpdateChecker()
+	{
+		return false;
+	}
+
+	@Override
+	public IUpdateChecker getCustomUpdateChecker()
+	{
+		return null;
 	}
 }

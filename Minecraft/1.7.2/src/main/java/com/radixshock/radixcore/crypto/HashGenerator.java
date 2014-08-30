@@ -19,9 +19,7 @@ public final class HashGenerator
 	/**
 	 * Provides an MD5 hash based on input
 	 * 
-	 * @param input
-	 *            String of data that MD5 hash will be generated for.
-	 * 
+	 * @param input String of data that MD5 hash will be generated for.
 	 * @return MD5 hash of the provided input in string format.
 	 */
 	public static String getMD5Hash(String input)

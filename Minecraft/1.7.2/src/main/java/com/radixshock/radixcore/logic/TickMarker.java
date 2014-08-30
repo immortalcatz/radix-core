@@ -21,18 +21,15 @@ import com.radixshock.radixcore.entity.ITickableEntity;
 public abstract class TickMarker implements Serializable
 {
 	/** The TickMarker's owner entity. */
-	protected transient ITickableEntity	owner;
-	private int							endTicks;
-	private boolean						isComplete;
+	protected transient ITickableEntity owner;
+	private int endTicks;
+	private boolean isComplete;
 
 	/**
 	 * Constructor
 	 * 
-	 * @param owner
-	 *            The owner of this TickMarker.
-	 * @param durationInTicks
-	 *            How long before the TickMarker's onComplete() method is run,
-	 *            in ticks.
+	 * @param owner The owner of this TickMarker.
+	 * @param durationInTicks How long before the TickMarker's onComplete() method is run, in ticks.
 	 */
 	public TickMarker(ITickableEntity owner, int durationInTicks)
 	{
@@ -73,10 +70,8 @@ public abstract class TickMarker implements Serializable
 	/**
 	 * Writes the marker data to the game save.
 	 * 
-	 * @param owner
-	 *            The marker's owner.
-	 * @param nbt
-	 *            The NBTTagCompound.
+	 * @param owner The marker's owner.
+	 * @param nbt The NBTTagCompound.
 	 */
 	public void writeMarkerToNBT(ITickableEntity owner, NBTTagCompound nbt)
 	{
@@ -88,10 +83,8 @@ public abstract class TickMarker implements Serializable
 	/**
 	 * Reads the marker data from the game save.
 	 * 
-	 * @param owner
-	 *            The marker's owner.
-	 * @param nbt
-	 *            The NBTTagCompound.
+	 * @param owner The marker's owner.
+	 * @param nbt The NBTTagCompound.
 	 */
 	public void readMarkerFromNBT(ITickableEntity owner, NBTTagCompound nbt)
 	{

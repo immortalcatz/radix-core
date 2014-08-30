@@ -28,10 +28,8 @@ public class ByteBufIO
 	/**
 	 * Writes the provided object to the provided ByteBuf.
 	 * 
-	 * @param buffer
-	 *            The ByteBuf that the object should be written to.
-	 * @param object
-	 *            The object to write to the buffer.
+	 * @param buffer The ByteBuf that the object should be written to.
+	 * @param object The object to write to the buffer.
 	 */
 	public static void writeObject(ByteBuf buffer, Object object)
 	{
@@ -41,9 +39,7 @@ public class ByteBufIO
 	/**
 	 * Reads the next object from the provided ByteBuf.
 	 * 
-	 * @param buffer
-	 *            The ByteBuf containing the object to be read.
-	 * 
+	 * @param buffer The ByteBuf containing the object to be read.
 	 * @return Object form of the object read. Must be cast to expected type.
 	 */
 	public static Object readObject(ByteBuf buffer)
@@ -52,12 +48,9 @@ public class ByteBufIO
 	}
 
 	/**
-	 * Converts the provided object to a byte array that can be written to the
-	 * buffer.
+	 * Converts the provided object to a byte array that can be written to the buffer.
 	 * 
-	 * @param obj
-	 *            The object to be converted to a byte array.
-	 * 
+	 * @param obj The object to be converted to a byte array.
 	 * @return The object's byte array representation.
 	 */
 	public static byte[] convertToByteArray(Object obj)
@@ -82,11 +75,8 @@ public class ByteBufIO
 	/**
 	 * Converts the provided byte array back into an Object.
 	 * 
-	 * @param byteArray
-	 *            The byte array to be converted.
-	 * 
-	 * @return Object form of the provided byte array. Must be cast to expected
-	 *         type.
+	 * @param byteArray The byte array to be converted.
+	 * @return Object form of the provided byte array. Must be cast to expected type.
 	 */
 	public static Object convertBytesToObject(byte[] byteArray)
 	{
@@ -117,9 +107,7 @@ public class ByteBufIO
 	/**
 	 * Compresses the data in a byte array.
 	 * 
-	 * @param input
-	 *            The byte array to be compressed.
-	 * 
+	 * @param input The byte array to be compressed.
 	 * @return The byte array in its compressed form.
 	 */
 	public static byte[] compress(byte[] input)
@@ -155,9 +143,7 @@ public class ByteBufIO
 	/**
 	 * Decompresses a compressed byte array.
 	 * 
-	 * @param input
-	 *            The byte array to be decompressed.
-	 * 
+	 * @param input The byte array to be decompressed.
 	 * @return The byte array in its decompressed, readable form.
 	 */
 	public static byte[] decompress(byte[] input)
@@ -193,14 +179,10 @@ public class ByteBufIO
 	}
 
 	/**
-	 * Writes the provided byte array to the buffer. Compresses the provided
-	 * array and precedes it data with its length as an int. Then the compressed
-	 * array itself is written.
+	 * Writes the provided byte array to the buffer. Compresses the provided array and precedes it data with its length as an int. Then the compressed array itself is written.
 	 * 
-	 * @param buffer
-	 *            ByteBuf that the byte array will be written to.
-	 * @param byteArray
-	 *            The byte array that will be written to the ByteBuf.
+	 * @param buffer ByteBuf that the byte array will be written to.
+	 * @param byteArray The byte array that will be written to the ByteBuf.
 	 */
 	public static void writeByteArray(ByteBuf buffer, byte[] byteArray)
 	{
@@ -210,12 +192,9 @@ public class ByteBufIO
 	}
 
 	/**
-	 * Reads the next byte array from the buffer. Gets the array's size by
-	 * reading the next int, then reads that amount of bytes and returns the
-	 * decompressed byte array.
+	 * Reads the next byte array from the buffer. Gets the array's size by reading the next int, then reads that amount of bytes and returns the decompressed byte array.
 	 * 
 	 * @param buffer
-	 * 
 	 * @return
 	 */
 	public static byte[] readByteArray(ByteBuf buffer)

@@ -13,6 +13,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiMainMenu;
 
 import com.radixshock.radixcore.client.gui.GuiBadRadixVersion;
+import com.radixshock.radixcore.frontend.RDXUpdateChecker;
 import com.radixshock.radixcore.util.object.Version;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -29,13 +30,26 @@ public class RadixEvents
 	@SubscribeEvent
 	public void playerLoggedInEventHandler(PlayerLoggedInEvent event)
 	{
-		new Thread(new UpdateChecker(RadixCore.getInstance(), event.player, RadixCore.getInstance().getUpdateURL(), RadixCore.getInstance().getRedirectURL())).start();
-
+		final IUpdateChecker radixUpdater = RadixCore.getInstance().getCustomUpdateChecker();
+		radixUpdater.setCommandSender(event.player);
+		new Thread(new RunnableUpdateChecker(radixUpdater)).start();
+		
 		for (final IEnforcedCore mod : RadixCore.registeredMods)
 		{
 			if (mod.getChecksForUpdates())
 			{
-				new Thread(new UpdateChecker(mod, event.player, mod.getUpdateURL(), mod.getRedirectURL())).start();
+				if (mod.getUsesCustomUpdateChecker())
+				{
+					final IUpdateChecker updateChecker = mod.getCustomUpdateChecker();
+					updateChecker.setCommandSender(event.player);
+					new Thread(new RunnableUpdateChecker(updateChecker)).start();
+					;
+				}
+
+				else
+				{
+					new Thread(new UpdateChecker(mod, event.player, mod.getUpdateURL(), mod.getRedirectURL())).start();
+				}
 			}
 		}
 	}
@@ -43,7 +57,7 @@ public class RadixEvents
 	/**
 	 * Ticks the client tick handler.
 	 * 
-	 * @param 	event	The event.
+	 * @param event The event.
 	 */
 	@SideOnly(Side.CLIENT)
 	@SubscribeEvent

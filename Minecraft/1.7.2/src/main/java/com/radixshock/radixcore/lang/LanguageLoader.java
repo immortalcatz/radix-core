@@ -26,23 +26,21 @@ import com.radixshock.radixcore.core.IEnforcedCore;
 import com.radixshock.radixcore.core.RadixCore;
 
 /**
- * Handles loading the language files into the mod and retrieving strings from
- * them.
+ * Handles loading the language files into the mod and retrieving strings from them.
  */
 public final class LanguageLoader
 {
-	private IEnforcedCore							mod				= null;
-	private final ConcurrentHashMap<String, String>	translationsMap	= new ConcurrentHashMap();
-	private String									languageName	= "";
+	private IEnforcedCore mod = null;
+	private final ConcurrentHashMap<String, String> translationsMap = new ConcurrentHashMap();
+	private String languageName = "";
 
 	/** The properties instance used to load languages. */
-	private final Properties						properties		= new Properties();
+	private final Properties properties = new Properties();
 
 	/**
 	 * Constructor
 	 * 
-	 * @param mod
-	 *            The language loader's owner IMod.
+	 * @param mod The language loader's owner IMod.
 	 */
 	public LanguageLoader(IEnforcedCore mod)
 	{
@@ -64,8 +62,7 @@ public final class LanguageLoader
 	/**
 	 * Loads the language with the specified language ID.
 	 * 
-	 * @param languageID
-	 *            The ID of the language to load.
+	 * @param languageID The ID of the language to load.
 	 */
 	public void loadLanguage(String languageID)
 	{
@@ -128,15 +125,10 @@ public final class LanguageLoader
 	}
 
 	/**
-	 * Retrieves the specified string from the string translations map. Used
-	 * when the string being retrieved is not being spoken by an entity, such as
-	 * a GUI button or item name.
+	 * Retrieves the specified string from the string translations map. Used when the string being retrieved is not being spoken by an entity, such as a GUI button or item name.
 	 * 
-	 * @param elementId
-	 *            The ID of the string to retrieve.
-	 * @param arguments
-	 *            Arguments to use when parsing the string.
-	 * 
+	 * @param elementId The ID of the string to retrieve.
+	 * @param arguments Arguments to use when parsing the string.
 	 * @return Returns localized string matching the ID provided.
 	 */
 	public String getString(String elementId, Object... arguments)
@@ -146,7 +138,10 @@ public final class LanguageLoader
 		String outputString = "";
 		elementId = elementId.toLowerCase();
 
-		if (modHook != null && modHook.shouldReceiveGetStringCalls()) { return modHook.onGetString(elementId, arguments); }
+		if (modHook != null && modHook.shouldReceiveGetStringCalls())
+		{
+			return modHook.onGetString(elementId, arguments);
+		}
 
 		// Loop through each item in the string translations map.
 		for (final Map.Entry<String, String> entrySet : translationsMap.entrySet())

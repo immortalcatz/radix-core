@@ -23,48 +23,42 @@ import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.event.FMLServerStoppingEvent;
 
 /**
- * Allows a core mod class to be loaded by RadixCore. All methods are required
- * to be inserted into the core class.
+ * Allows a core mod class to be loaded by RadixCore. All methods are required to be inserted into the core class.
  */
 public interface IEnforcedCore
 {
 	/**
 	 * Passes the FMLPreInitializationEvent to your mod.
 	 * 
-	 * @param event
-	 *            The event.
+	 * @param event The event.
 	 */
 	void preInit(FMLPreInitializationEvent event);
 
 	/**
 	 * Passes the FMLInitializationEvent to your mod.
 	 * 
-	 * @param event
-	 *            The event.
+	 * @param event The event.
 	 */
 	void init(FMLInitializationEvent event);
 
 	/**
 	 * Passes the FMLPostInitializationEvent to your mod.
 	 * 
-	 * @param event
-	 *            The event.
+	 * @param event The event.
 	 */
 	void postInit(FMLPostInitializationEvent event);
 
 	/**
 	 * Passes the FMLServerStartingEvent to your mod.
 	 * 
-	 * @param event
-	 *            The event.
+	 * @param event The event.
 	 */
 	void serverStarting(FMLServerStartingEvent event);
 
 	/**
 	 * Passes the FMLServerStoppingEvent to your mod.
 	 * 
-	 * @param event
-	 *            The event.
+	 * @param event The event.
 	 */
 	void serverStopping(FMLServerStoppingEvent event);
 
@@ -74,8 +68,7 @@ public interface IEnforcedCore
 	void initializeProxy();
 
 	/**
-	 * Initialize and register your items and creative tab(s) here. This is
-	 * called automatically.
+	 * Initialize and register your items and creative tab(s) here. This is called automatically.
 	 */
 	void initializeItems();
 
@@ -95,8 +88,7 @@ public interface IEnforcedCore
 	void initializeSmeltings();
 
 	/**
-	 * Initialize and register your achievements here. This is called
-	 * automatically.
+	 * Initialize and register your achievements here. This is called automatically.
 	 */
 	void initializeAchievements();
 
@@ -116,15 +108,12 @@ public interface IEnforcedCore
 	void initializeCommands(FMLServerStartingEvent event);
 
 	/**
-	 * @return Your mod's short name. This should be the name of your assets
-	 *         folder, and will also become the name of your mod's folder that
-	 *         will be created in config. For MCA, it is "MCA".
+	 * @return Your mod's short name. This should be the name of your assets folder, and will also become the name of your mod's folder that will be created in config. For MCA, it is "MCA".
 	 */
 	String getShortModName();
 
 	/**
-	 * @return Your mod's long name. This is used when logging information to
-	 *         the ModLogger.
+	 * @return Your mod's long name. This is used when logging information to the ModLogger.
 	 */
 	String getLongModName();
 
@@ -137,19 +126,24 @@ public interface IEnforcedCore
 	 * @return Your mod's minimum compatible RadixCore version.
 	 */
 	String getMinimumRadixCoreVersion();
-	
+
 	/**
-	 * @return True if you want your mod to check for updates. False if
-	 *         otherwise.
+	 * @return True if you want your mod to check for updates. False if otherwise.
 	 */
 	boolean getChecksForUpdates();
 
 	/**
-	 * @return The URL containing your mod's update data. The URL should be raw
-	 *         data, no HTML. The first line of the update data should be the
-	 *         Minecraft versions your mod is currently available for. The
-	 *         second and last line of the update data should be your mod's
-	 *         current version.
+	 * @return True if you use a custom update checker class.
+	 */
+	boolean getUsesCustomUpdateChecker();
+
+	/**
+	 * @return An instance of your custom update checker.
+	 */
+	IUpdateChecker getCustomUpdateChecker();
+
+	/**
+	 * @return The URL containing your mod's update data. The URL should be raw data, no HTML. The first line of the update data should be the Minecraft versions your mod is currently available for. The second and last line of the update data should be your mod's current version.
 	 */
 	String getUpdateURL();
 
@@ -164,45 +158,37 @@ public interface IEnforcedCore
 	ModLogger getLogger();
 
 	/**
-	 * @return An instance of your mod's ModPropertiesManager. Null if you don't
-	 *         use one.
+	 * @return An instance of your mod's ModPropertiesManager. Null if you don't use one.
 	 */
 	ModPropertiesManager getModPropertiesManager();
 
 	/**
-	 * @return An instance of your mod's WorldPropertiesManager. Null if you don't
-	 * 		   use one.
+	 * @return An instance of your mod's WorldPropertiesManager. Null if you don't use one.
 	 */
 	WorldPropertiesManager getWorldPropertiesManager();
-	
+
 	/**
-	 * @return True if RadixCore should define the SetModProperty command for
-	 *         your mod. For security reasons, this command can only be used
-	 *         from the console on a server.
+	 * @return True if RadixCore should define the SetModProperty command for your mod. For security reasons, this command can only be used from the console on a server.
 	 */
 	boolean getSetModPropertyCommandEnabled();
 
 	/**
-	 * @return True if RadixCore should define the GetModProperty command for
-	 *         your mod.
+	 * @return True if RadixCore should define the GetModProperty command for your mod.
 	 */
 	boolean getGetModPropertyCommandEnabled();
 
 	/**
-	 * @return True if RadixCore should define the ListModProperties command for
-	 *         your mod.
+	 * @return True if RadixCore should define the ListModProperties command for your mod.
 	 */
 	boolean getListModPropertiesCommandEnabled();
 
 	/**
-	 * @return The prefix of your mod's commands, if you use it. This will be
-	 *         applied to the mod property commands. MCA's prefix is "mca."
+	 * @return The prefix of your mod's commands, if you use it. This will be applied to the mod property commands. MCA's prefix is "mca."
 	 */
 	String getPropertyCommandPrefix();
 
 	/**
-	 * @return Return the class that contains your mod's event hooks here. Null
-	 *         if you don't have any event hooks.
+	 * @return Return the class that contains your mod's event hooks here. Null if you don't have any event hooks.
 	 */
 	Class getEventHookClass();
 
@@ -210,45 +196,39 @@ public interface IEnforcedCore
 	 * @return Your mod's packet handler, if you use one.
 	 */
 	AbstractPacketHandler getPacketHandler();
-	
+
 	/**
-	 * @return Return an instance of your mod's language loader here. Null if
-	 *         you don't need one.
+	 * @return Return an instance of your mod's language loader here. Null if you don't need one.
 	 */
 	LanguageLoader getLanguageLoader();
 
 	/**
-	 * @return Return an instance of your mod's language parser here. Null if
-	 *         you don't have one.
+	 * @return Return an instance of your mod's language parser here. Null if you don't have one.
 	 */
 	ILanguageParser getLanguageParser();
 
 	/**
-	 * @return Return an instance of your mod's langauge loader hook here. Null
-	 *         if you don't have one.
+	 * @return Return an instance of your mod's langauge loader hook here. Null if you don't have one.
 	 */
 	ILanguageLoaderHook getLanguageLoaderHook();
 
 	/**
-	 * @return Return a boolean that can be used to keep track of your language
-	 *         loader's status here. For MCA, this is
-	 *         <code>languageLoaded</code>
+	 * @return Return a boolean that can be used to keep track of your language loader's status here. For MCA, this is <code>languageLoaded</code>
 	 */
 	boolean getLanguageLoaded();
 
 	/**
 	 * Set your <code>languageLoaded</code> variable to the provided value here.
 	 * 
-	 * @param value
-	 *            The value to set <code>languageLoaded</code> to.
+	 * @param value The value to set <code>languageLoaded</code> to.
 	 */
 	void setLanguageLoaded(boolean value);
-	
+
 	void onCreateNewWorldProperties(WorldPropertiesManager manager);
-	
+
 	void onSaveWorldProperties(WorldPropertiesManager manager);
-	
+
 	void onLoadWorldProperties(WorldPropertiesManager manager);
-	
+
 	void onUpdateWorldProperties(WorldPropertiesManager manager);
 }

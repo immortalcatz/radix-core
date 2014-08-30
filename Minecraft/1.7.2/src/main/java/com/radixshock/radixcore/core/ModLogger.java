@@ -16,19 +16,17 @@ import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.relauncher.Side;
 
 /**
- * Logger that has the ability to log any sort of object or even exceptions to
- * the FMLLog.
+ * Logger that has the ability to log any sort of object or even exceptions to the FMLLog.
  */
 public final class ModLogger
 {
-	private final IEnforcedCore	mod;
-	private final Logger		logger	= FMLLog.getLogger();
+	private final IEnforcedCore mod;
+	private final Logger logger = FMLLog.getLogger();
 
 	/**
 	 * Constructor
 	 * 
-	 * @param mod
-	 *            The logger's owner IMod.
+	 * @param mod The logger's owner IMod.
 	 */
 	public ModLogger(IEnforcedCore mod)
 	{
@@ -38,8 +36,7 @@ public final class ModLogger
 	/**
 	 * Writes the specified object's string representation to System.out.
 	 * 
-	 * @param objects
-	 *            The object(s) to write to System.out.
+	 * @param objects The object(s) to write to System.out.
 	 */
 	public void log(Object... objects)
 	{

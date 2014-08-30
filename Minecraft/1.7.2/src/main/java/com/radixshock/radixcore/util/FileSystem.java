@@ -19,8 +19,7 @@ public final class FileSystem
 	/**
 	 * Deletes a path and all files and folders within.
 	 * 
-	 * @param file
-	 *            The path to delete.
+	 * @param file The path to delete.
 	 */
 	public static void recursiveDeletePath(File file)
 	{

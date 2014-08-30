@@ -26,23 +26,19 @@ import com.radixshock.radixcore.constant.Font;
  */
 public final class UpdateChecker implements Runnable
 {
-	private final IEnforcedCore		mod;
-	private final ICommandSender	commandSender;
-	private boolean					hasCheckedForUpdates;
-	private final String			rawUpdateInfoURL;
-	private String					updateRedirectionURL;
+	private final IEnforcedCore mod;
+	private final ICommandSender commandSender;
+	private boolean hasCheckedForUpdates;
+	private final String rawUpdateInfoURL;
+	private String updateRedirectionURL;
 
 	/**
 	 * Constructor
 	 * 
-	 * @param mod
-	 *            The update checker's owner mod.
-	 * @param commandSender
-	 *            The player checking for updates.
-	 * @param rawUpdateInfoURL
-	 *            The URL containing raw update information.
-	 * @param updateRedirectionURL
-	 *            The URL the player should be redirected to.
+	 * @param mod The update checker's owner mod.
+	 * @param commandSender The player checking for updates.
+	 * @param rawUpdateInfoURL The URL containing raw update information.
+	 * @param updateRedirectionURL The URL the player should be redirected to.
 	 */
 	public UpdateChecker(IEnforcedCore mod, ICommandSender commandSender, String rawUpdateInfoURL, String updateRedirectionURL)
 	{
@@ -105,6 +101,7 @@ public final class UpdateChecker implements Runnable
 					final IChatComponent chatComponentUpdate = new ChatComponentText(messageUpdateURL);
 					chatComponentUpdate.getChatStyle().setChatClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, updateRedirectionURL));
 					chatComponentUpdate.getChatStyle().setUnderlined(true);
+					
 					commandSender.addChatMessage(chatComponentUpdate);
 				}
 

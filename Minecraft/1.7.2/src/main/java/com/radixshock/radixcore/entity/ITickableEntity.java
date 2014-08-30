@@ -20,10 +20,7 @@ public interface ITickableEntity
 	int getId();
 
 	/**
-	 * @return This should return an integer defined in the entity that
-	 *         increments once per tick and is <b>never</b> reset. MCA calls
-	 *         this field <code>lifeTicks</code> in
-	 *         <code>AbstractEntity.java</code>.
+	 * @return This should return an integer defined in the entity that increments once per tick and is <b>never</b> reset. MCA calls this field <code>lifeTicks</code> in <code>AbstractEntity.java</code>.
 	 */
 	int getTimeAlive();
 
