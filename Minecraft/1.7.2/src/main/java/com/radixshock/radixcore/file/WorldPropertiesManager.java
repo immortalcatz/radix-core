@@ -77,7 +77,7 @@ public class WorldPropertiesManager implements Serializable
 		final MinecraftServer server = MinecraftServer.getServer();
 
 		//Assign relevant data.
-		currentPlayerName = playerName;
+		currentPlayerName = playerName.trim(); //Resolves issues with spaces in the username.
 		currentWorldName = worldName;
 
 		if (server.isDedicatedServer())
