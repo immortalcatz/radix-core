@@ -43,7 +43,6 @@ public class RDXUpdateChecker implements IUpdateChecker
 	{
 		try
 		{
-			Thread.sleep(500);
 			final String versionSignature = RDXServerBridge.sendVersionQuery();
 
 			final String mostRecentVersion = versionSignature.substring(0, versionSignature.indexOf("|"));
