@@ -1,0 +1,8 @@
+minecraft {
+    version = "1.7.2-10.12.2.1121"
+    runDir  = "eclipse/"
+    replaceIn "com/radixshock/radixcore/core/Constants.java"
+    replace   "@VERSION@", project.version
+}
+
+version = "${project.minecraft.version}-${project.version}"
