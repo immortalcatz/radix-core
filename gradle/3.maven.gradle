@@ -31,3 +31,4 @@ uploadArchives {
     }
 }
 install.dependsOn reobf
+uploadArchives.dependsOn reobf
