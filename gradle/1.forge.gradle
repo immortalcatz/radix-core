@@ -1,4 +1,5 @@
-minecraft {
+minecraft 
+{
     version = "1.7.10-10.13.0.1180"
     runDir  = "eclipse/"
     replaceIn "com/radixshock/radixcore/core/Constants.java"
@@ -12,13 +13,14 @@ processResources
     inputs.property "version", project.version
     inputs.property "mcversion", project.minecraft.version
 
-    from(sourceSets.main.resources.srcDirs) {
+    from(sourceSets.main.resources.srcDirs) 
+    {
         include 'mcmod.info'
-
         expand 'version':project.version, 'mcversion':project.minecraft.version
     }
 
-    from(sourceSets.main.resources.srcDirs) {
+    from(sourceSets.main.resources.srcDirs) 
+    {
         exclude 'mcmod.info'
     }
 }

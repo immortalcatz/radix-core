@@ -1,15 +1,10 @@
-//Because the normal default jar task has been modified to be obfuscated
-task deobfJar(type: Jar) {
+task deobfJar(type: Jar) 
+{
     from sourceSets.main.output
-    //Since this is now the main version, maven standards
     classifier = 'deobf'
-
-    manifest {
-        //attributes FMLCorePlugin: "net.cazzar.example.CoreMod", //Only for Core Mods, no comma if only using the FMLCorePlugin
-        //attributes FMLAT: "fmlat.cfg" //Only for FMLAT
-    }
 }
 
-artifacts {
+artifacts 
+{
     archives deobfJar
 }
