@@ -24,6 +24,7 @@ import net.minecraft.util.StringTranslate;
 import com.radixshock.radixcore.constant.Language;
 import com.radixshock.radixcore.core.IEnforcedCore;
 import com.radixshock.radixcore.core.RadixCore;
+import com.radixshock.radixcore.logic.LogicHelper;
 
 /**
  * Handles loading the language files into the mod and retrieving strings from them.
@@ -173,6 +174,11 @@ public final class LanguageLoader
 			outputString = "(" + elementId + " not found)";
 		}
 
+		else
+		{
+			outputString = matchingValues.get(LogicHelper.getNumberInRange(0, matchingValues.size() - 1));
+		}
+		
 		return outputString;
 	}
 
