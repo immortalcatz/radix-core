@@ -1,11 +1,9 @@
-task sourceJar(type: Jar) 
-{
+task sourceJar(type: Jar) {
     from sourceSets.main.allSource
     classifier = 'sources'
 }
 
-artifacts 
-{
+artifacts {
     archives sourceJar
 }
 
