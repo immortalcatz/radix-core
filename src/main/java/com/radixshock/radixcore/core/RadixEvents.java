@@ -1,10 +1,8 @@
 /*******************************************************************************
  * RadixEvents.java
- * Copyright (c) 2014 Radix-Shock Entertainment.
+ * Copyright (c) 2014 WildBamaBoy.
  * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Public License v3.0
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/gpl.html
+ * are made available under the terms of the MCA Minecraft Mod license.
  ******************************************************************************/
 
 package com.radixshock.radixcore.core;
@@ -13,7 +11,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiMainMenu;
 
 import com.radixshock.radixcore.client.gui.GuiBadRadixVersion;
-import com.radixshock.radixcore.frontend.RDXUpdateChecker;
 import com.radixshock.radixcore.util.object.Version;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
