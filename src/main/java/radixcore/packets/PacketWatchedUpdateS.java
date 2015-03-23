@@ -89,7 +89,7 @@ public class PacketWatchedUpdateS extends AbstractPacket implements IMessage, IM
 
 					else
 					{
-						//watchable = MCA.getPlayerData(player); //TODO This dependency may cause issues.
+						watchable = modData.getPlayerData(player);
 					}
 				}
 			}
