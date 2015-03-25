@@ -6,7 +6,7 @@ minecraft
     replace   "@VERSION@", project.version
 }
 
-version = "${project.minecraft.version}-${project.version}"
+version = "${project.version}"
 
 processResources
 {
