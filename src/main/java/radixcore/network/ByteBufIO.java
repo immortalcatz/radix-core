@@ -127,6 +127,7 @@ public final class ByteBufIO
 				byteOutput.write(buffer, 0, count);
 			}
 
+			deflater.end();
 			byteOutput.close();
 			return byteOutput.toByteArray();
 		}
@@ -159,6 +160,7 @@ public final class ByteBufIO
 				byteOutput.write(buffer, 0, count);
 			}
 
+			inflater.end();
 			byteOutput.close();
 			return byteOutput.toByteArray();
 		}
