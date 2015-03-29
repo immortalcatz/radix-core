@@ -5,6 +5,7 @@ import java.util.List;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -21,19 +22,21 @@ public final class RenderHelper
 		float f = 0.00390625F;
 		float f1 = 0.00390625F;
 
-		final Tessellator tessellator = Tessellator.instance;
-		tessellator.startDrawingQuads();
-		tessellator.addVertexWithUV(x + 0, 		y + height, 0.0D, (u + 0) 		* f, ((v + height) * f1));
-		tessellator.addVertexWithUV(x + width, 	y + height, 0.0D, (u + width) 	* f, ((v + height) * f1));
-		tessellator.addVertexWithUV(x + width, 	y + 0, 		0.0D, (u + width) 	* f, ((v + 0) * f1));
-		tessellator.addVertexWithUV(x + 0, 		y + 0, 		0.0D, (u + 0) 		* f, ((v + 0) * f1));
+		final Tessellator tessellator = Tessellator.getInstance();
+		WorldRenderer worldRenderer = tessellator.getWorldRenderer();
+		
+		worldRenderer.startDrawingQuads();
+		worldRenderer.addVertexWithUV(x + 0, 		y + height, 0.0D, (u + 0) 		* f, ((v + height) * f1));
+		worldRenderer.addVertexWithUV(x + width, 	y + height, 0.0D, (u + width) 	* f, ((v + height) * f1));
+		worldRenderer.addVertexWithUV(x + width, 	y + 0, 		0.0D, (u + width) 	* f, ((v + 0) * f1));
+		worldRenderer.addVertexWithUV(x + 0, 		y + 0, 		0.0D, (u + 0) 		* f, ((v + 0) * f1));
 
-		tessellator.draw();
+		worldRenderer.draw();
 	}
 
 	public static void drawTextPopup(String text, int posX, int posY)
 	{
-		int k = Minecraft.getMinecraft().fontRenderer.getStringWidth(text);
+		int k = Minecraft.getMinecraft().fontRendererObj.getStringWidth(text);
 		int i1 = 8;
 		int color = 0xFEFFFEE * -1;
 
@@ -43,7 +46,7 @@ public final class RenderHelper
 		drawGradientRect(posX - 4, posY - 3, posX - 3, posY + i1 + 3, color, color);
 		drawGradientRect(posX + k + 3, posY - 3, posX + k + 4, posY + i1 + 3, color, color);
 
-		Minecraft.getMinecraft().fontRenderer.drawStringWithShadow(text, posX, posY, 0xFFFFFF);
+		Minecraft.getMinecraft().fontRendererObj.func_175063_a(text, posX, posY, 0xFFFFFF);
 
 		int borderColor = 0x505000FF;
 		int borderShade = (borderColor & 0xFEFEFE) >> 1 | borderColor & color;
@@ -57,11 +60,11 @@ public final class RenderHelper
 	{
 		int longestTextLength = 0;
 		
-		int modY = Minecraft.getMinecraft().fontRenderer.FONT_HEIGHT / 2 * textList.size();
+		int modY = Minecraft.getMinecraft().fontRendererObj.FONT_HEIGHT / 2 * textList.size();
 		
 		for (String text : textList)
 		{
-			int textLength = Minecraft.getMinecraft().fontRenderer.getStringWidth(text);
+			int textLength = Minecraft.getMinecraft().fontRendererObj.getStringWidth(text);
 			
 			if (textLength > longestTextLength)
 			{
@@ -80,7 +83,7 @@ public final class RenderHelper
 
 		for (int i = 0; i < textList.size(); i++)
 		{
-			Minecraft.getMinecraft().fontRenderer.drawStringWithShadow(textList.get(i), posX, posY + (Minecraft.getMinecraft().fontRenderer.FONT_HEIGHT * i), 0xFFFFFF);
+			Minecraft.getMinecraft().fontRendererObj.func_175063_a(textList.get(i), posX, posY + (Minecraft.getMinecraft().fontRendererObj.FONT_HEIGHT * i), 0xFFFFFF);
 		}
 
 		int borderColor = 0x505000FF;
@@ -108,15 +111,17 @@ public final class RenderHelper
 		OpenGlHelper.glBlendFunc(770, 771, 1, 0);
 		GL11.glShadeModel(GL11.GL_SMOOTH);
 		
-		Tessellator tessellator = Tessellator.instance;
-		tessellator.startDrawingQuads();
-		tessellator.setColorRGBA_F(color1R, color1B, color1G, color1A);
-		tessellator.addVertex(yTop, xBottom, 0.0D);
-		tessellator.addVertex(xTop, xBottom, 0.0D);
-		tessellator.setColorRGBA_F(color2R, color2B, color2G, color2A);
-		tessellator.addVertex(xTop, yBottom, 0.0D);
-		tessellator.addVertex(yTop, yBottom, 0.0D);
-		tessellator.draw();
+		Tessellator tessellator = Tessellator.getInstance();
+		WorldRenderer worldRenderer = tessellator.getWorldRenderer();
+		
+		worldRenderer.startDrawingQuads();
+		worldRenderer.func_178960_a(color1R, color1B, color1G, color1A);
+		worldRenderer.addVertex(yTop, xBottom, 0.0D);
+		worldRenderer.addVertex(xTop, xBottom, 0.0D);
+		worldRenderer.func_178960_a(color2R, color2B, color2G, color2A);
+		worldRenderer.addVertex(xTop, yBottom, 0.0D);
+		worldRenderer.addVertex(yTop, yBottom, 0.0D);
+		worldRenderer.draw();
 		
 		GL11.glShadeModel(GL11.GL_FLAT);
 		GL11.glDisable(GL11.GL_BLEND);

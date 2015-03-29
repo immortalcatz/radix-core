@@ -3,7 +3,9 @@ package radixcore.forge.gen;
 import java.util.Random;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.state.pattern.BlockHelper;
 import net.minecraft.init.Blocks;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.gen.feature.WorldGenMinable;
@@ -57,7 +59,7 @@ public final class SimpleOreGenerator implements IWorldGenerator
 			int xPos = x + random.nextInt(16);
 			int yPos = 10 + random.nextInt(128);
 			int zPos = z + random.nextInt(16);
-			(new WorldGenMinable(spawnBlock, 1, 15, Blocks.netherrack)).generate(world, random, xPos, yPos, zPos);
+			(new WorldGenMinable(spawnBlock.getDefaultState(), 15, BlockHelper.forBlock(Blocks.netherrack))).generate(world, random, new BlockPos(xPos, yPos, zPos));
 		}
 	}
 
@@ -70,7 +72,7 @@ public final class SimpleOreGenerator implements IWorldGenerator
 			int posX = blockPosX + random.nextInt(maxX);
 			int posY = lowestSpawnLevel + random.nextInt(range);
 			int posZ = blockPosZ + random.nextInt(maxZ);
-			(new WorldGenMinable(block, maxVeinSize)).generate(world, random, posX, posY, posZ);
+			(new WorldGenMinable(block.getDefaultState(), maxVeinSize)).generate(world, random, new BlockPos(posX, posY, posZ));
 		}
 	}
 	

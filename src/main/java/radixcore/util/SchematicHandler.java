@@ -160,7 +160,7 @@ public final class SchematicHandler
 				int y = blockPoint.iPosY + point.iPosY;
 				int z = blockPoint.iPosZ + point.iPosZ;
 
-				world.setBlock(x, y, z, entry.getValue().getBlock(), entry.getValue().getMeta(), 2);
+				BlockPosHelper.setBlock(world, x, y, z, entry.getValue().getBlock(), entry.getValue().getMeta());
 			}
 		}
 
@@ -172,7 +172,7 @@ public final class SchematicHandler
 			int y = blockPoint.iPosY + point.iPosY;
 			int z = blockPoint.iPosZ + point.iPosZ;
 
-			world.setBlock(x, y, z, entry.getValue().getBlock(), entry.getValue().getMeta(), 2);
+			BlockPosHelper.setBlock(world, x, y, z, entry.getValue().getBlock(), entry.getValue().getMeta());
 		}
 	}
 }

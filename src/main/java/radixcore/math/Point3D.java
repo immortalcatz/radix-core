@@ -10,6 +10,7 @@ package radixcore.math;
 import java.util.List;
 
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.BlockPos;
 import radixcore.enums.EnumAxis;
 import radixcore.util.RadixMath;
 
@@ -216,6 +217,11 @@ public final class Point3D implements Comparable
 	public String toString()
 	{
 		return dPosX + ", " + dPosY + ", " + dPosZ;
+	}
+	
+	public BlockPos toBlockPos()
+	{
+		return new BlockPos(iPosX, iPosY, iPosZ);
 	}
 	
 	@Override

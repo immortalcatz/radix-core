@@ -11,6 +11,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 import radixcore.core.RadixCore;
 import radixcore.data.IPermanent;
@@ -148,7 +149,7 @@ public final class RadixLogic
 
 			final List<Entity> validEntities = new ArrayList();
 			final List<Entity> entitiesAroundMe = entityOrigin.worldObj.getEntitiesWithinAABBExcludingEntity(entityOrigin, 
-					AxisAlignedBB.getBoundingBox(
+					AxisAlignedBB.fromBounds(
 							posX - maxDistanceAway, posY - maxDistanceAway, posZ - maxDistanceAway, 
 							posX + maxDistanceAway, posY + maxDistanceAway, posZ + maxDistanceAway));
 
@@ -224,7 +225,7 @@ public final class RadixLogic
 
 		while (true)
 		{
-			final Block currentBlock = entity.worldObj.getBlock(x + xMov, y + yMov, z + zMov);
+			final Block currentBlock = BlockPosHelper.getBlock(entity.worldObj, new BlockPos(x + xMov, y + yMov, z + zMov));
 
 			if (currentBlock == block)
 			{
@@ -269,8 +270,8 @@ public final class RadixLogic
 
 		while (true)
 		{
-			final Block currentBlock = entity.worldObj.getBlock(x + xMov, y + yMov, z + zMov);
-			final int currentMeta = entity.worldObj.getBlockMetadata(x + xMov, y + yMov, z + zMov);
+			final Block currentBlock = BlockPosHelper.getBlock(entity.worldObj, x + xMov, y + yMov, z + zMov);
+			final int currentMeta = BlockPosHelper.getBlockMetadata(entity.worldObj, x + xMov, y + yMov, z + zMov);
 			
 			if (currentBlock == block && currentMeta == meta)
 			{
@@ -358,7 +359,7 @@ public final class RadixLogic
 		
 		for (Point3D point : nearbyBlocks)
 		{
-			if (entity.worldObj.getBlockMetadata(point.iPosX, point.iPosY, point.iPosZ) == meta)
+			if (BlockPosHelper.getBlockMetadata(entity.worldObj, point.iPosX, point.iPosY, point.iPosZ) == meta)
 			{
 				returnList.add(point);
 			}
@@ -381,7 +382,7 @@ public final class RadixLogic
 
 		while (true)
 		{
-			final Block currentBlock = entity.worldObj.getBlock(x + xMov, y + yMov, z + zMov);
+			final Block currentBlock = BlockPosHelper.getBlock(entity.worldObj, x + xMov, y + yMov, z + zMov);
 
 			if (currentBlock == block)
 			{
@@ -428,7 +429,7 @@ public final class RadixLogic
 
 		while (true)
 		{
-			final Block currentBlock = entity.worldObj.getBlock(x + xMov, y + yMov, z + zMov);
+			final Block currentBlock = BlockPosHelper.getBlock(entity.worldObj, x + xMov, y + yMov, z + zMov);
 
 			if (currentBlock.getClass().isAssignableFrom(blockClass))
 			{
@@ -473,13 +474,13 @@ public final class RadixLogic
 	 */
 	public static List<Entity> getAllEntitiesWithinDistanceOfCoordinates(World worldObj, double posX, double posY, double posZ, int maxDistanceAway)
 	{
-		final List<Entity> entitiesAroundMe = worldObj.getEntitiesWithinAABB(Entity.class, AxisAlignedBB.getBoundingBox(posX - maxDistanceAway, posY - maxDistanceAway, posZ - maxDistanceAway, posX + maxDistanceAway, posY + maxDistanceAway, posZ + maxDistanceAway));
+		final List<Entity> entitiesAroundMe = worldObj.getEntitiesWithinAABB(Entity.class, AxisAlignedBB.fromBounds(posX - maxDistanceAway, posY - maxDistanceAway, posZ - maxDistanceAway, posX + maxDistanceAway, posY + maxDistanceAway, posZ + maxDistanceAway));
 		return entitiesAroundMe;
 	}
 	
 	public static List<Entity> getAllEntitiesOfTypeWithinDistance(Class clazz, Entity entityOrigin, int maxDistanceAway)
 	{
-		final List<Entity> entitiesAroundMe = entityOrigin.worldObj.getEntitiesWithinAABB(Entity.class, AxisAlignedBB.getBoundingBox(entityOrigin.posX - maxDistanceAway, entityOrigin.posY - maxDistanceAway, entityOrigin.posZ - maxDistanceAway, entityOrigin.posX + maxDistanceAway, entityOrigin.posY + maxDistanceAway, entityOrigin.posZ + maxDistanceAway));
+		final List<Entity> entitiesAroundMe = entityOrigin.worldObj.getEntitiesWithinAABB(Entity.class, AxisAlignedBB.fromBounds(entityOrigin.posX - maxDistanceAway, entityOrigin.posY - maxDistanceAway, entityOrigin.posZ - maxDistanceAway, entityOrigin.posX + maxDistanceAway, entityOrigin.posY + maxDistanceAway, entityOrigin.posZ + maxDistanceAway));
 		final List<Entity> returnList = new ArrayList<Entity>();
 		
 		for (Entity entity : entitiesAroundMe)
@@ -520,7 +521,7 @@ public final class RadixLogic
 		while (block == Blocks.air)
 		{
 			y--;
-			block = worldObj.getBlock(x, y, z);
+			block = BlockPosHelper.getBlock(worldObj, x, y, z);
 		}
 		
 		return y + 1;

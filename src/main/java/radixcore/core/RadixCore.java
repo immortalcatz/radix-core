@@ -17,7 +17,7 @@ import org.apache.logging.log4j.Logger;
 
 import radixcore.network.RadixPacketHandler;
 
-@Mod(modid = RadixCore.ID, name = RadixCore.NAME, version = RadixCore.VERSION, acceptedMinecraftVersions = "[1.7.10]")
+@Mod(modid = RadixCore.ID, name = RadixCore.NAME, version = RadixCore.VERSION, acceptedMinecraftVersions = "[1.8]")
 public class RadixCore 
 {
 	protected static final String ID = "RadixCore";

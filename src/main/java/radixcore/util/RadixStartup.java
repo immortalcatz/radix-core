@@ -21,7 +21,6 @@ public final class RadixStartup
 
 			Item item = new Item();
 			item.setUnlocalizedName(upperName);
-			item.setTextureName(metadata.modId + ":" + upperName);
 			
 			CreativeTabs returnTab = new CreativeTabs("tab" + metadata.modId + (name != null ? "." + name : ""))
 			{
@@ -100,7 +99,6 @@ public final class RadixStartup
 					String upperName = RadixString.upperFirstLetter(f.getName());
 
 					item.setUnlocalizedName(upperName);
-					item.setTextureName(metadata.modId + ":" + upperName);
 					item.setCreativeTab(creativeTab);
 					
 					f.set(null, item);
