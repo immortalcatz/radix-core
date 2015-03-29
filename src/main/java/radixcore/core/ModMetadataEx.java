@@ -4,11 +4,11 @@ import java.lang.reflect.Method;
 import java.util.Map;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraftforge.fml.common.ModMetadata;
 import radixcore.data.AbstractPlayerData;
 import radixcore.data.IWatchable;
 import radixcore.update.IUpdateProtocol;
 import radixcore.util.RadixExcept;
-import cpw.mods.fml.common.ModMetadata;
 
 public class ModMetadataEx extends ModMetadata
 {

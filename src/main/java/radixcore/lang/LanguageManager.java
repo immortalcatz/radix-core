@@ -11,10 +11,10 @@ import java.util.Map;
 import java.util.Properties;
 
 import net.minecraft.util.StringTranslate;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import radixcore.core.RadixCore;
 import radixcore.util.RadixExcept;
 import radixcore.util.RadixMath;
-import cpw.mods.fml.common.FMLCommonHandler;
 
 public class LanguageManager 
 {

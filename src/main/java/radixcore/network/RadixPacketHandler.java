@@ -1,10 +1,10 @@
 package radixcore.network;
 
+import net.minecraftforge.fml.relauncher.Side;
 import radixcore.packets.PacketDataSync;
 import radixcore.packets.PacketDataSyncReq;
 import radixcore.packets.PacketWatchedUpdateC;
 import radixcore.packets.PacketWatchedUpdateS;
-import cpw.mods.fml.relauncher.Side;
 
 public class RadixPacketHandler extends AbstractPacketHandler
 {

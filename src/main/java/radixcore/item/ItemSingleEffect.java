@@ -11,7 +11,7 @@ public class ItemSingleEffect extends Item
 	}
 	
 	@Override
-	public boolean hasEffect(ItemStack itemStack, int pass) 
+	public boolean hasEffect(ItemStack itemStack) 
 	{
 		return true;
 	}

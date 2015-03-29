@@ -11,13 +11,13 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint;
 import radixcore.core.ModMetadataEx;
 import radixcore.core.RadixCore;
 import radixcore.packets.PacketWatchedUpdateC;
 import radixcore.packets.PacketWatchedUpdateS;
 import radixcore.util.RadixExcept;
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 
 public final class DataWatcherEx implements Serializable
 {

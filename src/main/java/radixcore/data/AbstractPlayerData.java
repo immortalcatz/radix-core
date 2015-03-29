@@ -11,9 +11,9 @@ import java.io.Serializable;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.ModMetadata;
 import radixcore.core.RadixCore;
 import radixcore.util.RadixExcept;
-import cpw.mods.fml.common.ModMetadata;
 
 public abstract class AbstractPlayerData implements Serializable, IWatchable
 {

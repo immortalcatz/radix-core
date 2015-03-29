@@ -3,6 +3,9 @@ package radixcore.packets;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
+import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import radixcore.core.ModMetadataEx;
 import radixcore.core.RadixCore;
 import radixcore.data.AbstractPlayerData;
@@ -12,9 +15,6 @@ import radixcore.data.IWatchable;
 import radixcore.network.ByteBufIO;
 import radixcore.util.RadixExcept;
 import radixcore.util.RadixReflect;
-import cpw.mods.fml.common.network.simpleimpl.IMessage;
-import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
-import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 
 public class PacketWatchedUpdateS extends AbstractPacket implements IMessage, IMessageHandler<PacketWatchedUpdateS, IMessage>
 {

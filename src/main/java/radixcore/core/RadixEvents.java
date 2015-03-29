@@ -9,12 +9,12 @@ package radixcore.core;
 
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.world.WorldEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 import radixcore.data.AbstractPlayerData;
 import radixcore.data.IWatchable;
 import radixcore.packets.PacketDataSyncReq;
 import radixcore.update.UpdateChecker;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 
 /**
  * Defines events handles by RadixCore.

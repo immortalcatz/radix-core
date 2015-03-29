@@ -5,10 +5,10 @@ import java.lang.reflect.Modifier;
 
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
+import net.minecraftforge.fml.common.ModMetadata;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import radixcore.item.ItemEffect;
 import radixcore.item.ItemSingle;
-import cpw.mods.fml.common.ModMetadata;
-import cpw.mods.fml.common.registry.GameRegistry;
 
 public final class RadixStartup 
 {
