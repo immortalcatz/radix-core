@@ -225,7 +225,7 @@ public final class RadixLogic
 
 		while (true)
 		{
-			final Block currentBlock = BlockPosHelper.getBlock(entity.worldObj, new BlockPos(x + xMov, y + yMov, z + zMov));
+			final Block currentBlock = BlockHelper.getBlock(entity.worldObj, new BlockPos(x + xMov, y + yMov, z + zMov));
 
 			if (currentBlock == block)
 			{
@@ -270,8 +270,8 @@ public final class RadixLogic
 
 		while (true)
 		{
-			final Block currentBlock = BlockPosHelper.getBlock(entity.worldObj, x + xMov, y + yMov, z + zMov);
-			final int currentMeta = BlockPosHelper.getBlockMetadata(entity.worldObj, x + xMov, y + yMov, z + zMov);
+			final Block currentBlock = BlockHelper.getBlock(entity.worldObj, x + xMov, y + yMov, z + zMov);
+			final int currentMeta = BlockHelper.getBlockMetadata(entity.worldObj, x + xMov, y + yMov, z + zMov);
 			
 			if (currentBlock == block && currentMeta == meta)
 			{
@@ -359,7 +359,7 @@ public final class RadixLogic
 		
 		for (Point3D point : nearbyBlocks)
 		{
-			if (BlockPosHelper.getBlockMetadata(entity.worldObj, point.iPosX, point.iPosY, point.iPosZ) == meta)
+			if (BlockHelper.getBlockMetadata(entity.worldObj, point.iPosX, point.iPosY, point.iPosZ) == meta)
 			{
 				returnList.add(point);
 			}
@@ -382,7 +382,7 @@ public final class RadixLogic
 
 		while (true)
 		{
-			final Block currentBlock = BlockPosHelper.getBlock(entity.worldObj, x + xMov, y + yMov, z + zMov);
+			final Block currentBlock = BlockHelper.getBlock(entity.worldObj, x + xMov, y + yMov, z + zMov);
 
 			if (currentBlock == block)
 			{
@@ -429,7 +429,7 @@ public final class RadixLogic
 
 		while (true)
 		{
-			final Block currentBlock = BlockPosHelper.getBlock(entity.worldObj, x + xMov, y + yMov, z + zMov);
+			final Block currentBlock = BlockHelper.getBlock(entity.worldObj, x + xMov, y + yMov, z + zMov);
 
 			if (currentBlock.getClass().isAssignableFrom(blockClass))
 			{
@@ -521,7 +521,7 @@ public final class RadixLogic
 		while (block == Blocks.air)
 		{
 			y--;
-			block = BlockPosHelper.getBlock(worldObj, x, y, z);
+			block = BlockHelper.getBlock(worldObj, x, y, z);
 		}
 		
 		return y + 1;
