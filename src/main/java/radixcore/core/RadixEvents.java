@@ -62,7 +62,15 @@ public class RadixEvents
 				{
 					for (AbstractPlayerData data : metadata.playerDataMap.values())
 					{
-						data.saveDataToFile();
+						if (data != null) //Crashes on extensively modded games, I'm not clear on why this may happen. Simple workaround now, may revisit later.
+						{
+							data.saveDataToFile();
+						}
+						
+						else
+						{
+							RadixCore.getLogger().error("Skipping save of null player data for mod " + metadata.modId + ". You may notice a few oddities. Please report if so.");
+						}
 					}
 				}
 			}
