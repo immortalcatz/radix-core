@@ -225,7 +225,7 @@ public final class RadixLogic
 
 		while (true)
 		{
-			final Block currentBlock = BlockHelper.getBlock(entity.worldObj, new BlockPos(x + xMov, y + yMov, z + zMov));
+			final Block currentBlock = BlockHelper.getBlock(entity.worldObj, x + xMov, y + yMov, z + zMov);
 
 			if (currentBlock == block)
 			{
@@ -258,48 +258,49 @@ public final class RadixLogic
 		return null;
 	}
 	
+	@Deprecated
 	public static Point3D getFirstNearestBlockWithMeta(Entity entity, Block block, int meta, int maxDistanceAway)
 	{
-		final int x = (int) entity.posX;
-		final int y = (int) entity.posY;
-		final int z = (int) entity.posZ;
-
-		int xMov = 0 - maxDistanceAway;
-		int yMov = 3;
-		int zMov = 0 - maxDistanceAway;
-
-		while (true)
-		{
-			final Block currentBlock = BlockHelper.getBlock(entity.worldObj, x + xMov, y + yMov, z + zMov);
-			final int currentMeta = BlockHelper.getBlockMetadata(entity.worldObj, x + xMov, y + yMov, z + zMov);
-			
-			if (currentBlock == block && currentMeta == meta)
-			{
-				return new Point3D(x + xMov, y + yMov, z + zMov);
-			}
-
-			if (zMov == maxDistanceAway && xMov == maxDistanceAway && yMov == -3)
-			{
-				break;
-			}
-
-			if (zMov == maxDistanceAway && xMov == maxDistanceAway)
-			{
-				yMov--;
-				xMov = 0 - maxDistanceAway;
-				zMov = 0 - maxDistanceAway;
-				continue;
-			}
-
-			if (xMov == maxDistanceAway)
-			{
-				zMov++;
-				xMov = 0 - maxDistanceAway;
-				continue;
-			}
-
-			xMov++;
-		}
+//		final int x = (int) entity.posX;
+//		final int y = (int) entity.posY;
+//		final int z = (int) entity.posZ;
+//
+//		int xMov = 0 - maxDistanceAway;
+//		int yMov = 3;
+//		int zMov = 0 - maxDistanceAway;
+//
+//		while (true)
+//		{
+//			final Block currentBlock = BlockHelper.getBlock(entity.worldObj, x + xMov, y + yMov, z + zMov);
+//			final int currentMeta = BlockHelper.getBlockMetadata(entity.worldObj, x + xMov, y + yMov, z + zMov);
+//			
+//			if (currentBlock == block && currentMeta == meta)
+//			{
+//				return new Point3D(x + xMov, y + yMov, z + zMov);
+//			}
+//
+//			if (zMov == maxDistanceAway && xMov == maxDistanceAway && yMov == -3)
+//			{
+//				break;
+//			}
+//
+//			if (zMov == maxDistanceAway && xMov == maxDistanceAway)
+//			{
+//				yMov--;
+//				xMov = 0 - maxDistanceAway;
+//				zMov = 0 - maxDistanceAway;
+//				continue;
+//			}
+//
+//			if (xMov == maxDistanceAway)
+//			{
+//				zMov++;
+//				xMov = 0 - maxDistanceAway;
+//				continue;
+//			}
+//
+//			xMov++;
+//		}
 
 		return null;
 	}
@@ -352,19 +353,20 @@ public final class RadixLogic
 		return returnPoint;
 	}
 	
+	@Deprecated
 	public static List<Point3D> getNearbyBlocksWithMetadata(Entity entity, Block block, int meta, int maxDistanceAway)
 	{
 		List<Point3D> nearbyBlocks = getNearbyBlocks(entity, block, maxDistanceAway);
 		List<Point3D> returnList = new ArrayList<Point3D>();
-		
-		for (Point3D point : nearbyBlocks)
-		{
-			if (BlockHelper.getBlockMetadata(entity.worldObj, point.iPosX, point.iPosY, point.iPosZ) == meta)
-			{
-				returnList.add(point);
-			}
-		}
-		
+//		
+//		for (Point3D point : nearbyBlocks)
+//		{
+//			if (entity.worldObj.getBlockStatepoint.iPosX, point.iPosY, point.iPosZ) == meta)
+//			{
+//				returnList.add(point);
+//			}
+//		}
+//		
 		return returnList;
 	}
 	
