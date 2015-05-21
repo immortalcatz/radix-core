@@ -10,12 +10,12 @@ public final class BlockHelper
 {
 	public static void setBlock(World world, Point3D point, Block block)
 	{
-		setBlock(world, point.iPosX, point.iPosY, point.iPosZ, block, 1);
+		setBlock(world, point.iPosX, point.iPosY, point.iPosZ, block, 0);
 	}
 	
 	public static void setBlock(World world, int posX, int posY, int posZ, Block block)
 	{
-		setBlock(world, posX, posY, posZ, block, 1);
+		setBlock(world, posX, posY, posZ, block, 0);
 	}
 	
 	public static void setBlock(World world, int posX, int posY, int posZ, Block block, int meta)
