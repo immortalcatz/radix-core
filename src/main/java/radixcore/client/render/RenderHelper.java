@@ -31,7 +31,7 @@ public final class RenderHelper
 		worldRenderer.addVertexWithUV(x + width, 	y + 0, 		0.0D, (u + width) 	* f, ((v + 0) * f1));
 		worldRenderer.addVertexWithUV(x + 0, 		y + 0, 		0.0D, (u + 0) 		* f, ((v + 0) * f1));
 
-		worldRenderer.draw();
+		tessellator.draw();
 	}
 
 	public static void drawTextPopup(String text, int posX, int posY)
@@ -113,7 +113,7 @@ public final class RenderHelper
 		
 		Tessellator tessellator = Tessellator.getInstance();
 		WorldRenderer worldRenderer = tessellator.getWorldRenderer();
-		
+
 		worldRenderer.startDrawingQuads();
 		worldRenderer.func_178960_a(color1R, color1B, color1G, color1A);
 		worldRenderer.addVertex(yTop, xBottom, 0.0D);
@@ -121,7 +121,7 @@ public final class RenderHelper
 		worldRenderer.func_178960_a(color2R, color2B, color2G, color2A);
 		worldRenderer.addVertex(xTop, yBottom, 0.0D);
 		worldRenderer.addVertex(yTop, yBottom, 0.0D);
-		worldRenderer.draw();
+		tessellator.draw();
 		
 		GL11.glShadeModel(GL11.GL_FLAT);
 		GL11.glDisable(GL11.GL_BLEND);
