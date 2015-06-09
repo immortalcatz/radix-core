@@ -7,10 +7,12 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 import radixcore.data.BlockObj;
 import radixcore.math.Point3D;
@@ -144,7 +146,8 @@ public final class SchematicHandler
 	{
 		Map<Point3D, BlockObj> schemBlocks = readSchematic(location);
 		Map<Point3D, BlockObj> torchMap = new HashMap<Point3D, BlockObj>();
-
+		Map<Point3D, BlockObj> doorMap = new HashMap<Point3D, BlockObj>();
+		
 		for (Map.Entry<Point3D, BlockObj> entry : schemBlocks.entrySet())
 		{
 			if (entry.getValue().getBlock() == Blocks.torch)
@@ -152,6 +155,11 @@ public final class SchematicHandler
 				torchMap.put(entry.getKey(), entry.getValue());
 			}
 
+			else if (entry.getValue().getBlock() == Blocks.oak_door)
+			{
+				doorMap.put(entry.getKey(), entry.getValue());
+			}
+			
 			else
 			{
 				Point3D blockPoint = entry.getKey();
@@ -160,8 +168,10 @@ public final class SchematicHandler
 				int y = blockPoint.iPosY + point.iPosY;
 				int z = blockPoint.iPosZ + point.iPosZ;
 
-				//TODO States are not accounted for.
-				BlockHelper.setBlock(world, x, y, z, entry.getValue().getBlock());
+				BlockObj blockObj = entry.getValue();
+				IBlockState state = blockObj.getBlock().getStateFromMeta(blockObj.getMeta());
+				
+				world.setBlockState(new BlockPos(x, y, z), state);
 			}
 		}
 
@@ -173,8 +183,24 @@ public final class SchematicHandler
 			int y = blockPoint.iPosY + point.iPosY;
 			int z = blockPoint.iPosZ + point.iPosZ;
 
-			//TODO States are not accounted for.
-			BlockHelper.setBlock(world, x, y, z, entry.getValue().getBlock());
+			BlockObj blockObj = entry.getValue();
+			IBlockState state = blockObj.getBlock().getStateFromMeta(blockObj.getMeta());
+			
+			world.setBlockState(new BlockPos(x, y, z), state);
+		}
+		
+		for (Map.Entry<Point3D, BlockObj> entry : doorMap.entrySet())
+		{
+			Point3D blockPoint = entry.getKey();
+
+			int x = blockPoint.iPosX + point.iPosX;
+			int y = blockPoint.iPosY + point.iPosY;
+			int z = blockPoint.iPosZ + point.iPosZ;
+
+			BlockObj blockObj = entry.getValue();
+			IBlockState state = blockObj.getBlock().getStateFromMeta(blockObj.getMeta());
+			
+			world.setBlockState(new BlockPos(x, y, z), state);
 		}
 	}
 }
