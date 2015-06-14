@@ -142,15 +142,7 @@ public final class DataWatcherEx implements Serializable
 				packet = new PacketWatchedUpdateC(initializingModId, id, newValue);
 			}
 			
-			if (point == null)
-			{
-				RadixCore.getPacketHandler().sendPacketToAllPlayers(packet);
-			}
-			
-			else
-			{
-				RadixCore.getPacketHandler().sendPacketToAllAround(packet, point);
-			}
+			RadixCore.getPacketHandler().sendPacketToAllPlayers(packet);
 			
 			if (objectOwner instanceof AbstractPlayerData)
 			{
