@@ -7,7 +7,7 @@
   "mcversion": "${mcversion}",
   "url": "",
   "updateUrl": "",
-  "authors":  "WildBamaBoy, SheWolfDeadly",
+  "authorList": ["WildBamaBoy", "SheWolfDeadly"],
   "credits": "ntzrmtthihu777",
   "logoFile": "radixcore.png",
   "screenshots": [],
