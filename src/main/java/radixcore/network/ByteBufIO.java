@@ -21,6 +21,10 @@ import org.apache.commons.io.output.ByteArrayOutputStream;
 
 import radixcore.util.RadixExcept;
 
+/**
+ * This is a utility class used to easily convert objects to
+ * byte arrays that can be sent over the network.
+ */
 public final class ByteBufIO
 {
 	/**

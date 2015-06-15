@@ -7,6 +7,9 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
+/**
+ * Utility class that allows easy serialization/deserialization of an object to file.
+ */
 public final class RadixIO 
 {
 	public static void serializeToFile(File fileLocation, Object objectToSerialize)

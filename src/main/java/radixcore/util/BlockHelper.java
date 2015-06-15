@@ -8,6 +8,9 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 import radixcore.math.Point3D;
 
+/**
+ * Utility class used for easy migration to/from 1.8 where block operations are considered.
+ */
 public final class BlockHelper 
 {
 	public static void setBlock(World world, Point3D point, Block block)

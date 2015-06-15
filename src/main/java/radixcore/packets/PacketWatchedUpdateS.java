@@ -62,8 +62,17 @@ public class PacketWatchedUpdateS extends AbstractPacket implements IMessage, IM
 	@Override
 	public IMessage onMessage(PacketWatchedUpdateS packet, MessageContext context)
 	{
+		RadixCore.getPacketHandler().addPacketForProcessing(packet, context);
+		return null;
+	}
+
+	@Override
+	public void processOnGameThread(IMessageHandler message, MessageContext context) 
+	{
 		try
 		{
+			PacketWatchedUpdateS packet = (PacketWatchedUpdateS)message;
+			
 			EntityPlayer player = this.getPlayer(context);
 			IWatchable watchable = null;
 
@@ -102,7 +111,19 @@ public class PacketWatchedUpdateS extends AbstractPacket implements IMessage, IM
 			if (watchable != null)
 			{
 				DataWatcherEx dataWatcherEx = watchable.getDataWatcherEx();
+				boolean flag = !DataWatcherEx.allowClientSideModification;
+				
+				if (flag)
+				{
+					dataWatcherEx.allowClientSideModification = true;
+				}
+				
 				dataWatcherEx.updateObject(packet.watchedId, packet.watchedValue, true); //Server-side received info from client. Dispatch to all other clients.
+				
+				if (flag)
+				{
+					dataWatcherEx.allowClientSideModification = false;
+				}
 			}
 		}
 
@@ -110,7 +131,5 @@ public class PacketWatchedUpdateS extends AbstractPacket implements IMessage, IM
 		{
 			RadixExcept.logErrorCatch(e, "Non-fatal error caught while updating watched object server-side.");
 		}
-
-		return null;
 	}
 }

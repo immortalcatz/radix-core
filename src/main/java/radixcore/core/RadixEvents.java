@@ -11,6 +11,10 @@ import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent.ServerTickEvent;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import radixcore.data.AbstractPlayerData;
 import radixcore.data.IWatchable;
 import radixcore.packets.PacketDataSyncReq;
@@ -75,5 +79,18 @@ public class RadixEvents
 				}
 			}
 		}
+	}
+	
+	@SideOnly(Side.CLIENT)
+	@SubscribeEvent
+	public void clientTickEventHandler(ClientTickEvent event)
+	{
+		RadixCore.getPacketHandler().processPackets();
+	}
+
+	@SubscribeEvent
+	public void serverTickEventHandler(ServerTickEvent event)
+	{
+		RadixCore.getPacketHandler().processPackets();
 	}
 }

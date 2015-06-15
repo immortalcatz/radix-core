@@ -11,7 +11,6 @@ public class RadixPacketHandler extends AbstractPacketHandler
 	public RadixPacketHandler(String modId) 
 	{
 		super(modId);
-		
 	}
 
 	@Override

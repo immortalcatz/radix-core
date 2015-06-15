@@ -29,6 +29,11 @@ public final class RadixMath
 		return (rand.nextFloat() * (maximum - minimum)) + minimum;
 	}
 	
+	public static double getNumberInRangeWithDeviation(float standardDeviation, float mean)
+	{
+		return (rand.nextGaussian() * standardDeviation) + mean;
+	}
+	
 	public static double getDistanceToEntity(Entity entity1, Entity entity2)
 	{
 		return getDistanceToXYZ(entity1.posX, entity1.posY, entity1.posZ, entity2.posX, entity2.posY, entity2.posZ);

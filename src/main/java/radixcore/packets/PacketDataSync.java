@@ -7,6 +7,7 @@ import java.util.Map;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
+import radixcore.core.RadixCore;
 import radixcore.data.DataWatcherEx;
 import radixcore.data.IWatchable;
 import radixcore.data.WatchedObjectEx;
@@ -45,6 +46,14 @@ public class PacketDataSync extends AbstractPacket implements IMessage, IMessage
 	@Override
 	public IMessage onMessage(PacketDataSync packet, MessageContext context)
 	{
+		RadixCore.getPacketHandler().addPacketForProcessing(packet, context);
+		return null;
+	}
+
+	@Override
+	public void processOnGameThread(IMessageHandler message, MessageContext context) 
+	{
+		PacketDataSync packet = (PacketDataSync)message;
 		IWatchable entity = (IWatchable)this.getPlayerClient().worldObj.getEntityByID(packet.entityId);
 		
 		try
@@ -65,6 +74,5 @@ public class PacketDataSync extends AbstractPacket implements IMessage, IMessage
 			RadixExcept.logErrorCatch(e, "Unexpected error while processing received sync data.");
 		}
 		
-		return null;
 	}
 }

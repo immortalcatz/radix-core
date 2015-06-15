@@ -1,57 +1,30 @@
-/*package com.radixshock.radixcore.core;
+package radixcore.update;
 
 import java.net.URL;
 import java.util.Scanner;
 
-import radixcore.ModMetadataEx;
-import net.minecraft.command.ICommandSender;
-import net.minecraft.event.ClickEvent;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.IChatComponent;
+import radixcore.core.ModMetadataEx;
+import radixcore.core.RadixCore;
+import radixcore.util.RadixExcept;
 
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
-import com.radixshock.radixcore.constant.Font;
-import com.radixshock.radixcore.util.object.Version;
 
-*//**
- * <b>NOTICE!</b> This updater is set up differently. On your mod base,
- * {@link IEnforcedCore#getRedirectURL()} is not used at all and for
- * {@link IEnforcedCore#getUpdateURL()}, you put the slug for your project
- * instead. For example:<br />
- * http://curse.com/mc-mods/minecraft/<b><u>mb-battlegear-2</u></b><br />
- * <br />
- * Also, it's set up in a special way on your Curse project. Your files HAVE to
- * have the exact name of it's version. But this updater will only work if you
- * use <code>#.#.#</code>, <code>#.#</code> , or simply just <code>#</code>
- * version formats. If you don't use any of these, you can change it by changing
- * {@link simpleVersioning} below to say <code>true</code>. Also, just as a
- * quick note, when you use version formats, they're interpreted as this:
- * <table>
- * <tr>
- * <th>Actual version number</th>
- * <th>How the updater interprets it</th>
- * </tr>
- * <tr>
- * <td>1.6.4</td>
- * <td>1.6.4</td>
- * </tr>
- * <tr>
- * <td>1.8</td>
- * <td>1.8.0</td>
- * </tr>
- * <tr>
- * <td>1</td>
- * <td>1.0.0</td>
- * </tr>
- * <tr>
- * <td>1.2.3.4</td>
- * <td>1.2.3</td>
- * </tr>
- * </table>
+/**
+ * <b>NOTICE!</b>
+ * You <b>must</b> specify your mod's Curse ID during initialization. See MCA's preInit method for implementation. 
  * 
+ * <p>This update protocol will work for you assuming the all of the following is true.
+ * 
+ * <ul>
+ * <li>Your mod version and Minecraft version are not equal. (e.g mod version 1.8, Minecraft 1.8)
+ * <li>Your mod's file extension is .jar.
+ * <li>Your mod's name on Curse contains your mod's version in code. Standard naming such as 
+ * <code>([modid]-[mod version]-[mc version]-universal.jar) is recommended. </code>
+ * </ul>
  * @author MCGamer20000
- *//*
+ * @author WildBamaBoy
+ */
 public class CurseUpdateProtocol implements IUpdateProtocol
 {
 	@Override
@@ -67,14 +40,17 @@ public class CurseUpdateProtocol implements IUpdateProtocol
 			JsonObject file = new GsonBuilder().create().fromJson(scanner.nextLine(), JsonObject.class).get("download").getAsJsonObject();
 
 			returnData = new UpdateData();
-			returnData.modVersion = scanner.nextLine();
-
-			returnData.modVersion = file.get("version").getAsString();
+			returnData.minecraftVersion = file.get("version").getAsString();
+			returnData.modVersion = file.get("name").getAsString();
+			
+			//Parse out everything but the version number.
+			returnData.modVersion = returnData.modVersion.replace(returnData.minecraftVersion, "").replace(".jar", "").replaceAll("[^0-9.]", "");
+			return returnData;
 		}
 
 		catch (Exception e) 
 		{
-			mod.getLogger().log("Error checking for updates.");
+			RadixExcept.logErrorCatch(e, "Error checking for updates for " + modData.modId);
 		}
 
 		return null;
@@ -86,4 +62,3 @@ public class CurseUpdateProtocol implements IUpdateProtocol
 
 	}
 }
-*/

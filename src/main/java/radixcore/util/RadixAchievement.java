@@ -9,6 +9,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.stats.Achievement;
 import net.minecraftforge.common.AchievementPage;
 
+/**
+ * Utility class used to easily register mod achievements with the game.
+ */
 public final class RadixAchievement 
 {
 	public static Achievement register(String name, int x, int y, Block block, Achievement prerequisite)

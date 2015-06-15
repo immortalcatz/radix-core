@@ -9,6 +9,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 
+/**
+ * This is a simple inventory class containing common functions present in other inventories.
+ */
 public class Inventory extends InventoryBasic
 {
 	public Inventory(String name, boolean displayCustomName, int size)

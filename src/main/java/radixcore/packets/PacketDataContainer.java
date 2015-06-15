@@ -46,6 +46,15 @@ public class PacketDataContainer extends AbstractPacket implements IMessage, IMe
 	@Override
 	public IMessage onMessage(PacketDataContainer packet, MessageContext context)
 	{
+		RadixCore.getPacketHandler().addPacketForProcessing(packet, context);
+		return null;
+	}
+
+	@Override
+	public void processOnGameThread(IMessageHandler message, MessageContext context) 
+	{
+		PacketDataContainer packet = (PacketDataContainer)message;
+		
 		try
 		{	
 			for (ModMetadataEx mod : RadixCore.getRegisteredMods())
@@ -82,6 +91,5 @@ public class PacketDataContainer extends AbstractPacket implements IMessage, IMe
 			RadixExcept.logFatalCatch(e, "IllegalAccessException while creating client data container for " + packet.ownerModId + ". Make sure client container field is public and static!");
 		}
 		
-		return null;
 	}
 }

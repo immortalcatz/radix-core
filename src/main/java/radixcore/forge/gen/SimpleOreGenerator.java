@@ -12,6 +12,9 @@ import net.minecraft.world.gen.feature.WorldGenMinable;
 import net.minecraftforge.fml.common.IWorldGenerator;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
+/**
+ * Allows an ore spawn to be registered quickly and easily.
+ */
 public final class SimpleOreGenerator implements IWorldGenerator
 {
 	private final Block spawnBlock;

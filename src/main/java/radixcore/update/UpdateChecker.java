@@ -8,7 +8,6 @@ import radixcore.constant.Font;
 import radixcore.core.ModMetadataEx;
 import radixcore.core.RadixCore;
 
-
 public final class UpdateChecker implements Runnable
 {
 	private final ModMetadataEx exData;

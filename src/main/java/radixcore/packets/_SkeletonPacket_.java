@@ -46,4 +46,10 @@ public class _SkeletonPacket_ extends AbstractPacket implements IMessage, IMessa
 		//Qualify all variable access with packet.<field name>.
 		return null;
 	}
+
+	@Override
+	public void processOnGameThread(IMessageHandler message, MessageContext context) 
+	{
+		// TODO Auto-generated method stub
+	}
 }

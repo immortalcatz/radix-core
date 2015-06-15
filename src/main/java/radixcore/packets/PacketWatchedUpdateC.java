@@ -60,8 +60,16 @@ public class PacketWatchedUpdateC extends AbstractPacket implements IMessage, IM
 	@Override
 	public IMessage onMessage(PacketWatchedUpdateC packet, MessageContext context)
 	{
+		RadixCore.getPacketHandler().addPacketForProcessing(packet, context);
+		return null;
+	}
+
+	@Override
+	public void processOnGameThread(IMessageHandler message, MessageContext context) 
+	{
 		try
 		{
+			PacketWatchedUpdateC packet = (PacketWatchedUpdateC)message;
 			IWatchable watchable = null;
 
 			if (packet.modId != null)
@@ -99,7 +107,5 @@ public class PacketWatchedUpdateC extends AbstractPacket implements IMessage, IM
 		{
 			RadixExcept.logErrorCatch(e, "Non-fatal error caught while updating watched object server-side.");
 		}
-
-		return null;
 	}
 }

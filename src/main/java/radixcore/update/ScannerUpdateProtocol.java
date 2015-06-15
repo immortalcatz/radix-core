@@ -6,6 +6,11 @@ import java.util.Scanner;
 import radixcore.core.ModMetadataEx;
 import radixcore.core.RadixCore;
 
+/**
+ * An update protocol that can scan a URL for a string containing update information.
+ * 
+ * The string is expected to be the latest mod version followed by a newline and then the Minecraft version.
+ */
 public class ScannerUpdateProtocol implements IUpdateProtocol
 {
 	private Scanner scanner;

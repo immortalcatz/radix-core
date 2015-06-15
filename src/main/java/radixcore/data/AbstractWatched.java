@@ -2,7 +2,6 @@ package radixcore.data;
 
 import java.io.Serializable;
 
-
 public abstract class AbstractWatched implements Serializable
 {
 	protected DataWatcherEx dataWatcher;

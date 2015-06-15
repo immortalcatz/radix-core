@@ -8,6 +8,10 @@ import java.net.Socket;
 import radixcore.core.ModMetadataEx;
 import radixcore.core.RadixCore;
 
+/**
+ * An update protocol that communicates with our server software in order to
+ * check for updates. Please don't use this.
+ */
 public class RDXUpdateProtocol implements IUpdateProtocol
 {
 	private Socket connectSocket;

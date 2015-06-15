@@ -7,28 +7,55 @@
 
 package radixcore.network;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.management.ServerConfigurationManager;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
+import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.relauncher.Side;
+import radixcore.packets.AbstractPacket;
 
+/**
+ * This class provides a simple set of methods used to manage registering and sending packets to/from the client and server.
+ * 
+ * <p>In order to mitigate issues with certain oddities on Minecraft 1.8's threaded networking system,
+ * the AbstractPacketHandler implements a simple processing queue. On a packet's onMessage() method, add it
+ * to your mod's packet handler with addPacketForProcessing(). In your mod's client and server tick handlers,
+ * call processPackets().
+ * 
+ * <p>This will process the packets on the main client/server thread (as they were in 1.7.10) rather than on a 
+ * thread used exclusively by the networking system.
+ * 
+ * <p>See RadixEvents for implementation.
+ */
 public abstract class AbstractPacketHandler
 {
+	private List<QueuedPacket> queuedPackets;
 	protected SimpleNetworkWrapper wrapper;
 	private int idCounter;
-	
+
 	public AbstractPacketHandler(String modId)
 	{
 		wrapper = NetworkRegistry.INSTANCE.newSimpleChannel(modId);
 		registerPackets();
+		queuedPackets = new ArrayList<QueuedPacket>();
 	}
 
 	public abstract void registerPackets();
 
+	/**
+	 * Registers a packet with the underlying SimpleNetworkWrapper.
+	 * 
+	 * @param 	packetClass		The packet's class.
+	 * @param 	processorSide	The side that will receive and process this packet.
+	 */
 	protected void registerPacket(Class packetClass, Side processorSide)
 	{
 		wrapper.registerMessage(packetClass, packetClass, idCounter, processorSide);
@@ -111,5 +138,41 @@ public abstract class AbstractPacketHandler
 	public void sendPacketToServer(IMessage packet)
 	{
 		wrapper.sendToServer(packet);
+	}
+
+	/**
+	 * Processes all packets stored in the queue. Locks the queue while packets are being processed.
+	 * Call this from your client and server tick handlers fairly often to keep things up-to-date.
+	 */
+	public void processPackets()
+	{
+		synchronized (queuedPackets)
+		{
+			if (!queuedPackets.isEmpty())
+			{
+				//Start at the end of the list and work backwards.
+				for (int i = queuedPackets.size() - 1; i > -1; i--)
+				{
+					QueuedPacket queuedObject = queuedPackets.get(i);
+					AbstractPacket packet = queuedObject.getPacket();
+					packet.processOnGameThread(queuedObject.getMessage(), queuedObject.getContext());
+					queuedPackets.remove(i);
+				}
+			}
+		}
+	}
+
+	/**
+	 * Adds a packet to the processing queue. Thread-safe.
+	 * 
+	 * @param 	packet	An instance of the packet that will be processed.
+	 * @param 	context	The MessageContext of the packet from its onMessage() method.
+	 */
+	public void addPacketForProcessing(AbstractPacket packet, MessageContext context)
+	{
+		synchronized (queuedPackets)
+		{
+			queuedPackets.add(new QueuedPacket(packet, (IMessageHandler)packet, context));
+		}
 	}
 }
