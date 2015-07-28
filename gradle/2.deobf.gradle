@@ -1,6 +1,6 @@
 task deobfJar(type: Jar) {
     from sourceSets.main.output
-    classifier = project.minecraft.version + '-deobf'
+    classifier = 'deobf'
 }
 
 artifacts {
