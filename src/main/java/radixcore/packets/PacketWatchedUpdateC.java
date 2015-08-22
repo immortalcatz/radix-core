@@ -1,6 +1,7 @@
 package radixcore.packets;
 
 import io.netty.buffer.ByteBuf;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
@@ -60,7 +61,7 @@ public class PacketWatchedUpdateC extends AbstractPacket implements IMessage, IM
 	@Override
 	public IMessage onMessage(PacketWatchedUpdateC packet, MessageContext context)
 	{
-		RadixCore.getPacketHandler().addPacketForProcessing(packet, context);
+		RadixCore.getPacketHandler().addPacketForProcessing(FMLCommonHandler.instance().getSide(), packet, context);
 		return null;
 	}
 

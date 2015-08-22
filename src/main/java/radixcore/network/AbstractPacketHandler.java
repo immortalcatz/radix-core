@@ -37,7 +37,8 @@ import radixcore.packets.AbstractPacket;
  */
 public abstract class AbstractPacketHandler
 {
-	private List<QueuedPacket> queuedPackets;
+	private List<QueuedPacket> serverQueuedPackets;
+	private List<QueuedPacket> clientQueuedPackets;
 	protected SimpleNetworkWrapper wrapper;
 	private int idCounter;
 
@@ -45,7 +46,8 @@ public abstract class AbstractPacketHandler
 	{
 		wrapper = NetworkRegistry.INSTANCE.newSimpleChannel(modId);
 		registerPackets();
-		queuedPackets = new ArrayList<QueuedPacket>();
+		clientQueuedPackets = new ArrayList<QueuedPacket>();
+		serverQueuedPackets = new ArrayList<QueuedPacket>();
 	}
 
 	public abstract void registerPackets();
@@ -146,6 +148,9 @@ public abstract class AbstractPacketHandler
 	 */
 	public void processPackets()
 	{
+		Side currentSide = FMLCommonHandler.instance().getSide();
+		List<QueuedPacket> queuedPackets = currentSide.isClient() ? clientQueuedPackets : serverQueuedPackets;
+
 		synchronized (queuedPackets)
 		{
 			if (!queuedPackets.isEmpty())
@@ -165,11 +170,15 @@ public abstract class AbstractPacketHandler
 	/**
 	 * Adds a packet to the processing queue. Thread-safe.
 	 * 
+	 * @param	side	The side that will process this packet.
 	 * @param 	packet	An instance of the packet that will be processed.
 	 * @param 	context	The MessageContext of the packet from its onMessage() method.
 	 */
-	public void addPacketForProcessing(AbstractPacket packet, MessageContext context)
+	public void addPacketForProcessing(Side side, AbstractPacket packet, MessageContext context)
 	{
+		Side currentSide = FMLCommonHandler.instance().getSide();
+		List<QueuedPacket> queuedPackets = currentSide.isClient() ? clientQueuedPackets : serverQueuedPackets;
+		
 		synchronized (queuedPackets)
 		{
 			queuedPackets.add(new QueuedPacket(packet, (IMessageHandler)packet, context));
