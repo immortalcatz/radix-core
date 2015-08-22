@@ -145,11 +145,12 @@ public abstract class AbstractPacketHandler
 	/**
 	 * Processes all packets stored in the queue. Locks the queue while packets are being processed.
 	 * Call this from your client and server tick handlers fairly often to keep things up-to-date.
+	 * 
+	 * @param 	side	The side that will be processing packets.
 	 */
-	public void processPackets()
+	public void processPackets(Side side)
 	{
-		Side currentSide = FMLCommonHandler.instance().getSide();
-		List<QueuedPacket> queuedPackets = currentSide.isClient() ? clientQueuedPackets : serverQueuedPackets;
+		List<QueuedPacket> queuedPackets = side.isClient() ? clientQueuedPackets : serverQueuedPackets;
 
 		synchronized (queuedPackets)
 		{
@@ -176,7 +177,7 @@ public abstract class AbstractPacketHandler
 	 */
 	public void addPacketForProcessing(Side side, AbstractPacket packet, MessageContext context)
 	{
-		Side currentSide = FMLCommonHandler.instance().getSide();
+		Side currentSide = context.side;
 		List<QueuedPacket> queuedPackets = currentSide.isClient() ? clientQueuedPackets : serverQueuedPackets;
 		
 		synchronized (queuedPackets)

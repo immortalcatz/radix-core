@@ -63,7 +63,7 @@ public class PacketWatchedUpdateS extends AbstractPacket implements IMessage, IM
 	@Override
 	public IMessage onMessage(PacketWatchedUpdateS packet, MessageContext context)
 	{
-		RadixCore.getPacketHandler().addPacketForProcessing(FMLCommonHandler.instance().getSide(), packet, context);
+		RadixCore.getPacketHandler().addPacketForProcessing(context.side, packet, context);
 		return null;
 	}
 

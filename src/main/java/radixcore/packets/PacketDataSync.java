@@ -47,7 +47,7 @@ public class PacketDataSync extends AbstractPacket implements IMessage, IMessage
 	@Override
 	public IMessage onMessage(PacketDataSync packet, MessageContext context)
 	{
-		RadixCore.getPacketHandler().addPacketForProcessing(FMLCommonHandler.instance().getSide(), packet, context);
+		RadixCore.getPacketHandler().addPacketForProcessing(context.side, packet, context);
 		return null;
 	}
 

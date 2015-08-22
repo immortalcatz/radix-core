@@ -47,7 +47,7 @@ public class PacketDataContainer extends AbstractPacket implements IMessage, IMe
 	@Override
 	public IMessage onMessage(PacketDataContainer packet, MessageContext context)
 	{
-		RadixCore.getPacketHandler().addPacketForProcessing(FMLCommonHandler.instance().getSide(), packet, context);
+		RadixCore.getPacketHandler().addPacketForProcessing(context.side, packet, context);
 		return null;
 	}
 
