@@ -39,7 +39,7 @@ public final class UpdateChecker implements Runnable
 				IUpdateProtocol updateProtocol = exData.updateProtocolClass.newInstance();
 				UpdateData updateData = updateProtocol.getUpdateData(exData);
 
-				if (!updateData.modVersion.equals(exData.version))
+				if (!(updateData.minecraftVersion + "-" + updateData.modVersion).equals(exData.version))
 				{
 					final String messageUpdateVersion = 
 							Font.Color.DARKGREEN + exData.name + " " + updateData.modVersion + Font.Color.YELLOW + " for " + 
