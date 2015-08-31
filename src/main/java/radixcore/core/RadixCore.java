@@ -3,6 +3,8 @@ package radixcore.core;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.logging.log4j.Logger;
+
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.common.FMLCommonHandler;
@@ -12,10 +14,8 @@ import net.minecraftforge.fml.common.Mod.Instance;
 import net.minecraftforge.fml.common.ModMetadata;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStoppingEvent;
-
-import org.apache.logging.log4j.Logger;
-
 import radixcore.network.RadixPacketHandler;
+import radixcore.update.RDXUpdateProtocol;
 
 @Mod(modid = RadixCore.ID, name = RadixCore.NAME, version = RadixCore.VERSION, acceptedMinecraftVersions = "[1.8]")
 public class RadixCore 
@@ -57,6 +57,10 @@ public class RadixCore
     	
 		FMLCommonHandler.instance().bus().register(new RadixEvents());
 		MinecraftForge.EVENT_BUS.register(new RadixEvents());
+
+		ModMetadataEx exData = ModMetadataEx.getFromModMetadata(event.getModMetadata());
+		exData.updateProtocolClass = RDXUpdateProtocol.class;
+		RadixCore.registerMod(exData);
 		
     	logger.info("RadixCore version " + VERSION + " is running from " + runningDirectory);
     }
