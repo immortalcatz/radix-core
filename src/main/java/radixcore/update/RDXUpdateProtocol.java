@@ -22,7 +22,7 @@ public class RDXUpdateProtocol implements IUpdateProtocol
 	@Override
 	public UpdateData getUpdateData(ModMetadataEx modData) 
 	{
-		String minecraftVersion = "1.7.10";
+		String minecraftVersion = "1.8";
 		
 		String url = "http://files.radix-shock.com/get-xml-property.php?modName=%modName%&mcVersion=%mcVersion%&xmlProperty=version";
 		url = url.replace("%modName%", modData.modId).replace("%mcVersion%", minecraftVersion);
