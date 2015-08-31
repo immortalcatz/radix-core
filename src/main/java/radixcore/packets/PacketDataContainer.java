@@ -4,6 +4,7 @@ import io.netty.buffer.ByteBuf;
 
 import java.lang.reflect.Field;
 
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
@@ -46,7 +47,7 @@ public class PacketDataContainer extends AbstractPacket implements IMessage, IMe
 	@Override
 	public IMessage onMessage(PacketDataContainer packet, MessageContext context)
 	{
-		RadixCore.getPacketHandler().addPacketForProcessing(packet, context);
+		RadixCore.getPacketHandler().addPacketForProcessing(context.side, packet, context);
 		return null;
 	}
 

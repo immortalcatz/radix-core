@@ -37,7 +37,8 @@ import radixcore.packets.AbstractPacket;
  */
 public abstract class AbstractPacketHandler
 {
-	private List<QueuedPacket> queuedPackets;
+	private List<QueuedPacket> serverQueuedPackets;
+	private List<QueuedPacket> clientQueuedPackets;
 	protected SimpleNetworkWrapper wrapper;
 	private int idCounter;
 
@@ -45,7 +46,8 @@ public abstract class AbstractPacketHandler
 	{
 		wrapper = NetworkRegistry.INSTANCE.newSimpleChannel(modId);
 		registerPackets();
-		queuedPackets = new ArrayList<QueuedPacket>();
+		clientQueuedPackets = new ArrayList<QueuedPacket>();
+		serverQueuedPackets = new ArrayList<QueuedPacket>();
 	}
 
 	public abstract void registerPackets();
@@ -143,9 +145,13 @@ public abstract class AbstractPacketHandler
 	/**
 	 * Processes all packets stored in the queue. Locks the queue while packets are being processed.
 	 * Call this from your client and server tick handlers fairly often to keep things up-to-date.
+	 * 
+	 * @param 	side	The side that will be processing packets.
 	 */
-	public void processPackets()
+	public void processPackets(Side side)
 	{
+		List<QueuedPacket> queuedPackets = side.isClient() ? clientQueuedPackets : serverQueuedPackets;
+
 		synchronized (queuedPackets)
 		{
 			if (!queuedPackets.isEmpty())
@@ -165,11 +171,15 @@ public abstract class AbstractPacketHandler
 	/**
 	 * Adds a packet to the processing queue. Thread-safe.
 	 * 
+	 * @param	side	The side that will process this packet.
 	 * @param 	packet	An instance of the packet that will be processed.
 	 * @param 	context	The MessageContext of the packet from its onMessage() method.
 	 */
-	public void addPacketForProcessing(AbstractPacket packet, MessageContext context)
+	public void addPacketForProcessing(Side side, AbstractPacket packet, MessageContext context)
 	{
+		Side currentSide = context.side;
+		List<QueuedPacket> queuedPackets = currentSide.isClient() ? clientQueuedPackets : serverQueuedPackets;
+		
 		synchronized (queuedPackets)
 		{
 			queuedPackets.add(new QueuedPacket(packet, (IMessageHandler)packet, context));

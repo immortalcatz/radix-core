@@ -85,12 +85,12 @@ public class RadixEvents
 	@SubscribeEvent
 	public void clientTickEventHandler(ClientTickEvent event)
 	{
-		RadixCore.getPacketHandler().processPackets();
+		RadixCore.getPacketHandler().processPackets(Side.CLIENT);
 	}
 
 	@SubscribeEvent
 	public void serverTickEventHandler(ServerTickEvent event)
 	{
-		RadixCore.getPacketHandler().processPackets();
+		RadixCore.getPacketHandler().processPackets(Side.SERVER);
 	}
 }

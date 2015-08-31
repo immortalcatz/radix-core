@@ -5,7 +5,7 @@
   "description": "A base framework for quickly creating and maintaining fully featured mods.",
   "version": "${version}",
   "mcversion": "${mcversion}",
-  "url": "",
+  "url": "http://radix-shock.com/rc--download.html",
   "updateUrl": "",
   "authorList": ["WildBamaBoy", "SheWolfDeadly"],
   "credits": "ntzrmtthihu777",
