@@ -52,6 +52,8 @@ public class RadixCore
     			"Mod crashes are sent to a remote server for debugging purposes. \n"
     			+ "Your Minecraft username, OS version, Java version, PC username, and installed mods may be shared with the mod author.";
     	
+    	config.save();
+    	
     	crashWatcher = new RadixCrashWatcher();
     	packetHandler = new RadixPacketHandler("RadixCore");
     	
