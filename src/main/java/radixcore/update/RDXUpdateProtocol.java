@@ -1,15 +1,12 @@
 package radixcore.update;
 
 import java.io.BufferedReader;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
 import java.net.URL;
 import java.net.URLConnection;
 
-import cpw.mods.fml.common.FMLCommonHandler;
 import radixcore.core.ModMetadataEx;
 import radixcore.core.RadixCore;
 import radixcore.util.RadixExcept;
