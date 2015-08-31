@@ -9,6 +9,7 @@ import net.minecraftforge.common.config.Configuration;
 import org.apache.logging.log4j.Logger;
 
 import radixcore.network.RadixPacketHandler;
+import radixcore.update.RDXUpdateProtocol;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -57,6 +58,10 @@ public class RadixCore
     	
 		FMLCommonHandler.instance().bus().register(new RadixEvents());
 		MinecraftForge.EVENT_BUS.register(new RadixEvents());
+
+		ModMetadataEx exData = ModMetadataEx.getFromModMetadata(event.getModMetadata());
+		exData.updateProtocolClass = RDXUpdateProtocol.class;
+		RadixCore.registerMod(exData);
 		
     	logger.info("RadixCore version " + VERSION + " is running from " + runningDirectory);
     }
