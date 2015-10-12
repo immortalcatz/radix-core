@@ -34,6 +34,7 @@ public class RadixCore
 	private static RadixPacketHandler packetHandler;
 	protected static final List<ModMetadataEx> registeredMods = new ArrayList<ModMetadataEx>();
 
+	public static boolean isTesting;
 	public static boolean allowUpdateChecking;
 	public static boolean allowCrashReporting;
 	
