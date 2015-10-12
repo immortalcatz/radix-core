@@ -26,7 +26,7 @@ public class RadixEvents
 	{		
 		for (ModMetadataEx exData : RadixCore.registeredMods)
 		{
-			if (RadixCore.allowUpdateChecking)
+			if (RadixCore.allowUpdateChecking && event.player.worldObj.isRemote)
 			{
 				try
 				{

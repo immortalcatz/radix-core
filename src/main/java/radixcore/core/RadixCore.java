@@ -65,8 +65,6 @@ public class RadixCore
 		ModMetadataEx exData = ModMetadataEx.getFromModMetadata(event.getModMetadata());
 		exData.updateProtocolClass = RDXUpdateProtocol.class;
 		RadixCore.registerMod(exData);
-		
-    	logger.info("RadixCore version " + VERSION + " is running from " + runningDirectory);
     }
     
     @EventHandler
