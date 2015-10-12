@@ -1,10 +1,14 @@
 package radixcore.lang;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
+
+import org.apache.commons.io.Charsets;
+import org.apache.commons.io.IOUtils;
 
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
@@ -135,50 +139,78 @@ public class LanguageManager
 	{
 		//Remove old translations.
 		translationsMap.clear();
-		
-		//Set up properties instance.
-		Properties properties = new Properties();
-		
-		//Can only load languages client-side.
-		if (FMLCommonHandler.instance().getEffectiveSide().isClient())
+
+		//Handle all English locales.
+		if (languageId.startsWith("en_") && !languageId.equals("en_US"))
 		{
-			try
+			loadLanguage("en_US");
+		}
+
+		//And Spanish locales.
+		else if (languageId.startsWith("es_") && !languageId.equals("es_ES"))
+		{
+			loadLanguage("es_ES");
+		}
+
+		//All checks for locales have passed. Load the desired language if we are the client.
+		else if (FMLCommonHandler.instance().getEffectiveSide().isClient())
+		{
+			InputStream inStream = StringTranslate.class.getResourceAsStream("/assets/" + modId + "/lang/" + languageId + ".lang");
+
+			if (inStream == null) //When language is not found, default to English.
 			{
-				properties.load(StringTranslate.class.getResourceAsStream("/assets/" + modId + "/lang/" + languageId + ".lang"));
+				//Make sure we're not already English. Null stream on English is a problem.
+				if (languageId.equals("en_US"))
+				{
+					throw new RuntimeException("Unable to load English language files. Loading cannot continue.");
+				}
+
+				else
+				{
+					RadixCore.getLogger().error("Cannot load language " + languageId + " for " + modId + ". Defaulting to English.");
+					loadLanguage("en_US");
+				}
 			}
 
-			catch (Exception e)
+			else
 			{
-				RadixCore.getLogger().error("Error loading language " + languageId + " for " + modId + ". Attempting to default to English.");
-
 				try
 				{
-					properties.load(StringTranslate.class.getResourceAsStream("/assets/" + modId + "/lang/" + "en_US.lang"));
+					List<String> lines = IOUtils.readLines(inStream, Charsets.UTF_8);
+					int lineNumber = 0;
+
+					for (String line : lines)
+					{
+						lineNumber++;
+
+						if (!line.startsWith("#") && !line.isEmpty())
+						{
+							String[] split = line.split("\\=");
+							String key = split[0];
+							String value = split.length == 2 ? split[1].replace("\\", "") : "";
+
+							if (key.isEmpty())
+							{
+								throw new IOException("Empty phrase key on line " + lineNumber);
+							}
+
+							if (value.isEmpty())
+							{
+								RadixCore.getLogger().warn("Empty phrase value on line " + lineNumber + ". Key value: " + key);
+							}
+
+							translationsMap.put(key, value);
+						}
+					}
+					
+					RadixCore.getLogger().info("Loaded language " + languageId + " for " + modId + ".");
 				}
 
-				catch (Exception e2)
+				catch (Exception e)
 				{
-					RadixExcept.logFatalCatch(e2, "Error loading language " + languageId + " for mod " + modId + ".");
+					e.printStackTrace();
 				}
 			}
-		}
-
-		else
-		{
-			try
-			{
-				properties.load(StringTranslate.class.getResourceAsStream("/assets/" + modId + "/lang/" + "en_US.lang"));
-			}
-
-			catch (Exception e)
-			{
-				RadixExcept.logFatalCatch(e, "Error loading language server-side. Loading cannot continue.");
-			}
-		}
-
-		for (final Map.Entry<Object, Object> entrySet : properties.entrySet())
-		{
-			translationsMap.put(entrySet.getKey().toString(), entrySet.getValue().toString());
 		}
 	}
 }
