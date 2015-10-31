@@ -29,9 +29,9 @@ public class LanguageManager
 	{
 		this.modId = providedModId.toLowerCase();
 		this.translationsMap = new HashMap<String, String>();
-		
+
 		boolean loadedLanguage = false;
-		
+
 		for (StackTraceElement element : new Throwable().getStackTrace())
 		{
 			if (element.getClassName().equals("net.minecraft.server.dedicated.DedicatedServer"))
@@ -40,7 +40,7 @@ public class LanguageManager
 				loadedLanguage = true;
 			}
 		}
-		
+
 		if (!loadedLanguage)
 		{
 			loadLanguage(getGameLanguageID());
@@ -167,64 +167,61 @@ public class LanguageManager
 			loadLanguage("es_ES");
 		}
 
-		//All checks for locales have passed. Load the desired language if we are the client.
-		else if (FMLCommonHandler.instance().getEffectiveSide().isClient())
+		//All checks for locales have passed. Load the desired language.
+		InputStream inStream = StringTranslate.class.getResourceAsStream("/assets/" + modId + "/lang/" + languageId + ".lang");
+
+		if (inStream == null) //When language is not found, default to English.
 		{
-			InputStream inStream = StringTranslate.class.getResourceAsStream("/assets/" + modId + "/lang/" + languageId + ".lang");
-
-			if (inStream == null) //When language is not found, default to English.
+			//Make sure we're not already English. Null stream on English is a problem.
+			if (languageId.equals("en_US"))
 			{
-				//Make sure we're not already English. Null stream on English is a problem.
-				if (languageId.equals("en_US"))
-				{
-					throw new RuntimeException("Unable to load English language files. Loading cannot continue.");
-				}
-
-				else
-				{
-					RadixCore.getLogger().error("Cannot load language " + languageId + " for " + modId + ". Defaulting to English.");
-					loadLanguage("en_US");
-				}
+				throw new RuntimeException("Unable to load English language files. Loading cannot continue.");
 			}
 
 			else
 			{
-				try
-				{
-					List<String> lines = IOUtils.readLines(inStream, Charsets.UTF_8);
-					int lineNumber = 0;
+				RadixCore.getLogger().error("Cannot load language " + languageId + " for " + modId + ". Defaulting to English.");
+				loadLanguage("en_US");
+			}
+		}
 
-					for (String line : lines)
+		else
+		{
+			try
+			{
+				List<String> lines = IOUtils.readLines(inStream, Charsets.UTF_8);
+				int lineNumber = 0;
+
+				for (String line : lines)
+				{
+					lineNumber++;
+
+					if (!line.startsWith("#") && !line.isEmpty())
 					{
-						lineNumber++;
+						String[] split = line.split("\\=");
+						String key = split[0];
+						String value = split.length == 2 ? split[1].replace("\\", "") : "";
 
-						if (!line.startsWith("#") && !line.isEmpty())
+						if (key.isEmpty())
 						{
-							String[] split = line.split("\\=");
-							String key = split[0];
-							String value = split.length == 2 ? split[1].replace("\\", "") : "";
-
-							if (key.isEmpty())
-							{
-								throw new IOException("Empty phrase key on line " + lineNumber);
-							}
-
-							if (value.isEmpty())
-							{
-								RadixCore.getLogger().warn("Empty phrase value on line " + lineNumber + ". Key value: " + key);
-							}
-
-							translationsMap.put(key, value);
+							throw new IOException("Empty phrase key on line " + lineNumber);
 						}
+
+						if (value.isEmpty())
+						{
+							RadixCore.getLogger().warn("Empty phrase value on line " + lineNumber + ". Key value: " + key);
+						}
+
+						translationsMap.put(key, value);
 					}
-					
-					RadixCore.getLogger().info("Loaded language " + languageId + " for " + modId + ".");
 				}
 
-				catch (Exception e)
-				{
-					e.printStackTrace();
-				}
+				RadixCore.getLogger().info("Loaded language " + languageId + " for " + modId + ".");
+			}
+
+			catch (Exception e)
+			{
+				e.printStackTrace();
 			}
 		}
 	}
