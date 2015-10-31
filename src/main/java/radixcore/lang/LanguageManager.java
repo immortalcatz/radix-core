@@ -29,7 +29,22 @@ public class LanguageManager
 	{
 		this.modId = providedModId.toLowerCase();
 		this.translationsMap = new HashMap<String, String>();
-		loadLanguage(getGameLanguageID());
+		
+		boolean loadedLanguage = false;
+		
+		for (StackTraceElement element : new Throwable().getStackTrace())
+		{
+			if (element.getClassName().equals("net.minecraft.server.dedicated.DedicatedServer"))
+			{
+				loadLanguage("en_US");
+				loadedLanguage = true;
+			}
+		}
+		
+		if (!loadedLanguage)
+		{
+			loadLanguage(getGameLanguageID());
+		}
 	}
 
 	public LanguageManager(String modId, AbstractLanguageParser parser)
