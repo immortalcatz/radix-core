@@ -2,6 +2,8 @@ package radixcore.data;
 
 import java.io.Serializable;
 
+import radixcore.core.RadixCore;
+
 public abstract class AbstractWatched implements Serializable
 {
 	protected DataWatcherEx dataWatcher;
@@ -64,6 +66,6 @@ public abstract class AbstractWatched implements Serializable
 			value = ((Boolean)value) == false ? 0 : 1;
 		}
 		
-		dataWatcher.updateObject(dataWatcherId, value, true);
+		dataWatcher.updateObject(dataWatcherId, value, RadixCore.isTesting ? false : true);
 	}
 }

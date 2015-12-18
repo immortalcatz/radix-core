@@ -30,7 +30,7 @@ public class RadixEvents
 	{		
 		for (ModMetadataEx exData : RadixCore.registeredMods)
 		{
-			if (RadixCore.allowUpdateChecking)
+			if (RadixCore.allowUpdateChecking && event.player.worldObj.isRemote)
 			{
 				try
 				{
@@ -73,7 +73,7 @@ public class RadixEvents
 
 						else
 						{
-							RadixCore.getLogger().error("Skipping save of null player data for mod " + metadata.modId  + ". You may notice a few oddities. Please report if so.");
+							RadixCore.getLogger().error("Skipping save of null player data for mod " + metadata.modId + ". You may notice a few oddities. Please report if so.");
 						}
 					}
 				}

@@ -2,6 +2,8 @@ package radixcore.client.render;
 
 import java.util.List;
 
+import org.lwjgl.opengl.GL11;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
@@ -9,8 +11,6 @@ import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
-import org.lwjgl.opengl.GL11;
 
 @SideOnly(Side.CLIENT)
 public final class RenderHelper 

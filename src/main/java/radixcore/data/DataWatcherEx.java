@@ -126,7 +126,7 @@ public final class DataWatcherEx implements Serializable
 		WatchedObjectEx watchableObject = this.getWatchedObject(id);
 		watchableObject.setObject(newValue);
 
-		if ((entityOwner != null || objectOwner != null) && FMLCommonHandler.instance().getEffectiveSide().isServer())
+		if (!RadixCore.isTesting && (entityOwner != null || objectOwner != null) && FMLCommonHandler.instance().getEffectiveSide().isServer())
 		{
 			PacketWatchedUpdateC packet = null;
 			TargetPoint point = null; 

@@ -7,8 +7,6 @@
 
 package radixcore.network;
 
-import io.netty.buffer.ByteBuf;
-
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -19,6 +17,7 @@ import java.util.zip.Inflater;
 
 import org.apache.commons.io.output.ByteArrayOutputStream;
 
+import io.netty.buffer.ByteBuf;
 import radixcore.util.RadixExcept;
 
 /**

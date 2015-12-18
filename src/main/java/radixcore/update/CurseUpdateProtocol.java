@@ -3,12 +3,11 @@ package radixcore.update;
 import java.net.URL;
 import java.util.Scanner;
 
-import radixcore.core.ModMetadataEx;
-import radixcore.core.RadixCore;
-import radixcore.util.RadixExcept;
-
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
+
+import radixcore.core.ModMetadataEx;
+import radixcore.util.RadixExcept;
 
 /**
  * <b>NOTICE!</b>

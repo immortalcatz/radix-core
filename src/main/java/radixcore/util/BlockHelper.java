@@ -4,13 +4,16 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockFurnace;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockPos;
-import net.minecraft.world.World;
-import radixcore.math.Point3D;
-
 /**
  * Utility class used for easy migration to/from 1.8 where block operations are considered.
  */
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.BlockPos;
+import net.minecraft.world.World;
+import net.minecraft.world.World;
+import radixcore.math.Point3D;
+import radixcore.math.Point3D;
+
 public final class BlockHelper 
 {
 	public static void setBlock(World world, Point3D point, Block block)
@@ -41,6 +44,17 @@ public final class BlockHelper
 	public static void setBlockMetadataWithNotify(World world, int posX, int posY, int posZ, IBlockState blockState, int flags)
 	{
 		world.setBlockState(new BlockPos(posX, posY, posZ), blockState, flags);
+	}
+
+	public static int getBlockMetadata(World world, Point3D point)
+	{
+		return getBlockMetadata(world, point.iPosX, point.iPosY, point.iPosZ);
+	}
+	
+	public static int getBlockMetadata(World world, int posX, int posY, int posZ)
+	{
+		IBlockState state = world.getBlockState(new BlockPos(posX, posY, posZ));
+		return state.getBlock().getMetaFromState(state);
 	}
 	
 	public static void updateFurnaceState(boolean stateValue, World world, int posX, int posY, int posZ)

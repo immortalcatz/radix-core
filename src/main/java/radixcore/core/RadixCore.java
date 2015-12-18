@@ -33,6 +33,7 @@ public class RadixCore
 	private static RadixPacketHandler packetHandler;
 	protected static final List<ModMetadataEx> registeredMods = new ArrayList<ModMetadataEx>();
 
+	public static boolean isTesting;
 	public static boolean allowUpdateChecking;
 	public static boolean allowCrashReporting;
 	
@@ -63,8 +64,6 @@ public class RadixCore
 		ModMetadataEx exData = ModMetadataEx.getFromModMetadata(event.getModMetadata());
 		exData.updateProtocolClass = RDXUpdateProtocol.class;
 		RadixCore.registerMod(exData);
-		
-    	logger.info("RadixCore version " + VERSION + " is running from " + runningDirectory);
     }
     
     @EventHandler
