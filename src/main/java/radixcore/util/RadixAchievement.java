@@ -16,17 +16,17 @@ public final class RadixAchievement
 {
 	public static Achievement register(String name, int x, int y, Block block, Achievement prerequisite)
 	{
-		return new Achievement(name, name, x, y, block, prerequisite).func_180788_c();
+		return new Achievement(name, name, x, y, block, prerequisite).registerStat();
 	}
 
 	public static Achievement register(String name, int x, int y, Item item, Achievement prerequisite)
 	{
-		return new Achievement(name, name, x, y, item, prerequisite).func_180788_c();
+		return new Achievement(name, name, x, y, item, prerequisite).registerStat();
 	}
 
 	public static Achievement register(String name, int x, int y, ItemStack stack, Achievement prerequisite)
 	{
-		return new Achievement(name, name, x, y, stack, prerequisite).func_180788_c();
+		return new Achievement(name, name, x, y, stack, prerequisite).registerStat();
 	}
 
 	public static AchievementPage registerPage(String pageName, Class classContainingAchievements)

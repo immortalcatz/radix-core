@@ -8,6 +8,6 @@ public final class FuncMappings
 {
 	public static void changeDoorState(BlockDoor door, Point3D doorPos, World world, boolean isOpen)
 	{
-		door.func_176512_a(world, doorPos.toBlockPos(), isOpen);
+		door.toggleDoor(world, doorPos.toBlockPos(), isOpen);
 	}
 }

@@ -12,8 +12,9 @@ minecraft {
     versionProps['BUILD_NUMBER']=code.toString()
     versionProps.store(versionPropsFile.newWriter(), null)
 	
-    version = "1.8-11.14.3.1446"
-    runDir =  "eclipse/"
+    version = "1.8.9-11.15.1.1722"
+    runDir = "run"
+    mappings = "stable_20"
 	replaceIn "radixcore/core/RadixCore.java"
     replace   "@VERSION@", "${project.minecraft.version}-${project.version}" + "." + buildNumber
 }

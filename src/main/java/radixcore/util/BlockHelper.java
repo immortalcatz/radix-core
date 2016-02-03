@@ -59,7 +59,7 @@ public final class BlockHelper
 	
 	public static void updateFurnaceState(boolean stateValue, World world, int posX, int posY, int posZ)
 	{
-		BlockFurnace.func_176446_a(stateValue, world, new BlockPos(posX, posY, posZ));
+		BlockFurnace.setState(stateValue, world, new BlockPos(posX, posY, posZ));
 	}
 	
 	public static boolean doesBlockHaveSolidTopSurface(World world, int posX, int posY, int posZ)

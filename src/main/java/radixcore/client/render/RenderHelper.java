@@ -5,9 +5,11 @@ import java.util.List;
 import org.lwjgl.opengl.GL11;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -25,12 +27,11 @@ public final class RenderHelper
 		final Tessellator tessellator = Tessellator.getInstance();
 		WorldRenderer worldRenderer = tessellator.getWorldRenderer();
 		
-		worldRenderer.startDrawingQuads();
-		worldRenderer.addVertexWithUV(x + 0, 		y + height, 0.0D, (u + 0) 		* f, ((v + height) * f1));
-		worldRenderer.addVertexWithUV(x + width, 	y + height, 0.0D, (u + width) 	* f, ((v + height) * f1));
-		worldRenderer.addVertexWithUV(x + width, 	y + 0, 		0.0D, (u + width) 	* f, ((v + 0) * f1));
-		worldRenderer.addVertexWithUV(x + 0, 		y + 0, 		0.0D, (u + 0) 		* f, ((v + 0) * f1));
-
+		worldRenderer.begin(7, DefaultVertexFormats.POSITION);
+		worldRenderer.pos(x + 0, y + height, 0.0D).tex((u + 0) * f, ((v + height) * f1)).endVertex();
+		worldRenderer.pos(x + width, y + height, 0.0D).tex((u + width) * f, ((v + height) * f1)).endVertex();
+		worldRenderer.pos(x + width, y + 0,	0.0D).tex((u + width) * f, ((v + 0) * f1)).endVertex();
+		worldRenderer.pos(x + 0, y + 0, 0.0D).tex((u + 0) * f, ((v + 0) * f1)).endVertex();
 		tessellator.draw();
 	}
 
@@ -46,7 +47,7 @@ public final class RenderHelper
 		drawGradientRect(posX - 4, posY - 3, posX - 3, posY + i1 + 3, color, color);
 		drawGradientRect(posX + k + 3, posY - 3, posX + k + 4, posY + i1 + 3, color, color);
 
-		Minecraft.getMinecraft().fontRendererObj.func_175063_a(text, posX, posY, 0xFFFFFF);
+		Minecraft.getMinecraft().fontRendererObj.drawString(text, posX, posY, 0xFFFFFF);
 
 		int borderColor = 0x505000FF;
 		int borderShade = (borderColor & 0xFEFEFE) >> 1 | borderColor & color;
@@ -83,7 +84,7 @@ public final class RenderHelper
 
 		for (int i = 0; i < textList.size(); i++)
 		{
-			Minecraft.getMinecraft().fontRendererObj.func_175063_a(textList.get(i), posX, posY + (Minecraft.getMinecraft().fontRendererObj.FONT_HEIGHT * i), 0xFFFFFF);
+			Minecraft.getMinecraft().fontRendererObj.drawString(textList.get(i), posX, posY + (Minecraft.getMinecraft().fontRendererObj.FONT_HEIGHT * i), 0xFFFFFF);
 		}
 
 		int borderColor = 0x505000FF;
@@ -104,29 +105,16 @@ public final class RenderHelper
 		float color2R = (color2 >> 16 & 255) / 255.0F;
 		float color2B = (color2 >> 8 & 255) / 255.0F;
 		float color2G = (color2 & 255) / 255.0F;
-		
-		GL11.glDisable(GL11.GL_TEXTURE_2D);
-		GL11.glEnable(GL11.GL_BLEND);
-		GL11.glDisable(GL11.GL_ALPHA_TEST);
-		OpenGlHelper.glBlendFunc(770, 771, 1, 0);
-		GL11.glShadeModel(GL11.GL_SMOOTH);
-		
+        
 		Tessellator tessellator = Tessellator.getInstance();
 		WorldRenderer worldRenderer = tessellator.getWorldRenderer();
 
-		worldRenderer.startDrawingQuads();
-		worldRenderer.func_178960_a(color1R, color1B, color1G, color1A);
-		worldRenderer.addVertex(yTop, xBottom, 0.0D);
-		worldRenderer.addVertex(xTop, xBottom, 0.0D);
-		worldRenderer.func_178960_a(color2R, color2B, color2G, color2A);
-		worldRenderer.addVertex(xTop, yBottom, 0.0D);
-		worldRenderer.addVertex(yTop, yBottom, 0.0D);
+		worldRenderer.begin(7, DefaultVertexFormats.POSITION_COLOR);
+		worldRenderer.pos(yTop, xBottom, 0.0D).color(color1R, color1B, color1G, color1A).endVertex();
+		worldRenderer.pos(xTop, xBottom, 0.0D).color(color1R, color1B, color1G, color1A).endVertex();
+		worldRenderer.pos(xTop, yBottom, 0.0D).color(color2R, color2B, color2G, color2A).endVertex();
+		worldRenderer.pos(yTop, yBottom, 0.0D).color(color2R, color2B, color2G, color2A).endVertex();
 		tessellator.draw();
-		
-		GL11.glShadeModel(GL11.GL_FLAT);
-		GL11.glDisable(GL11.GL_BLEND);
-		GL11.glEnable(GL11.GL_ALPHA_TEST);
-		GL11.glEnable(GL11.GL_TEXTURE_2D);
 	}
 
 	private RenderHelper()
