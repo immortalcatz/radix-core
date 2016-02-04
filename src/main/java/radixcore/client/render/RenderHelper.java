@@ -27,7 +27,7 @@ public final class RenderHelper
 		final Tessellator tessellator = Tessellator.getInstance();
 		WorldRenderer worldRenderer = tessellator.getWorldRenderer();
 		
-		worldRenderer.begin(7, DefaultVertexFormats.POSITION);
+		worldRenderer.begin(7, DefaultVertexFormats.POSITION_TEX);
 		worldRenderer.pos(x + 0, y + height, 0.0D).tex((u + 0) * f, ((v + height) * f1)).endVertex();
 		worldRenderer.pos(x + width, y + height, 0.0D).tex((u + width) * f, ((v + height) * f1)).endVertex();
 		worldRenderer.pos(x + width, y + 0,	0.0D).tex((u + width) * f, ((v + 0) * f1)).endVertex();
@@ -106,6 +106,12 @@ public final class RenderHelper
 		float color2B = (color2 >> 8 & 255) / 255.0F;
 		float color2G = (color2 & 255) / 255.0F;
         
+        GlStateManager.disableTexture2D();
+        GlStateManager.enableBlend();
+        GlStateManager.disableAlpha();
+        GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
+        GlStateManager.shadeModel(7425);
+        
 		Tessellator tessellator = Tessellator.getInstance();
 		WorldRenderer worldRenderer = tessellator.getWorldRenderer();
 
@@ -115,6 +121,11 @@ public final class RenderHelper
 		worldRenderer.pos(xTop, yBottom, 0.0D).color(color2R, color2B, color2G, color2A).endVertex();
 		worldRenderer.pos(yTop, yBottom, 0.0D).color(color2R, color2B, color2G, color2A).endVertex();
 		tessellator.draw();
+		
+        GlStateManager.shadeModel(7424);
+        GlStateManager.disableBlend();
+        GlStateManager.enableAlpha();
+        GlStateManager.enableTexture2D();
 	}
 
 	private RenderHelper()
