@@ -10,7 +10,7 @@ package radixcore.math;
 import java.util.List;
 
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 import radixcore.enums.EnumAxis;
 import radixcore.util.RadixMath;
 

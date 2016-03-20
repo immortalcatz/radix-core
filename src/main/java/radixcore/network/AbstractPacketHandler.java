@@ -12,7 +12,7 @@ import java.util.List;
 
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.management.ServerConfigurationManager;
+import net.minecraft.server.management.PlayerList;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
@@ -83,11 +83,11 @@ public abstract class AbstractPacketHandler
 	public void sendPacketToAllPlayersExcept(IMessage packet, EntityPlayerMP player)
 	{
 		final MinecraftServer server = FMLCommonHandler.instance().getMinecraftServerInstance();
-		final ServerConfigurationManager serverConfiguration = server.getConfigurationManager();
+		final PlayerList playerList = server.getPlayerList();
 
-		for (int index = 0; index < serverConfiguration.playerEntityList.size(); ++index)
+		for (int index = 0; index < playerList.getCurrentPlayerCount(); ++index)
 		{
-			final EntityPlayerMP playerInList = (EntityPlayerMP) serverConfiguration.playerEntityList.get(index);
+			final EntityPlayerMP playerInList = (EntityPlayerMP) playerList.getPlayerList().get(index);
 
 			if (!playerInList.getName().equals(player.getName()))
 			{

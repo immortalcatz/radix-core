@@ -11,6 +11,7 @@ import java.io.Serializable;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.ModMetadata;
 import radixcore.core.RadixCore;
 import radixcore.util.RadixExcept;
@@ -71,7 +72,7 @@ public abstract class AbstractPlayerData implements Serializable, IWatchable
 	
 	public String getDataFile()
 	{
-		World baseWorld = MinecraftServer.getServer().worldServerForDimension(0);
+		World baseWorld = FMLCommonHandler.instance().getMinecraftServerInstance().worldServerForDimension(0);
 		String fileName = owner != null ? owner.getUniqueID().toString() + ".dat" : ownerIdentifier + ".dat";
 		
 		return playerDataPath

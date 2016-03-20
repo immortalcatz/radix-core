@@ -11,7 +11,7 @@ import org.apache.commons.io.Charsets;
 import org.apache.commons.io.IOUtils;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.util.StringTranslate;
+import net.minecraft.util.StringUtils;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import radixcore.core.RadixCore;
@@ -167,7 +167,7 @@ public class LanguageManager
 		}
 
 		//All checks for locales have passed. Load the desired language.
-		InputStream inStream = StringTranslate.class.getResourceAsStream("/assets/" + modId + "/lang/" + languageId + ".lang");
+		InputStream inStream = StringUtils.class.getResourceAsStream("/assets/" + modId + "/lang/" + languageId + ".lang");
 
 		if (inStream == null) //When language is not found, default to English.
 		{

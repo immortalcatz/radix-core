@@ -8,7 +8,8 @@ import net.minecraft.tileentity.TileEntity;
  * Utility class used for easy migration to/from 1.8 where block operations are considered.
  */
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.World;
 import radixcore.math.Point3D;
@@ -64,7 +65,8 @@ public final class BlockHelper
 	
 	public static boolean doesBlockHaveSolidTopSurface(World world, int posX, int posY, int posZ)
 	{
-		return world.doesBlockHaveSolidTopSurface(world, new BlockPos(posX, posY, posZ));
+		final BlockPos pos = new BlockPos(posX, posY, posZ);
+		return world.getBlockState(pos).isSideSolid(world, pos, EnumFacing.UP);
 	}
 	
 	public static TileEntity getTileEntity(World world, int posX, int posY, int posZ)

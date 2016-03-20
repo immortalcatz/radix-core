@@ -10,7 +10,7 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
-import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.world.World;
 import radixcore.core.RadixCore;
 import radixcore.data.IPermanent;
@@ -148,7 +148,7 @@ public final class RadixLogic
 
 			final List<Entity> validEntities = new ArrayList();
 			final List<Entity> entitiesAroundMe = entityOrigin.worldObj.getEntitiesWithinAABBExcludingEntity(entityOrigin, 
-					AxisAlignedBB.fromBounds(
+					new AxisAlignedBB(
 							posX - maxDistanceAway, posY - maxDistanceAway, posZ - maxDistanceAway, 
 							posX + maxDistanceAway, posY + maxDistanceAway, posZ + maxDistanceAway));
 
@@ -475,13 +475,13 @@ public final class RadixLogic
 	 */
 	public static List<Entity> getAllEntitiesWithinDistanceOfCoordinates(World worldObj, double posX, double posY, double posZ, int maxDistanceAway)
 	{
-		final List<Entity> entitiesAroundMe = worldObj.getEntitiesWithinAABB(Entity.class, AxisAlignedBB.fromBounds(posX - maxDistanceAway, posY - maxDistanceAway, posZ - maxDistanceAway, posX + maxDistanceAway, posY + maxDistanceAway, posZ + maxDistanceAway));
+		final List<Entity> entitiesAroundMe = worldObj.getEntitiesWithinAABB(Entity.class, new AxisAlignedBB(posX - maxDistanceAway, posY - maxDistanceAway, posZ - maxDistanceAway, posX + maxDistanceAway, posY + maxDistanceAway, posZ + maxDistanceAway));
 		return entitiesAroundMe;
 	}
 	
 	public static List<Entity> getAllEntitiesOfTypeWithinDistance(Class clazz, Entity entityOrigin, int maxDistanceAway)
 	{
-		final List<Entity> entitiesAroundMe = entityOrigin.worldObj.getEntitiesWithinAABB(Entity.class, AxisAlignedBB.fromBounds(entityOrigin.posX - maxDistanceAway, entityOrigin.posY - maxDistanceAway, entityOrigin.posZ - maxDistanceAway, entityOrigin.posX + maxDistanceAway, entityOrigin.posY + maxDistanceAway, entityOrigin.posZ + maxDistanceAway));
+		final List<Entity> entitiesAroundMe = entityOrigin.worldObj.getEntitiesWithinAABB(Entity.class, new AxisAlignedBB(entityOrigin.posX - maxDistanceAway, entityOrigin.posY - maxDistanceAway, entityOrigin.posZ - maxDistanceAway, entityOrigin.posX + maxDistanceAway, entityOrigin.posY + maxDistanceAway, entityOrigin.posZ + maxDistanceAway));
 		final List<Entity> returnList = new ArrayList<Entity>();
 		
 		for (Entity entity : entitiesAroundMe)
