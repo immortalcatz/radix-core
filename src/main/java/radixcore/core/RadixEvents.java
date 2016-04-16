@@ -49,16 +49,16 @@ public class RadixEvents
 	@SubscribeEvent
 	public void entitySpawnedEvent(EntityJoinWorldEvent event)
 	{
-		if (event.world.isRemote && event.entity instanceof IWatchable)
+		if (event.getWorld().isRemote && event.getEntity() instanceof IWatchable)
 		{
-			RadixCore.getPacketHandler().sendPacketToServer(new PacketDataSyncReq(event.entity.getEntityId()));
+			RadixCore.getPacketHandler().sendPacketToServer(new PacketDataSyncReq(event.getEntity().getEntityId()));
 		}
 	}
 
 	@SubscribeEvent
 	public void worldSaveEventHandler(WorldEvent.Unload event)
 	{
-		if (!event.world.isRemote)
+		if (!event.getWorld().isRemote)
 		{
 			for (ModMetadataEx metadata : RadixCore.registeredMods)
 			{

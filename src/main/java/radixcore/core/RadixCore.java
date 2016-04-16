@@ -24,7 +24,7 @@ public class RadixCore
 {
 	protected static final String ID = "RadixCore";
 	protected static final String NAME = "RadixCore";
-	protected static final String VERSION = "@VERSION@";
+	protected static final String VERSION = "1.9-2.1.0";
 
 	@Instance(ID)
 	private static RadixCore instance;
@@ -51,9 +51,9 @@ public class RadixCore
     	allowUpdateChecking = config.get("Privacy", "Allow update checking", true).getBoolean();
     	allowCrashReporting = config.get("Privacy", "Allow crash reporting", true).getBoolean();
     	
-    	config.get("Privacy", "Allow crash reporting", true).comment = 
+    	config.get("Privacy", "Allow crash reporting", true).setComment( 
     			"Mod crashes are sent to a remote server for debugging purposes. \n"
-    			+ "Your Minecraft username, OS version, Java version, PC username, and installed mods may be shared with the mod author.";
+    			+ "Your Minecraft username, OS version, Java version, PC username, and installed mods may be shared with the mod author.");
     	
     	config.save();
     	
