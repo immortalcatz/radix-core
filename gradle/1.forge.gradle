@@ -19,7 +19,7 @@ minecraft {
     replace   "@VERSION@", "${project.minecraft.version}-${project.version}" + "." + buildNumber
 }
 
-version = "${project.minecraft.version}-${project.version}" + "." + buildNumber
+version = "${project.minecraft.version}-${project.version}" + "." + buildNumber + "b"
 
 processResources 
 {

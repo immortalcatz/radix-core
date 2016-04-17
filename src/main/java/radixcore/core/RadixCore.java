@@ -19,7 +19,7 @@ import net.minecraftforge.fml.common.event.FMLServerStoppingEvent;
 import radixcore.network.RadixPacketHandler;
 import radixcore.update.RDXUpdateProtocol;
 
-@Mod(modid = RadixCore.ID, name = RadixCore.NAME, version = RadixCore.VERSION, acceptedMinecraftVersions = "[1.9]")
+@Mod(modid = RadixCore.ID, name = RadixCore.NAME, version = RadixCore.VERSION, dependencies="required-after:Forge@[12.16.0.1865,)", acceptedMinecraftVersions = "[1.9]")
 public class RadixCore 
 {
 	protected static final String ID = "RadixCore";
