@@ -168,8 +168,22 @@ public final class SchematicHandler
 				int y = blockPoint.iPosY + point.iPosY;
 				int z = blockPoint.iPosZ + point.iPosZ;
 
+				Block currentBlockAtPoint = BlockHelper.getBlock(world, x, y, z);
 				BlockObj blockObj = entry.getValue();
 				IBlockState state = blockObj.getBlock().getStateFromMeta(blockObj.getMeta());
+
+				//Properly remove tall grass.
+				if (currentBlockAtPoint == Blocks.tallgrass)
+				{
+					BlockHelper.setBlock(world, x, y + 1, z, Blocks.air);
+					BlockHelper.setBlock(world, x, y, z, Blocks.air);
+				}
+				
+				//Don't set double plants, causes spawning of a peony which crashes the game with Waila.
+				if (blockObj.getBlock() == Blocks.double_plant)
+				{
+					continue;
+				}
 				
 				world.setBlockState(new BlockPos(x, y, z), state);
 			}
