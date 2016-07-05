@@ -154,16 +154,12 @@ public abstract class AbstractPacketHandler
 
 		synchronized (queuedPackets)
 		{
-			if (!queuedPackets.isEmpty())
+			while (!queuedPackets.isEmpty())
 			{
-				//Start at the end of the list and work backwards.
-				for (int i = queuedPackets.size() - 1; i > -1; i--)
-				{
-					QueuedPacket queuedObject = queuedPackets.get(i);
-					AbstractPacket packet = queuedObject.getPacket();
-					packet.processOnGameThread(queuedObject.getMessage(), queuedObject.getContext());
-					queuedPackets.remove(i);
-				}
+				QueuedPacket queuedObject = queuedPackets.get(0);
+				AbstractPacket packet = queuedObject.getPacket();
+				packet.processOnGameThread(queuedObject.getMessage(), queuedObject.getContext());
+				queuedPackets.remove(0);
 			}
 		}
 	}
