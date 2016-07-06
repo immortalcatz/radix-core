@@ -260,46 +260,46 @@ public final class RadixLogic
 	@Deprecated
 	public static Point3D getFirstNearestBlockWithMeta(Entity entity, Block block, int meta, int maxDistanceAway)
 	{
-//		final int x = (int) entity.posX;
-//		final int y = (int) entity.posY;
-//		final int z = (int) entity.posZ;
-//
-//		int xMov = 0 - maxDistanceAway;
-//		int yMov = 3;
-//		int zMov = 0 - maxDistanceAway;
-//
-//		while (true)
-//		{
-//			final Block currentBlock = BlockHelper.getBlock(entity.worldObj, x + xMov, y + yMov, z + zMov);
-//			final int currentMeta = BlockHelper.getBlockMetadata(entity.worldObj, x + xMov, y + yMov, z + zMov);
-//			
-//			if (currentBlock == block && currentMeta == meta)
-//			{
-//				return new Point3D(x + xMov, y + yMov, z + zMov);
-//			}
-//
-//			if (zMov == maxDistanceAway && xMov == maxDistanceAway && yMov == -3)
-//			{
-//				break;
-//			}
-//
-//			if (zMov == maxDistanceAway && xMov == maxDistanceAway)
-//			{
-//				yMov--;
-//				xMov = 0 - maxDistanceAway;
-//				zMov = 0 - maxDistanceAway;
-//				continue;
-//			}
-//
-//			if (xMov == maxDistanceAway)
-//			{
-//				zMov++;
-//				xMov = 0 - maxDistanceAway;
-//				continue;
-//			}
-//
-//			xMov++;
-//		}
+		final int x = (int) entity.posX;
+		final int y = (int) entity.posY;
+		final int z = (int) entity.posZ;
+
+		int xMov = 0 - maxDistanceAway;
+		int yMov = 3;
+		int zMov = 0 - maxDistanceAway;
+
+		while (true)
+		{
+			final Block currentBlock = BlockHelper.getBlock(entity.worldObj, x + xMov, y + yMov, z + zMov);
+			final int currentMeta = BlockHelper.getBlockMetadata(entity.worldObj, x + xMov, y + yMov, z + zMov);
+			
+			if (currentBlock == block && currentMeta == meta)
+			{
+				return new Point3D(x + xMov, y + yMov, z + zMov);
+			}
+
+			if (zMov == maxDistanceAway && xMov == maxDistanceAway && yMov == -3)
+			{
+				break;
+			}
+
+			if (zMov == maxDistanceAway && xMov == maxDistanceAway)
+			{
+				yMov--;
+				xMov = 0 - maxDistanceAway;
+				zMov = 0 - maxDistanceAway;
+				continue;
+			}
+
+			if (xMov == maxDistanceAway)
+			{
+				zMov++;
+				xMov = 0 - maxDistanceAway;
+				continue;
+			}
+
+			xMov++;
+		}
 
 		return null;
 	}
