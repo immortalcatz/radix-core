@@ -17,12 +17,12 @@ import net.minecraftforge.fml.common.event.FMLServerStoppingEvent;
 import radixcore.network.RadixPacketHandler;
 import radixcore.update.RDXUpdateProtocol;
 
-@Mod(modid = RadixCore.ID, name = RadixCore.NAME, version = RadixCore.VERSION, dependencies="required-after:Forge@[12.16.0.1887,)", acceptedMinecraftVersions = "[1.9]")
+@Mod(modid = RadixCore.ID, name = RadixCore.NAME, version = RadixCore.VERSION, dependencies="required-after:Forge@[12.17.0.1976,)", acceptedMinecraftVersions = "[1.9.4]")
 public class RadixCore 
 {
 	protected static final String ID = "RadixCore";
 	protected static final String NAME = "RadixCore";
-	protected static final String VERSION = "1.9-2.1.0";
+	protected static final String VERSION = "1.9.4-2.1.2";
 
 	@Instance(ID)
 	private static RadixCore instance;
