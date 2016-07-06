@@ -49,8 +49,8 @@ public final class UpdateChecker implements Runnable
 							Font.Format.RESET + Font.Color.YELLOW + " to download the update for " + exData.name + ".";
 
 					final ITextComponent chatComponentUpdate = new TextComponentString(messageUpdateURL);
-					chatComponentUpdate.getChatStyle().setChatClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, exData.url));
-					chatComponentUpdate.getChatStyle().setUnderlined(true);
+					chatComponentUpdate.getStyle().setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, exData.url));
+					chatComponentUpdate.getStyle().setUnderlined(true);
 					
 					commandSender.addChatMessage(new TextComponentString(messageUpdateVersion));
 					commandSender.addChatMessage(chatComponentUpdate);

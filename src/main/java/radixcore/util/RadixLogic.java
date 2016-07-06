@@ -517,9 +517,9 @@ public final class RadixLogic
 	public static int getSpawnSafeTopLevel(World worldObj, int x, int z) 
 	{
 		int y = 256;
-		Block block = Blocks.air;
+		Block block = Blocks.AIR;
 		
-		while (block == Blocks.air)
+		while (block == Blocks.AIR)
 		{
 			y--;
 			block = BlockHelper.getBlock(worldObj, x, y, z);

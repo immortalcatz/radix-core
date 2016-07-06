@@ -63,7 +63,7 @@ public final class SimpleOreGenerator implements IWorldGenerator
 			int xPos = x + random.nextInt(16);
 			int yPos = 10 + random.nextInt(128);
 			int zPos = z + random.nextInt(16);
-			(new WorldGenMinable(spawnBlock.getDefaultState(), 15, BlockMatcher.forBlock(Blocks.netherrack))).generate(world, random, new BlockPos(xPos, yPos, zPos));
+			(new WorldGenMinable(spawnBlock.getDefaultState(), 15, BlockMatcher.forBlock(Blocks.NETHERRACK))).generate(world, random, new BlockPos(xPos, yPos, zPos));
 		}
 	}
 

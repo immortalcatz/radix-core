@@ -150,12 +150,12 @@ public final class SchematicHandler
 		
 		for (Map.Entry<Point3D, BlockObj> entry : schemBlocks.entrySet())
 		{
-			if (entry.getValue().getBlock() == Blocks.torch)
+			if (entry.getValue().getBlock() == Blocks.TORCH)
 			{
 				torchMap.put(entry.getKey(), entry.getValue());
 			}
 
-			else if (entry.getValue().getBlock() == Blocks.oak_door)
+			else if (entry.getValue().getBlock() == Blocks.OAK_DOOR)
 			{
 				doorMap.put(entry.getKey(), entry.getValue());
 			}
@@ -173,14 +173,14 @@ public final class SchematicHandler
 				IBlockState state = blockObj.getBlock().getStateFromMeta(blockObj.getMeta());
 
 				//Properly remove tall grass.
-				if (currentBlockAtPoint == Blocks.tallgrass)
+				if (currentBlockAtPoint == Blocks.TALLGRASS)
 				{
-					BlockHelper.setBlock(world, x, y + 1, z, Blocks.air);
-					BlockHelper.setBlock(world, x, y, z, Blocks.air);
+					BlockHelper.setBlock(world, x, y + 1, z, Blocks.AIR);
+					BlockHelper.setBlock(world, x, y, z, Blocks.AIR);
 				}
 				
 				//Don't set double plants, causes spawning of a peony which crashes the game with Waila.
-				if (blockObj.getBlock() == Blocks.double_plant)
+				if (blockObj.getBlock() == Blocks.DOUBLE_PLANT)
 				{
 					continue;
 				}
